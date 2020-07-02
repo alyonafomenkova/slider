@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "target": "ES6",
+    "strict": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "experimentalDecorators" : true,
+    "noEmitOnError": true
+  }
+}
