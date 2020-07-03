@@ -1,3 +1,6 @@
+include ../components/slider/slider
+include ../components/settings-panel/settings-panel
+
 doctype html
 html(lang="en")
   head
@@ -10,4 +13,10 @@ html(lang="en")
     link(rel="shortcut icon", href="assets/favicon/favicon.ico")
     title Demo Page
   body
-    main.demo DEMO @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    main.demo
+      h1.demo__title Plugin demo
+      div.demo__component-wrapper
+        div.demo__slider-wrapper
+          +slider({'min': '0', 'max': '100', 'step': '1'})
+        div.demo__panel-wrapper
+          +settings-panel()

@@ -1,5 +1,25 @@
 @import '~Normalize';
 
-.demo {
-  background-color: red;//
+html {
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  color: #000000;
+  background-color: #ffffff;
+}
+
+.demo__title {
+  text-align: center;
+}
+
+.demo__component-wrapper {
+  padding: 2rem;
+  background-color: #CCE7E8;
+}
+
+.demo__slider-wrapper {
+  max-width: 770px;
+}
+
+.demo__panel-wrapper {
+  margin-top: 2.75rem;
 }
