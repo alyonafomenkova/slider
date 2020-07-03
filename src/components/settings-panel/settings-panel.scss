@@ -1,8 +1,9 @@
 .settings-panel {
+  box-sizing: border-box;
   display: inline-flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  max-width: 750px;
+  max-width: 770px;
   padding: 0.5rem;
   border-radius: 0.5rem;
   background-color: #FAE7E6;
