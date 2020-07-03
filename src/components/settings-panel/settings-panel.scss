@@ -1,0 +1,35 @@
+.settings-panel {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 750px;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: #FAE7E6;
+}
+
+.settings-panel__fieldset {
+  width: 200px;
+  margin-bottom: 0.7rem;
+}
+
+.settings-panel__fieldset-title {
+  padding: 0 0.35rem;
+}
+
+.settings-panel__fieldset-inputs-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.settings-panel__values-label {
+  margin-right: 1.5rem;
+  &:last-of-type {
+    margin-right: 0;
+  }
+}
+
+.settings-panel__values-input {
+  width: 3rem;
+}
