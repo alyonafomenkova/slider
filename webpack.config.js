@@ -6,9 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const config = {
   mode: 'development',
-  entry: {
-    'demo': './src/demo/demo.ts'
-  },
+  entry: ['./src/plugin/plugin.ts', './src/demo/demo.ts'],
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: '[name].bundle.js'
@@ -18,11 +16,6 @@ const config = {
     contentBase: path.join(__dirname, './dist'),
     compress: true,
     hot: true,
-  },
-  resolve: {
-    alias: {
-      Normalize: path.resolve(__dirname, 'node_modules/normalize.scss/normalize.scss'),
-    }
   },
   module: {
     rules: [
@@ -59,7 +52,12 @@ const config = {
       },
     ],
   },
-
+  resolve: {
+    extensions: ['.ts', '.js'],
+    alias: {
+      Normalize: path.resolve(__dirname, 'node_modules/normalize.scss/normalize.scss'),
+    }
+  },
   plugins: [
     new CopyWebpackPlugin({
       patterns: [
