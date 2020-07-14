@@ -1,6 +1,10 @@
 class Subject<T> {
   private observers: ((value: T) => void) [] = [];
-  private value: T | undefined;
+  private value: T;
+
+  constructor(value: T) {
+    this.value = value;
+  }
 
   setValue(value: T) {
     this.value = value;
@@ -14,6 +18,7 @@ class Subject<T> {
       console.log('Observer already attached.');
     } else {
       this.observers.push(observer);
+      observer(this.value);
     }
   }
 

@@ -2,7 +2,7 @@ import Subject from '../../model/Subject';
 
 describe('Attach/detach once with single observer', () => {
   let actual = 0;
-  const subject = new Subject<number>();
+  const subject = new Subject(1);
   const observer = (value: number): void => {
     actual = value;
   };
@@ -11,7 +11,7 @@ describe('Attach/detach once with single observer', () => {
     subject.setValue(1);
     subject.attach(observer);
 
-    expect(actual).toEqual(0);
+    expect(actual).toEqual(1);
   });
 
   it('Set value 2 after attached', () => {
@@ -31,7 +31,7 @@ describe('Attach/detach once with single observer', () => {
 describe('Attach/detach multiple times', () => {
   let actual = 0;
   let times = 0;
-  const subject = new Subject<number>();
+  const subject = new Subject(1);
   const observer = (value: number): void => {
     actual = value;
     times++;
@@ -44,7 +44,7 @@ describe('Attach/detach multiple times', () => {
     subject.setValue(1);
 
     expect(actual).toEqual(1);
-    expect(times).toEqual(1);
+    expect(times).toEqual(2);
   });
 
   it('Detach multimple times and set value 2', () => {
@@ -53,14 +53,14 @@ describe('Attach/detach multiple times', () => {
     subject.setValue(2);
 
     expect(actual).toEqual(1);
-    expect(times).toEqual(1);
+    expect(times).toEqual(2);
   });
 });
 
 describe('Multiple observers', () => {
   let actualA = 0;
   let actualB = 0;
-  const subject = new Subject<number>();
+  const subject = new Subject(1);
   const observerA = (value: number): void => {
     actualA = value;
   };
@@ -74,7 +74,7 @@ describe('Multiple observers', () => {
     subject.attach(observerB);
 
     expect(actualA).toEqual(1);
-    expect(actualB).toEqual(0);
+    expect(actualB).toEqual(1);
   });
 
   it('Set value 2, A and B already attached', () => {
