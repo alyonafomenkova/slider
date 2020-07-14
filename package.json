@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "lint": "tsc -w && eslint 'src/*.{js,ts,tsx}'",
-    "test": "npm run lint",
     "build:dev": "webpack --mode=development",
-    "start:dev": "webpack-dev-server --open"
+    "start:dev": "webpack-dev-server --open",
+    "test": "karma start karma.conf.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/alyonafomenkova/slider#readme",
   "devDependencies": {
+    "@types/jasmine": "^3.5.11",
     "@types/jquery": "^3.5.0",
     "@typescript-eslint/parser": "^3.5.0",
     "copy-webpack-plugin": "^6.0.3",
@@ -29,7 +30,16 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-fsd": "^1.0.1",
     "html-webpack-plugin": "^4.3.0",
+    "istanbul-instrumenter-loader": "^3.0.1",
+    "jasmine": "^3.5.0",
     "jquery": "^3.5.1",
+    "karma": "^5.1.0",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage": "^2.0.2",
+    "karma-coverage-istanbul-reporter": "^3.0.3",
+    "karma-jasmine": "^3.3.1",
+    "karma-spec-reporter": "0.0.32",
+    "karma-webpack": "^4.0.2",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.14.1",
     "normalize.scss": "^0.1.0",

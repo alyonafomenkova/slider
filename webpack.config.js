@@ -50,6 +50,16 @@ const config = {
         },
         exclude: [/fonts/],
       },
+
+      {
+        enforce: 'post',
+        exclude: /(node_modules|\.Test\.[tj]sx?$)/,
+        test: /\.[tj]s$/,
+        use: {
+          loader: 'istanbul-instrumenter-loader',
+          options: {esModules: true}
+        },
+      }
     ],
   },
   resolve: {
