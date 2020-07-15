@@ -1,7 +1,7 @@
-const defaultConfig = {
+const defaultConfiguration = {
   min: 0,
   max: 100,
-  step: 1,
+  step: 10,
   currentValueFrom: 20,
   currentValueTo: 70,
   isVertical: false,
@@ -10,4 +10,4 @@ const defaultConfig = {
   hasScale: true,
 };
 
-export default defaultConfig;
+export default defaultConfiguration;
