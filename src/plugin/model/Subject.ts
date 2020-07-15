@@ -6,6 +6,10 @@ class Subject<T> {
     this.value = value;
   }
 
+  getValue() {
+    return this.value;
+  }
+
   setValue(value: T) {
     this.value = value;
     this.observers.forEach((observer) => {

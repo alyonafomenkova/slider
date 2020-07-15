@@ -7,10 +7,12 @@ describe('Attach/detach once with single observer', () => {
     actual = value;
   };
 
-  it('Attach after set value 1', () => {
+  it('Get value and attach after set value 1', () => {
+    const currentValue = subject.getValue();
     subject.setValue(1);
     subject.attach(observer);
 
+    expect(currentValue).toEqual(1);
     expect(actual).toEqual(1);
   });
 
