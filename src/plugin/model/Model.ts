@@ -25,92 +25,115 @@ class Model {
   }
 
   attachMin(observer: (value: number) => void) {
-    observer(this.min.getValue());
+    this.min.attach(observer);
   }
 
   attachMax(observer: (value: number) => void) {
-    observer(this.max.getValue());
+    this.max.attach(observer);
   }
 
   attachStep(observer: (value: number) => void) {
-    observer(this.step.getValue());
+    this.step.attach(observer);
   }
 
   attachValueFrom(observer: (value: number) => void) {
-    observer(this.currentValueFrom.getValue());
+    this.currentValueFrom.attach(observer);
   }
 
   attachValueTo(observer: (value: number) => void) {
-    observer(this.currentValueTo.getValue());
+    this.currentValueTo.attach(observer);
   }
 
-  attachOrientation(observer: (value: boolean) => void) {
-    observer(this.isVertical.getValue());
-  }
-
-  attachInterval(observer: (value: boolean) => void) {
-    observer(this.hasInterval.getValue());
-  }
-
-  attachPointer(observer: (value: boolean) => void) {
-    observer(this.hasPointer.getValue());
-  }
-
-  attachScale(observer: (value: boolean) => void) {
-    observer(this.hasScale.getValue());
-  }
+  // attachOrientation(observer: (value: boolean) => void) {
+  //   this.isVertical.attach(observer);
+  // }
+  //
+  // attachInterval(observer: (value: boolean) => void) {
+  //   this.hasInterval.attach(observer);
+  // }
+  //
+  // attachPointer(observer: (value: boolean) => void) {
+  //   this.hasPointer.attach(observer);
+  // }
+  //
+  // attachScale(observer: (value: boolean) => void) {
+  //   this.hasScale.attach(observer);
+  // }
 
   setMin(value: number) {
-    // TODO: доделать валидацию, тесты
     const max = this.max.getValue();
-    value <= max ? this.min.setValue(value) : this.min.setValue(max);
-  }
-
-  setMax(value: number) {
-    // TODO: доделать валидацию, тесты
-    const min = this.min.getValue();
-    value >= min ? this.max.setValue(value) : this.max.setValue(min);
-  }
-
-  setStep(value: number) {
-    // TODO: доделать валидацию, тесты
-    const min = this.min.getValue();
-    const max = this.max.getValue();
+    let from = this.currentValueFrom.getValue();
+    const to = this.currentValueTo.getValue();
     const step = this.step.getValue();
-    if (value >= min && value <= max) {
-      this.max.setValue(step);
+
+    if (value > max) {
+      this.min.setValue(max);
+    } else {
+      this.min.setValue(value);
+    }
+    const min = this.min.getValue();
+
+    if (from < min) {
+      this.currentValueFrom.setValue(min);
+    }
+    from = this.currentValueFrom.getValue();
+
+    if (to < from) {
+      this.currentValueTo.setValue(from);
+    }
+    if (min <= max && max - min < step) {
+      this.step.setValue(max - min);
+    }
+    if (value > max) {
+      this.min.setValue(max);
     }
   }
 
-  setValueFrom(value: number) {
-    // TODO: доделать валидацию, тесты
-    this.currentValueFrom.setValue(value);
-  }
-
-  setValueTo(value: number) {
-    // TODO: доделать валидацию, тесты
-    this.currentValueTo.setValue(value);
-  }
-
-  setOrientation(value: boolean) {
-    // TODO: доделать валидацию, тесты
-    this.isVertical.setValue(value);
-  }
-
-  setInterval(value: boolean) {
-    // TODO: доделать валидацию, тесты
-    this.hasInterval.setValue(value);
-  }
-
-  setPointer(value: boolean) {
-    // TODO: доделать валидацию, тесты
-    this.hasPointer.setValue(value);
-  }
-
-  setScale(value: boolean) {
-    // TODO: доделать валидацию, тесты
-    this.hasScale.setValue(value);
-  }
+  // setMax(value: number) {
+  //   // TODO: доделать валидацию, тесты
+  //   const min = this.min.getValue();
+  //   value >= min ? this.max.setValue(value) : this.max.setValue(min);
+  // }
+  //
+  // setStep(value: number) {
+  //   // TODO: доделать валидацию, тесты
+  //   const min = this.min.getValue();
+  //   const max = this.max.getValue();
+  //   const step = this.step.getValue();
+  //   if (value >= min && value <= max) {
+  //     this.max.setValue(step);
+  //   }
+  // }
+  //
+  // setValueFrom(value: number) {
+  //   // TODO: доделать валидацию, тесты
+  //   this.currentValueFrom.setValue(value);
+  // }
+  //
+  // setValueTo(value: number) {
+  //   // TODO: доделать валидацию, тесты
+  //   this.currentValueTo.setValue(value);
+  // }
+  //
+  // setOrientation(value: boolean) {
+  //   // TODO: доделать валидацию, тесты
+  //   this.isVertical.setValue(value);
+  // }
+  //
+  // setInterval(value: boolean) {
+  //   // TODO: доделать валидацию, тесты
+  //   this.hasInterval.setValue(value);
+  // }
+  //
+  // setPointer(value: boolean) {
+  //   // TODO: доделать валидацию, тесты
+  //   this.hasPointer.setValue(value);
+  // }
+  //
+  // setScale(value: boolean) {
+  //   // TODO: доделать валидацию, тесты
+  //   this.hasScale.setValue(value);
+  // }
 }
 
 export default Model;

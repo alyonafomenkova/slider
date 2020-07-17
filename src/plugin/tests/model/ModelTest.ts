@@ -12,167 +12,83 @@ const testСonfiguration = {
   hasScale: true,
 };
 
-describe('Attach min and validate setMin method', () => {
-  let actual = 0;
+describe('Set min value', () => {
+  let min: number;
+  let max: number;
+  let from: number;
+  let to: number;
+  let step: number;
+
   const model = new Model(testСonfiguration);
-  const observer = (value: number): void => {
-    actual = value;
-  };
+  const minObserver = (value: number): void => { min = value; };
+  const maxObserver = (value: number): void => { max = value; };
+  const fromObserver = (value: number): void => { from = value; };
+  const toObserver = (value: number): void => { to = value; };
+  const stepObserver = (value: number): void => { step = value; };
 
-  it('Attach Min and set min less than max', () => {
-    model.setMin(2);
-    model.attachMin(observer);
+  model.attachMin(minObserver);
+  model.attachMax(maxObserver);
+  model.attachValueFrom(fromObserver);
+  model.attachValueTo(toObserver);
+  model.attachStep(stepObserver);
 
-    expect(actual).toEqual(2);
+  it('Min < from < to < max', () => {
+    model.setMin(17);
+
+    expect(min).toEqual(17);
+    expect(max).toEqual(100);
+    expect(from).toEqual(20);
+    expect(to).toEqual(70);
+    expect(step).toEqual(10);
   });
 
-  // it('Set min equal to max', () => {
-  //   model.setMin(100);
-  //   model.attachMin(observer);
-  //
-  //   expect(actual).toEqual(100);
-  // });
-  //
-  // it('Set min higher than max', () => {
-  //   model.setMin(200);
-  //   model.attachMin(observer);
-  //
-  //   expect(actual).toEqual(100);
-  // });
-});
+  it('Min < oldMin < from < to < max', () => {
+    model.setMin(-5);
 
-describe('Attach max and validate setMax method', () => {
-  let actual = 0;
-  const model = new Model(testСonfiguration);
-  const observer = (value: number): void => {
-    actual = value;
-  };
-
-  it('Attach Max and set max higher than min', () => {
-    model.setMax(200);
-    model.attachMax(observer);
-
-    expect(actual).toEqual(200);
+    expect(min).toEqual(-5);
+    expect(max).toEqual(100);
+    expect(from).toEqual(20);
+    expect(to).toEqual(70);
+    expect(step).toEqual(10);
   });
 
-  // TODO: рассмотреть больше кейсов валидации
-});
+  it('From < min < to < max', () => {
+    model.setMin(37);
 
-describe('Attach step and validate setStep method', () => {
-  let actual = 0;
-  const model = new Model(testСonfiguration);
-  const observer = (value: number): void => {
-    actual = value;
-  };
-
-  it('Attach Step and set step higher than min and less then max', () => {
-    model.setStep(10);
-    model.attachStep(observer);
-
-    expect(actual).toEqual(10);
+    expect(min).toEqual(37);
+    expect(max).toEqual(100);
+    expect(from).toEqual(37);
+    expect(to).toEqual(70);
+    expect(step).toEqual(10);
   });
 
-  // TODO: рассмотреть больше кейсов валидации
-});
+  it('From < to < min < max', () => {
+    model.setMin(77);
 
-describe('Attach valueFrom and validate setValueFrom method', () => {
-  let actual = 0;
-  const model = new Model(testСonfiguration);
-  const observer = (value: number): void => {
-    actual = value;
-  };
-
-  it('Attach valueFrom and set valueFrom higher than min and less then max', () => {
-    model.setValueFrom(10);
-    model.attachValueFrom(observer);
-
-    expect(actual).toEqual(10);
+    expect(min).toEqual(77);
+    expect(max).toEqual(100);
+    expect(from).toEqual(77);
+    expect(to).toEqual(77);
+    expect(step).toEqual(10);
   });
 
-  // TODO: рассмотреть больше кейсов валидации
-});
+  it('From < to < min < max, but max - min < step', () => {
+    model.setMin(97);
 
-describe('Attach valueTo and validate setValueTo method', () => {
-  let actual = 0;
-  const model = new Model(testСonfiguration);
-  const observer = (value: number): void => {
-    actual = value;
-  };
-
-  it('Attach valueTo and set valueTo higher than min and less then max', () => {
-    model.setValueTo(30);
-    model.attachValueTo(observer);
-
-    expect(actual).toEqual(30);
+    expect(min).toEqual(97);
+    expect(max).toEqual(100);
+    expect(from).toEqual(97);
+    expect(to).toEqual(97);
+    expect(step).toEqual(3);
   });
 
-  // TODO: рассмотреть больше кейсов валидации
-});
+  it('Min > max', () => {
+    model.setMin(150);
 
-describe('Attach orientation and validate setOrientation method', () => {
-  let actual = false;
-  const model = new Model(testСonfiguration);
-  const observer = (value: boolean): void => {
-    actual = value;
-  };
-
-  it('Attach orientation and set vertical orientation', () => {
-    model.setOrientation(true);
-    model.attachOrientation(observer);
-
-    expect(actual).toEqual(true);
+    expect(min).toEqual(100);
+    expect(max).toEqual(100);
+    expect(from).toEqual(100);
+    expect(to).toEqual(100);
+    expect(step).toEqual(0);
   });
-
-  // TODO: рассмотреть больше кейсов валидации
-});
-
-describe('Attach interval and validate setInterval method', () => {
-  let actual = false;
-  const model = new Model(testСonfiguration);
-  const observer = (value: boolean): void => {
-    actual = value;
-  };
-
-  it('Attach interval and set single', () => {
-    model.setInterval(false);
-    model.attachInterval(observer);
-
-    expect(actual).toEqual(false);
-  });
-
-  // TODO: рассмотреть больше кейсов валидации
-});
-
-describe('Attach pointer and validate setPointer method', () => {
-  let actual = false;
-  const model = new Model(testСonfiguration);
-  const observer = (value: boolean): void => {
-    actual = value;
-  };
-
-  it('Attach pointer and set pointer as false', () => {
-    model.setPointer(false);
-    model.attachPointer(observer);
-
-    expect(actual).toEqual(false);
-  });
-
-  // TODO: рассмотреть больше кейсов валидации
-});
-
-describe('Attach scale and validate setScale method', () => {
-  let actual = false;
-  const model = new Model(testСonfiguration);
-  const observer = (value: boolean): void => {
-    actual = value;
-  };
-
-  it('Attach scale and set scale as false', () => {
-    model.setScale(false);
-    model.attachScale(observer);
-
-    expect(actual).toEqual(false);
-  });
-
-  // TODO: рассмотреть больше кейсов валидации
 });
