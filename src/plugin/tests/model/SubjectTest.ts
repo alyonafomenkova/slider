@@ -36,10 +36,10 @@ describe('Attach/detach multiple times', () => {
   const subject = new Subject(1);
   const observer = (value: number): void => {
     actual = value;
-    times++;
+    times += 1;
   };
 
-  it('Attach multimple times and set value 1', () => {
+  it('Attach multiple times and set value 1', () => {
     subject.attach(observer);
     subject.attach(observer);
     subject.attach(observer);
@@ -49,7 +49,7 @@ describe('Attach/detach multiple times', () => {
     expect(times).toEqual(2);
   });
 
-  it('Detach multimple times and set value 2', () => {
+  it('Detach multiple times and set value 2', () => {
     subject.detach(observer);
     subject.detach(observer);
     subject.setValue(2);

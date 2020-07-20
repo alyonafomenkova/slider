@@ -10,24 +10,24 @@ module.exports = function (config) {
     concurrency: Infinity,
     coverageIstanbulReporter: {
       fixWebpackSourcePaths: true,
-      reports: ['html']
+      reports: ['html'],
     },
     exclude: [],
     files: [
-      {pattern: testCode, watched: false}
+      { pattern: testCode, watched: false },
     ],
     frameworks: ['jasmine'],
     logLevel: config.LOG_INFO,
     port: 9876,
     preprocessors: {
-      [testCode]: ['webpack']
+      [testCode]: ['webpack'],
     },
     reporters: ['progress', 'coverage-istanbul'],
     webpack: webpackConfig,
     client: {
       jasmine: {
-        random: false
-      }
-    }
+        random: false,
+      },
+    },
   });
 };

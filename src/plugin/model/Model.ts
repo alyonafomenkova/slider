@@ -3,89 +3,97 @@ import Subject from './Subject';
 
 class Model {
   private min: Subject<number>;
+
   private max: Subject<number>;
+
   private step: Subject<number>;
-  private currentValueFrom: Subject<number>;
-  private currentValueTo: Subject<number>;
+
+  private from: Subject<number>;
+
+  private to: Subject<number>;
+
   private isVertical: Subject<boolean>;
+
   private hasInterval: Subject<boolean>;
+
   private hasPointer: Subject<boolean>;
+
   private hasScale: Subject<boolean>;
 
   constructor(public configuration: Configuration) {
-    this.validateConfigaration(configuration);
+    Model.validateConfiguration(configuration);
     this.min = new Subject(configuration.min);
     this.max = new Subject(configuration.max);
     this.step = new Subject(configuration.step);
-    this.currentValueFrom = new Subject(configuration.currentValueFrom);
-    this.currentValueTo = new Subject(configuration.currentValueTo);
+    this.from = new Subject(configuration.from);
+    this.to = new Subject(configuration.to);
     this.isVertical = new Subject(configuration.isVertical);
     this.hasInterval = new Subject(configuration.hasInterval);
     this.hasPointer = new Subject(configuration.hasPointer);
     this.hasScale = new Subject(configuration.hasScale);
   }
 
-  private validateConfigaration(configuration: Configuration): void {
+  private static validateConfiguration(configuration: Configuration): void {
     if (configuration.min >= configuration.max) {
-      throw new Error(`Min must be less than max!`);
+      throw new Error('Min must be less than max!');
     }
     if (configuration.step <= 0) {
-      throw new Error(`Step must be more than 0!`);
+      throw new Error('Step must be more than 0!');
     }
     if (configuration.step > configuration.max - configuration.min) {
-      throw new Error(`Step must be less than max - min!`);
+      throw new Error('Step must be less than max - min!');
     }
-    if (configuration.currentValueFrom < configuration.min || configuration.currentValueFrom > configuration.max) {
-      throw new Error(`CurrentValueFrom must be less than max, but more than min!`);
+    if (configuration.from < configuration.min || configuration.from > configuration.max) {
+      throw new Error('CurrentValueFrom must be less than max, but more than min!');
     }
-    if (configuration.currentValueTo < configuration.min || configuration.currentValueTo > configuration.max) {
-      throw new Error(`CurrentValueTo must be less than max, but more than min!`);
+    if (configuration.to < configuration.min || configuration.to > configuration.max) {
+      throw new Error('CurrentValueTo must be less than max, but more than min!');
     }
-    if (configuration.currentValueTo < configuration.currentValueFrom) {
-      throw new Error(`CurrentValueTo must be more than currentValueFrom!`);
+    if (configuration.to < configuration.from) {
+      throw new Error('CurrentValueTo must be more than currentValueFrom!');
     }
   }
 
-  attachMin(observer: (value: number) => void) {
+  attachMin(observer: (value: number) => void): void {
     this.min.attach(observer);
   }
 
-  attachMax(observer: (value: number) => void) {
+  attachMax(observer: (value: number) => void): void {
     this.max.attach(observer);
   }
 
-  attachStep(observer: (value: number) => void) {
+  attachStep(observer: (value: number) => void): void {
     this.step.attach(observer);
   }
 
-  attachValueFrom(observer: (value: number) => void) {
-    this.currentValueFrom.attach(observer);
+  attachValueFrom(observer: (value: number) => void): void {
+    this.from.attach(observer);
   }
 
-  attachValueTo(observer: (value: number) => void) {
-    this.currentValueTo.attach(observer);
+  attachValueTo(observer: (value: number) => void): void {
+    this.to.attach(observer);
   }
 
-  attachOrientation(observer: (value: boolean) => void) {
+  attachOrientation(observer: (value: boolean) => void): void {
     this.isVertical.attach(observer);
   }
 
-  attachInterval(observer: (value: boolean) => void) {
+  attachInterval(observer: (value: boolean) => void): void {
     this.hasInterval.attach(observer);
   }
 
-  attachPointer(observer: (value: boolean) => void) {
+  attachPointer(observer: (value: boolean) => void): void {
     this.hasPointer.attach(observer);
   }
 
-  attachScale(observer: (value: boolean) => void) {
+  attachScale(observer: (value: boolean) => void): void {
     this.hasScale.attach(observer);
   }
 
-  setMin(value: number) {
+  setMin(value: number): void {
     const max = this.max.getValue();
-    let from = this.currentValueFrom.getValue();
-    const to = this.currentValueTo.getValue();
+    let from = this.from.getValue();
+    const to = this.to.getValue();
     const step = this.step.getValue();
 
     if (value > max) {
@@ -96,12 +104,12 @@ class Model {
     const min = this.min.getValue();
 
     if (from < min) {
-      this.currentValueFrom.setValue(min);
+      this.from.setValue(min);
     }
-    from = this.currentValueFrom.getValue();
+    from = this.from.getValue();
 
     if (to < from) {
-      this.currentValueTo.setValue(from);
+      this.to.setValue(from);
     }
     if (min <= max && max - min < step) {
       this.step.setValue(max - min);
@@ -111,86 +119,84 @@ class Model {
     }
   }
 
-  setMax(value: number) {
+  setMax(value: number): void {
     const min = this.min.getValue();
-    const from = this.currentValueFrom.getValue();
-    const to = this.currentValueTo.getValue();
+    const from = this.from.getValue();
+    const to = this.to.getValue();
     const step = this.step.getValue();
 
     if (value > to) {
       this.max.setValue(value);
     } else {
-      this.currentValueTo.setValue(value);
+      this.to.setValue(value);
       this.max.setValue(value);
     }
     if (value < from) {
-      this.currentValueFrom.setValue(value);
+      this.from.setValue(value);
     }
     if (value > min && value - min < step) {
       this.step.setValue(value - min);
     }
   }
 
-  setStep(value: number) {
+  setStep(value: number): void {
     if (value <= 0) {
-      throw new Error("Step must be > 0!");
+      throw new Error('Step must be > 0!');
     }
     const min = this.min.getValue();
     const max = this.max.getValue();
     this.step.setValue(max - min > value ? value : max - min);
   }
 
-  setFrom(value: number) {
+  setFrom(value: number): void {
     const max = this.max.getValue();
     const step = this.step.getValue();
-    const to = this.currentValueTo.getValue();
+    const to = this.to.getValue();
     const from = Math.round(value / step) * step;
     const hasInterval = this.hasInterval.getValue();
 
     if (hasInterval) {
       if (value > to) {
-        this.currentValueFrom.setValue(to)
+        this.from.setValue(to);
       } else {
-        this.currentValueFrom.setValue(from);
+        this.from.setValue(from);
       }
+    } else if (value > max) {
+      this.from.setValue(max);
     } else {
-      if (value > max) {
-        this.currentValueFrom.setValue(max);
-      } else {
-        this.currentValueFrom.setValue(from);
-      }
+      this.from.setValue(from);
     }
   }
 
-  setTo(value: number) {
+  setTo(value: number): void {
     const max = this.max.getValue();
-    const from = this.currentValueFrom.getValue();
-    const step =  this.step.getValue();
+    const from = this.from.getValue();
+    const step = this.step.getValue();
     const to = Math.round(value / step) * step;
 
     if (value < from) {
-      this.currentValueTo.setValue(from);
+      this.to.setValue(from);
     } else {
-      this.currentValueTo.setValue(to);
+      this.to.setValue(to);
     }
     if (value > max) {
-      this.currentValueTo.setValue(max);
+      this.to.setValue(max);
     }
   }
 
-  setVertical(value: boolean) {
+  setVertical(value: boolean): void {
     this.isVertical.setValue(value);
   }
 
-  setInterval(value: boolean) {
+  setInterval(value: boolean): void {
     this.hasInterval.setValue(value);
   }
 
-  setPointer(value: boolean) {
+  setPointer(value: boolean): void {
     this.hasPointer.setValue(value);
   }
 
-  setScale(value: boolean) {
+  setScale(value: boolean): void {
     this.hasScale.setValue(value);
   }
 }

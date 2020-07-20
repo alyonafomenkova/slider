@@ -2,8 +2,8 @@ type Configuration = {
   min: number;
   max: number;
   step: number;
-  currentValueFrom: number;
-  currentValueTo: number;
+  from: number;
+  to: number;
   isVertical: boolean;
   hasInterval: boolean;
   hasPointer: boolean;

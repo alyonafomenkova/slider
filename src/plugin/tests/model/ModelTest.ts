@@ -1,32 +1,33 @@
 import Model from '../../model/Model';
 
-const testСonfiguration = {
+const testConfiguration = {
   min: 0,
   max: 100,
   step: 10,
-  currentValueFrom: 20,
-  currentValueTo: 70,
+  from: 20,
+  to: 70,
   isVertical: false,
   hasInterval: true,
   hasPointer: true,
   hasScale: true,
 };
 
-describe('Validate configaration', () => {
+describe('Validate configuration', () => {
   it('Min > max', () => {
     const configuration = {
       min: 150,
       max: 100,
       step: 10,
-      currentValueFrom: 20,
-      currentValueTo: 70,
+      from: 20,
+      to: 70,
       isVertical: false,
       hasInterval: true,
       hasPointer: true,
       hasScale: true,
     };
 
-    expect( function(){ new Model(configuration); } ).toThrow(new Error(`Min must be less than max!`));
+    // eslint-disable-next-line no-new
+    expect(() => { new Model(configuration); }).toThrow(new Error('Min must be less than max!'));
   });
 
   it('Min = max', () => {
@@ -34,15 +35,16 @@ describe('Validate configaration', () => {
       min: 100,
       max: 100,
       step: 10,
-      currentValueFrom: 20,
-      currentValueTo: 70,
+      from: 20,
+      to: 70,
       isVertical: false,
       hasInterval: true,
       hasPointer: true,
       hasScale: true,
     };
 
-    expect( function(){ new Model(configuration); } ).toThrow(new Error(`Min must be less than max!`));
+    // eslint-disable-next-line no-new
+    expect(() => { new Model(configuration); }).toThrow(new Error('Min must be less than max!'));
   });
 
   it('Step < 0', () => {
@@ -50,15 +52,16 @@ describe('Validate configaration', () => {
       min: 0,
       max: 100,
       step: -1,
-      currentValueFrom: 20,
-      currentValueTo: 70,
+      from: 20,
+      to: 70,
       isVertical: false,
       hasInterval: true,
       hasPointer: true,
       hasScale: true,
     };
 
-    expect( function(){ new Model(configuration); } ).toThrow(new Error(`Step must be more than 0!`));
+    // eslint-disable-next-line no-new
+    expect(() => { new Model(configuration); }).toThrow(new Error('Step must be more than 0!'));
   });
 
   it('Step = 0', () => {
@@ -66,15 +69,16 @@ describe('Validate configaration', () => {
       min: 0,
       max: 100,
       step: 0,
-      currentValueFrom: 20,
-      currentValueTo: 70,
+      from: 20,
+      to: 70,
       isVertical: false,
       hasInterval: true,
       hasPointer: true,
       hasScale: true,
     };
 
-    expect( function(){ new Model(configuration); } ).toThrow(new Error(`Step must be more than 0!`));
+    // eslint-disable-next-line no-new
+    expect(() => { new Model(configuration); }).toThrow(new Error('Step must be more than 0!'));
   });
 
   it('Step > max - min', () => {
@@ -82,15 +86,16 @@ describe('Validate configaration', () => {
       min: 0,
       max: 100,
       step: 110,
-      currentValueFrom: 20,
-      currentValueTo: 70,
+      from: 20,
+      to: 70,
       isVertical: false,
       hasInterval: true,
       hasPointer: true,
       hasScale: true,
     };
 
-    expect( function(){ new Model(configuration); } ).toThrow(new Error(`Step must be less than max - min!`));
+    // eslint-disable-next-line no-new
+    expect(() => { new Model(configuration); }).toThrow(new Error('Step must be less than max - min!'));
   });
 
   it('From < min', () => {
@@ -98,15 +103,16 @@ describe('Validate configaration', () => {
       min: 0,
       max: 100,
       step: 10,
-      currentValueFrom: -20,
-      currentValueTo: 70,
+      from: -20,
+      to: 70,
       isVertical: false,
       hasInterval: true,
       hasPointer: true,
       hasScale: true,
     };
 
-    expect( function(){ new Model(configuration); } ).toThrow(new Error(`CurrentValueFrom must be less than max, but more than min!`));
+    // eslint-disable-next-line no-new
+    expect(() => { new Model(configuration); }).toThrow(new Error('CurrentValueFrom must be less than max, but more than min!'));
   });
 
   it('From > max', () => {
@@ -114,15 +120,16 @@ describe('Validate configaration', () => {
       min: 0,
       max: 100,
       step: 10,
-      currentValueFrom: 120,
-      currentValueTo: 70,
+      from: 120,
+      to: 70,
       isVertical: false,
       hasInterval: true,
       hasPointer: true,
       hasScale: true,
     };
 
-    expect( function(){ new Model(configuration); } ).toThrow(new Error(`CurrentValueFrom must be less than max, but more than min!`));
+    // eslint-disable-next-line no-new
+    expect(() => { new Model(configuration); }).toThrow(new Error('CurrentValueFrom must be less than max, but more than min!'));
   });
 
   it('To < min', () => {
@@ -130,15 +137,16 @@ describe('Validate configaration', () => {
       min: 0,
       max: 100,
       step: 10,
-      currentValueFrom: 20,
-      currentValueTo: -70,
+      from: 20,
+      to: -70,
       isVertical: false,
       hasInterval: true,
       hasPointer: true,
       hasScale: true,
     };
 
-    expect( function(){ new Model(configuration); } ).toThrow(new Error(`CurrentValueTo must be less than max, but more than min!`));
+    // eslint-disable-next-line no-new
+    expect(() => { new Model(configuration); }).toThrow(new Error('CurrentValueTo must be less than max, but more than min!'));
   });
 
   it('To > max', () => {
@@ -146,15 +154,16 @@ describe('Validate configaration', () => {
       min: 0,
       max: 100,
       step: 10,
-      currentValueFrom: 20,
-      currentValueTo: 170,
+      from: 20,
+      to: 170,
       isVertical: false,
       hasInterval: true,
       hasPointer: true,
       hasScale: true,
     };
 
-    expect( function(){ new Model(configuration); } ).toThrow(new Error(`CurrentValueTo must be less than max, but more than min!`));
+    // eslint-disable-next-line no-new
+    expect(() => { new Model(configuration); }).toThrow(new Error('CurrentValueTo must be less than max, but more than min!'));
   });
 
   it('To < from', () => {
@@ -162,15 +171,16 @@ describe('Validate configaration', () => {
       min: 0,
       max: 100,
       step: 10,
-      currentValueFrom: 20,
-      currentValueTo: 5,
+      from: 20,
+      to: 5,
       isVertical: false,
       hasInterval: true,
       hasPointer: true,
       hasScale: true,
     };
 
-    expect( function(){ new Model(configuration); } ).toThrow(new Error(`CurrentValueTo must be more than currentValueFrom!`));
+    // eslint-disable-next-line no-new
+    expect(() => { new Model(configuration); }).toThrow(new Error('CurrentValueTo must be more than currentValueFrom!'));
   });
 });
 
@@ -181,7 +191,7 @@ describe('Set min value', () => {
   let to: number;
   let step: number;
 
-  const model = new Model(testСonfiguration);
+  const model = new Model(testConfiguration);
   const minObserver = (value: number): void => { min = value; };
   const maxObserver = (value: number): void => { max = value; };
   const fromObserver = (value: number): void => { from = value; };
@@ -262,7 +272,7 @@ describe('Set max value', () => {
   let to: number;
   let step: number;
 
-  const model = new Model(testСonfiguration);
+  const model = new Model(testConfiguration);
   const minObserver = (value: number): void => { min = value; };
   const maxObserver = (value: number): void => { max = value; };
   const fromObserver = (value: number): void => { from = value; };
@@ -323,7 +333,7 @@ describe('Set step value', () => {
   let to: number;
   let step: number;
 
-  const model = new Model(testСonfiguration);
+  const model = new Model(testConfiguration);
   const minObserver = (value: number): void => { min = value; };
   const maxObserver = (value: number): void => { max = value; };
   const fromObserver = (value: number): void => { from = value; };
@@ -357,11 +367,11 @@ describe('Set step value', () => {
   });
 
   it('Step = 0', () => {
-    expect( function(){ model.setStep(0); } ).toThrow(new Error(`Step must be > 0!`));
+    expect(() => { model.setStep(0); }).toThrow(new Error('Step must be > 0!'));
   });
 
   it('Step < 0', () => {
-    expect( function(){ model.setStep(-5); } ).toThrow(new Error(`Step must be > 0!`));
+    expect(() => { model.setStep(-5); }).toThrow(new Error('Step must be > 0!'));
   });
 });
 
@@ -373,7 +383,7 @@ describe('Set from value', () => {
   let step: number;
   let isInterval: boolean;
 
-  const model = new Model(testСonfiguration);
+  const model = new Model(testConfiguration);
   const minObserver = (value: number): void => { min = value; };
   const maxObserver = (value: number): void => { max = value; };
   const fromObserver = (value: number): void => { from = value; };
@@ -471,7 +481,7 @@ describe('Set to value', () => {
   let step: number;
   let isInterval: boolean;
 
-  const model = new Model(testСonfiguration);
+  const model = new Model(testConfiguration);
   const minObserver = (value: number): void => { min = value; };
   const maxObserver = (value: number): void => { max = value; };
   const fromObserver = (value: number): void => { from = value; };
@@ -551,7 +561,7 @@ describe('Set to value', () => {
 
 describe('Set interval', () => {
   let isInterval: boolean;
-  const model = new Model(testСonfiguration);
+  const model = new Model(testConfiguration);
   const intervalObserver = (value: boolean): void => { isInterval = value; };
 
   model.attachInterval(intervalObserver);
@@ -571,7 +581,7 @@ describe('Set interval', () => {
 
 describe('Set orientation', () => {
   let isVertical: boolean;
-  const model = new Model(testСonfiguration);
+  const model = new Model(testConfiguration);
   const orientationObserver = (value: boolean): void => { isVertical = value; };
 
   model.attachOrientation(orientationObserver);
@@ -591,7 +601,7 @@ describe('Set orientation', () => {
 
 describe('Set pointer', () => {
   let hasPointer: boolean;
-  const model = new Model(testСonfiguration);
+  const model = new Model(testConfiguration);
   const pointerObserver = (value: boolean): void => { hasPointer = value; };
 
   model.attachPointer(pointerObserver);
@@ -611,7 +621,7 @@ describe('Set pointer', () => {
 
 describe('Set scale', () => {
   let hasScale: boolean;
-  const model = new Model(testСonfiguration);
+  const model = new Model(testConfiguration);
   const scaleObserver = (value: boolean): void => { hasScale = value; };
 
   model.attachScale(scaleObserver);
