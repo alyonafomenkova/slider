@@ -16,7 +16,7 @@ class Model {
 
   private hasInterval: Subject<boolean>;
 
-  private hasPointer: Subject<boolean>;
+  private hasValue: Subject<boolean>;
 
   private hasScale: Subject<boolean>;
 
@@ -29,7 +29,7 @@ class Model {
     this.to = new Subject(configuration.to);
     this.isVertical = new Subject(configuration.isVertical);
     this.hasInterval = new Subject(configuration.hasInterval);
-    this.hasPointer = new Subject(configuration.hasPointer);
+    this.hasValue = new Subject(configuration.hasValue);
     this.hasScale = new Subject(configuration.hasScale);
   }
 
@@ -83,7 +83,7 @@ class Model {
   }
 
   attachPointer(observer: (value: boolean) => void): void {
-    this.hasPointer.attach(observer);
+    this.hasValue.attach(observer);
   }
 
   attachScale(observer: (value: boolean) => void): void {
@@ -193,7 +193,7 @@ class Model {
   }
 
   setPointer(value: boolean): void {
-    this.hasPointer.setValue(value);
+    this.hasValue.setValue(value);
   }
 
   setScale(value: boolean): void {

@@ -6,7 +6,7 @@ const defaultConfiguration = {
   to: 70,
   isVertical: false,
   hasInterval: true,
-  hasPointer: true,
+  hasValue: true,
   hasScale: true,
 };
 

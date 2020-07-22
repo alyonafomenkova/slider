@@ -6,7 +6,7 @@ type Configuration = {
   to: number;
   isVertical: boolean;
   hasInterval: boolean;
-  hasPointer: boolean;
+  hasValue: boolean;
   hasScale: boolean;
 };
 

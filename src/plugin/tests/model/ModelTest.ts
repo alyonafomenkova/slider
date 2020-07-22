@@ -8,7 +8,7 @@ const testConfiguration = {
   to: 70,
   isVertical: false,
   hasInterval: true,
-  hasPointer: true,
+  hasValue: true,
   hasScale: true,
 };
 
@@ -22,7 +22,7 @@ describe('Validate configuration', () => {
       to: 70,
       isVertical: false,
       hasInterval: true,
-      hasPointer: true,
+      hasValue: true,
       hasScale: true,
     };
 
@@ -39,7 +39,7 @@ describe('Validate configuration', () => {
       to: 70,
       isVertical: false,
       hasInterval: true,
-      hasPointer: true,
+      hasValue: true,
       hasScale: true,
     };
 
@@ -56,7 +56,7 @@ describe('Validate configuration', () => {
       to: 70,
       isVertical: false,
       hasInterval: true,
-      hasPointer: true,
+      hasValue: true,
       hasScale: true,
     };
 
@@ -73,7 +73,7 @@ describe('Validate configuration', () => {
       to: 70,
       isVertical: false,
       hasInterval: true,
-      hasPointer: true,
+      hasValue: true,
       hasScale: true,
     };
 
@@ -90,7 +90,7 @@ describe('Validate configuration', () => {
       to: 70,
       isVertical: false,
       hasInterval: true,
-      hasPointer: true,
+      hasValue: true,
       hasScale: true,
     };
 
@@ -107,7 +107,7 @@ describe('Validate configuration', () => {
       to: 70,
       isVertical: false,
       hasInterval: true,
-      hasPointer: true,
+      hasValue: true,
       hasScale: true,
     };
 
@@ -124,7 +124,7 @@ describe('Validate configuration', () => {
       to: 70,
       isVertical: false,
       hasInterval: true,
-      hasPointer: true,
+      hasValue: true,
       hasScale: true,
     };
 
@@ -141,7 +141,7 @@ describe('Validate configuration', () => {
       to: -70,
       isVertical: false,
       hasInterval: true,
-      hasPointer: true,
+      hasValue: true,
       hasScale: true,
     };
 
@@ -158,7 +158,7 @@ describe('Validate configuration', () => {
       to: 170,
       isVertical: false,
       hasInterval: true,
-      hasPointer: true,
+      hasValue: true,
       hasScale: true,
     };
 
@@ -175,7 +175,7 @@ describe('Validate configuration', () => {
       to: 5,
       isVertical: false,
       hasInterval: true,
-      hasPointer: true,
+      hasValue: true,
       hasScale: true,
     };
 
@@ -600,22 +600,22 @@ describe('Set orientation', () => {
 });
 
 describe('Set pointer', () => {
-  let hasPointer: boolean;
+  let hasValue: boolean;
   const model = new Model(testConfiguration);
-  const pointerObserver = (value: boolean): void => { hasPointer = value; };
+  const pointerObserver = (value: boolean): void => { hasValue = value; };
 
   model.attachPointer(pointerObserver);
 
   it('Without pointer', () => {
     model.setPointer(false);
 
-    expect(hasPointer).toEqual(false);
+    expect(hasValue).toEqual(false);
   });
 
   it('With pointer', () => {
     model.setPointer(true);
 
-    expect(hasPointer).toEqual(true);
+    expect(hasValue).toEqual(true);
   });
 });
 
