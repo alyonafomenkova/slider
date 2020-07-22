@@ -1,0 +1,109 @@
+.slider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  position: relative;
+  background-color: red; //
+
+  &--vertical {
+    width: max-content;
+    height: 450px;
+  }
+}
+
+.slider__bar {
+  box-sizing: border-box;
+  border: 1px solid rgba(31, 32, 65, 0.25);
+  border-radius: 3px;
+  background-color: #ffffff;
+
+  &--horizontal {
+    width: 100%;
+    height: 10px;
+  }
+
+  &--vertical {
+    width: 10px;
+    height: 100%;
+  }
+}
+
+.slider__pointer-container {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background-color: green; //
+}
+
+.slider--horizontal .slider__pointer-container {
+  bottom: -5px;
+}
+
+.slider--vertical .slider__pointer-container {
+  flex-direction: row-reverse;
+  right: -5px;
+}
+
+.slider__pointer {
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(180deg, #6FCF97 0%, #66D2EA 100%);
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.slider__value {
+  box-sizing: border-box;
+  width: 36px;
+  height: 20px;
+  margin-bottom: 4px;
+  background: linear-gradient(180deg, #6FCF97 0%, #66D2EA 100%);
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+
+  &::after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    position: absolute;
+    left: 50%;
+    top: 16px;
+    background-color: #66D2EA;
+    transform: translate(-50%, 0) rotate(45deg);
+  }
+}
+
+.slider--vertical .slider__value {
+  margin-bottom: 0;
+  margin-right: 4px;
+
+  &::after {
+    top: 50%;
+    left: 33px;
+    transform: translate(0, -50%) rotate(45deg);
+  }
+}
+
+.slider__scale {
+  position: relative;
+  list-style: none;
+}
+
+.slider__scale-item {
+  position: absolute;
+  font-size: 14px;
+  line-height: 17px;
+  &:first-child {
+    left: 0; // убрать хардкорд, задавать через ts
+  }
+  &:last-child {
+    right: 0; // убрать хардкорд, задавать через ts
+  }
+}
