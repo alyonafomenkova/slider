@@ -4,6 +4,7 @@ import Presenter from './presenter/Presenter';
 import Model from './model/Model';
 import defaultConfiguration from './model/defaultConfiguration';
 import SliderViewImpl from './view/impl/SliderViewImpl';
+import PointerViewImpl from './view/impl/PointerViewImpl';
 
 const verticalConfiguration = {
   min: 0,
@@ -13,7 +14,19 @@ const verticalConfiguration = {
   to: 70,
   isVertical: true,
   hasInterval: true,
-  hasPointer: true,
+  hasValue: true,
+  hasScale: true,
+};
+
+const horizontalConfiguration = {
+  min: 10,
+  max: 75,
+  step: 5,
+  from: 20,
+  to: 65,
+  isVertical: false,
+  hasInterval: true,
+  hasValue: true,
   hasScale: true,
 };
 
@@ -26,11 +39,13 @@ const verticalConfiguration = {
   // eslint-disable-next-line func-names
   $.fn.sliderPlugin = function (): JQuery {
     return this.each((index, element) => {
-      //const model = new Model(verticalConfiguration);
-      const model = new Model(defaultConfiguration);
+      const config = index === 0 ? horizontalConfiguration : verticalConfiguration; // DEBUG
+      const model = new Model(config);
       const presenter = new Presenter(model);
       const sliderView = new SliderViewImpl(element, presenter);
-      presenter.init(sliderView);
+      const pointerFromView = new PointerViewImpl(element, presenter);
+      const pointerToView = new PointerViewImpl(element, presenter);
+      presenter.init(sliderView, pointerFromView, pointerToView);
     });
   };
 }(jQuery));
