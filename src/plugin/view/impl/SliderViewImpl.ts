@@ -5,7 +5,7 @@ import Util from '../../util/Util';
 class SliderViewImpl implements SliderView {
   private readonly container: Element;
 
-  private presenter: Presenter;
+  private readonly presenter: Presenter;
 
   constructor(container: Element, presenter: Presenter) {
     this.container = container;
@@ -17,16 +17,12 @@ class SliderViewImpl implements SliderView {
   }
 
   drawHorizontal(): void {
-    const bar = document.createElement('div');
-    bar.className = 'slider__bar slider__bar--horizontal';
-    this.container.appendChild(bar);
+    Util.createElement(this.container, 'slider__bar slider__bar--horizontal');
     Util.addClassName(this.container, 'slider--horizontal');
   }
 
   drawVertical(): void {
-    const bar = document.createElement('div');
-    bar.className = 'slider__bar slider__bar--vertical';
-    this.container.appendChild(bar);
+    Util.createElement(this.container, 'slider__bar slider__bar--vertical');
     Util.addClassName(this.container, 'slider--vertical');
   }
 }
