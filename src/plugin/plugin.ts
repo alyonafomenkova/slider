@@ -5,6 +5,7 @@ import Model from './model/Model';
 import defaultConfiguration from './model/defaultConfiguration';
 import SliderViewImpl from './view/impl/SliderViewImpl';
 import PointerViewImpl from './view/impl/PointerViewImpl';
+import ScaleViewImpl from './view/impl/ScaleViewImpl';
 
 const verticalConfiguration = {
   min: 0,
@@ -45,7 +46,8 @@ const horizontalConfiguration = {
       const sliderView = new SliderViewImpl(element, presenter);
       const pointerFromView = new PointerViewImpl(element, presenter);
       const pointerToView = new PointerViewImpl(element, presenter);
-      presenter.init(sliderView, pointerFromView, pointerToView);
+      const scaleView = new ScaleViewImpl(element, presenter);
+      presenter.init(sliderView, pointerFromView, pointerToView, scaleView);
     });
   };
 }(jQuery));
