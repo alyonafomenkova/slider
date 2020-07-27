@@ -7,6 +7,10 @@ class PointerViewImpl implements PointerView {
 
   private readonly presenter: Presenter;
 
+  private pointerContainer?: HTMLElement = undefined;
+
+  private pressed = false;
+
   constructor(container: Element, presenter: Presenter) {
     this.container = container;
     this.presenter = presenter;
@@ -18,16 +22,48 @@ class PointerViewImpl implements PointerView {
 
   drawPointer(): void {
     const template = '<div class="slider__pointer"></div>';
-    Util.createElement(this.container, 'slider__pointer-container', template);
+    this.pointerContainer = Util.createElement(this.container, 'slider__pointer-container', template);
+    this.setupMouseListeners();
   }
 
   drawValue(): void {
-    const pointerContainer = this.container.querySelector('.slider__pointer-container');
-    if (pointerContainer) {
-      Util.createElement(pointerContainer, 'slider__value');
+    if (this.pointerContainer) {
+      Util.createElement(this.pointerContainer, 'slider__value');
     } else {
       throw Error('Pointer container undefined!');
     }
+  }
+
+  private setupMouseListeners(): void {
+    const pointer = this.container.querySelector('.slider__pointer') as HTMLElement;
+    pointer.addEventListener('mousedown', this.handleMouseDown);
+    document.addEventListener('mousemove', this.handleMouseMove);
+    document.addEventListener('mouseup', this.handleMouseUp);
+  }
+
+  private handleMouseDown = (): void => {
+    this.pressed = true;
+  };
+
+  private handleMouseMove = (evt: MouseEvent): void => {
+    if (this.pressed && this.pointerContainer) {
+      const pointerHalfWidth = this.pointerContainer.offsetWidth / 2;
+      let posX = evt.clientX - this.getSliderBounds().left - pointerHalfWidth;
+      if (posX < -pointerHalfWidth) {
+        posX = -pointerHalfWidth;
+      } else if (posX > this.getSliderBounds().width - pointerHalfWidth) {
+        posX = this.getSliderBounds().width - pointerHalfWidth;
+      }
+      this.pointerContainer.style.left = `${posX}px`;
+    }
+  };
+
+  private handleMouseUp = (): void => {
+    this.pressed = false;
+  };
+
+  private getSliderBounds(): DOMRect {
+    return this.container.getBoundingClientRect();
   }
 }
 
