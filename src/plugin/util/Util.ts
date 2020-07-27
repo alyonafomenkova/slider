@@ -3,13 +3,14 @@ class Util {
     element.classList.add(className);
   }
 
-  static createElement(container: Element, classNames: string, template?: string): void {
+  static createElement(container: Element, classNames: string, template?: string): HTMLElement {
     const element = document.createElement('div');
     element.className = classNames;
     if (template) {
       element.innerHTML = template;
     }
     container.append(element);
+    return element;
   }
 }
 
