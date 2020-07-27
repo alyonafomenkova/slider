@@ -1,7 +1,6 @@
 interface PointerView {
   clear(): void;
-  drawPointer(): void;
-  drawValue(): void;
+  draw(isVertical: boolean, hasValue: boolean): void;
 }
 
 export default PointerView;

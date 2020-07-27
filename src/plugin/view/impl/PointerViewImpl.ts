@@ -20,17 +20,12 @@ class PointerViewImpl implements PointerView {
     this.container.innerHTML = '';
   }
 
-  drawPointer(): void {
+  draw(isVertical: boolean, hasValue: boolean): void {
     const template = '<div class="slider__pointer"></div>';
     this.pointerContainer = Util.createElement(this.container, 'slider__pointer-container', template);
     this.setupMouseListeners();
-  }
-
-  drawValue(): void {
-    if (this.pointerContainer) {
+    if (hasValue) {
       Util.createElement(this.pointerContainer, 'slider__value');
-    } else {
-      throw Error('Pointer container undefined!');
     }
   }
 

@@ -43,12 +43,8 @@ class Presenter {
       }
     }
 
-    this.pointerFromView.drawPointer();
+    this.pointerFromView.draw(this.model.configuration.isVertical, this.model.configuration.hasValue);
     console.log('Pointer from отрисован!'); // DEBUG
-    if (this.model.configuration.hasValue) {
-      this.pointerFromView.drawValue();
-      console.log('Value from отрисован!'); // DEBUG
-    }
   }
 }
 
