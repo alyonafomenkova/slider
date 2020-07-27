@@ -30,9 +30,17 @@ class Presenter {
     if (this.model.configuration.isVertical) {
       this.sliderView.clear();
       this.sliderView.drawVertical();
+      if (this.model.configuration.hasScale) {
+        this.scaleView.draw(17, 77, true);
+        console.log('Scale отрисован!'); // DEBUG
+      }
     } else {
       this.sliderView.clear();
       this.sliderView.drawHorizontal();
+      if (this.model.configuration.hasScale) {
+        this.scaleView.draw(17, 77, false);
+        console.log('Scale отрисован!'); // DEBUG
+      }
     }
 
     this.pointerFromView.drawPointer();
@@ -40,10 +48,6 @@ class Presenter {
     if (this.model.configuration.hasValue) {
       this.pointerFromView.drawValue();
       console.log('Value from отрисован!'); // DEBUG
-    }
-    if (this.model.configuration.hasScale) {
-      this.scaleView.drawScale();
-      console.log('Scale отрисован!'); // DEBUG
     }
   }
 }

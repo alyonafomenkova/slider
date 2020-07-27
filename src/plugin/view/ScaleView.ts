@@ -1,6 +1,6 @@
 interface ScaleView {
   clear(): void;
-  drawScale(): void;
+  draw(min: number, max: number, isVertical: boolean): void;
 }
 
 export default ScaleView;

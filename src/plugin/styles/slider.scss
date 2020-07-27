@@ -103,93 +103,47 @@
   display: flex;
   justify-content: center;
   position: relative;
-  border-left: 1px solid rgba(31, 32, 65, 0.25);
-  border-right: 1px solid rgba(31, 32, 65, 0.25);
-  background-repeat: no-repeat;
-  background-size: 100% 1px, 1px 8px, 1px 8px, 1px 8px, 1px 8px;
-  background-position: 0 center, 20% center, 40% center, 60% center, 80% center;
-  background-image: linear-gradient(rgba(31, 32, 65, 0.25), rgba(31, 32, 65, 0.25)),
-  linear-gradient(rgba(31, 32, 65, 0.25), rgba(31, 32, 65, 0.25)), linear-gradient(rgba(31, 32, 65, 0.25), rgba(31, 32, 65, 0.25)),
-  linear-gradient(rgba(31, 32, 65, 0.25), rgba(31, 32, 65, 0.25)), linear-gradient(rgba(31, 32, 65, 0.25), rgba(31, 32, 65, 0.25));
   background-color: #CDFCEF;
   cursor: pointer;
-}
-
-.slider--horizontal .slider__scale-value {
-  display: block;
-  position: absolute;
-  bottom: -15px;
-  font-size: 12px;
-  text-align: center;
-  transform: translateX(-50%);
-
-  &:nth-of-type(1) {
-    left: 0;
-  }
-
-  &:nth-of-type(2) {
-    left: 20%;
-  }
-
-  &:nth-of-type(3) {
-    left: 40%;
-  }
-
-  &:nth-of-type(4) {
-    left: 60%;
-  }
-
-  &:nth-of-type(5) {
-    left: 80%;
-  }
-
-  &:nth-of-type(6) {
-    left: 100%;
-  }
 }
 
 .slider--vertical .slider__scale {
   height: 100%;
   margin-top: 0;
   margin-left: 8px;
-  border-top: 1px solid rgba(31, 32, 65, 0.25);
-  border-right: none;
-  border-bottom: 1px solid rgba(31, 32, 65, 0.25);
-  border-left: none;
-  background-size: 1px 100%, 8px 1px, 8px 1px, 8px 1px, 8px 1px;
-  background-position: center 0 , center 20%, center 40%, center 60%, center 80%;
 }
 
-.slider--vertical .slider__scale-value {
-  display: block;
+.slider__scale-item {
   position: absolute;
-  bottom: -15px;
+}
+
+.slider--vertical .slider__scale-item {
+  display: flex;
+  align-items: center;
+  transform: translateY(50%);
+  left: 0;
+}
+
+.slider__scale-division {
+  background-color: rgba(31, 32, 65, 0.25);
+}
+
+.slider--horizontal .slider__scale-division {
+  width: 1px;
+  height: 8px;
+}
+
+.slider--vertical .slider__scale-division {
+  width: 8px;
+  height: 1px;
+}
+
+.slider__scale-value {
+  display: block;
   font-size: 12px;
   text-align: center;
-  left: 15px;
-  transform: translateY(50%);
+}
 
-  &:nth-of-type(1) {
-    bottom: 0;
-  }
-
-  &:nth-of-type(2) {
-    bottom: 20%;
-  }
-
-  &:nth-of-type(3) {
-    bottom: 40%;
-  }
-
-  &:nth-of-type(4) {
-    bottom: 60%;
-  }
-
-  &:nth-of-type(5) {
-    bottom: 80%;
-  }
-
-  &:nth-of-type(6) {
-    bottom: 100%;
-  }
+.slider--horizontal .slider__scale-value {
+  transform: translateX(-50%);
 }
