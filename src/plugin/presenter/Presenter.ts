@@ -18,18 +18,18 @@ class Presenter {
     if (this.model.isVerticalOrientation()) {
       sliderView.clear();
       sliderView.drawVertical();
-      // if (this.model.configuration.hasScale) {
+      if (this.model.isScale()) {
         scaleView.draw(17, 77, true);
-      // }
+      }
     } else {
       sliderView.clear();
       sliderView.drawHorizontal();
-      // if (this.model.configuration.hasScale) {
+      if (this.model.isScale()) {
         scaleView.draw(17, 77, false);
-      // }
+      }
     }
 
-    pointerFromView.draw(true);
+    pointerFromView.draw(this.model.isValue());
     pointerFromView.setDownEventListener(this.pointerDownEventListener);
     pointerFromView.setMoveEventListener(this.pointerMoveEventListener);
     pointerFromView.setUpEventListener(this.pointerUpEventListener);

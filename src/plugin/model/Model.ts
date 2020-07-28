@@ -20,7 +20,7 @@ class Model {
 
   private hasScale: Subject<boolean>;
 
-  constructor(public configuration: Configuration) {
+  constructor(configuration: Configuration) {
     Model.validateConfiguration(configuration);
     this.min = new Subject(configuration.min);
     this.max = new Subject(configuration.max);
@@ -90,6 +90,10 @@ class Model {
     this.hasScale.attach(observer);
   }
 
+  getMin(): number {
+    return this.min.getValue();
+  }
+
   setMin(value: number): void {
     const max = this.max.getValue();
     let from = this.from.getValue();
@@ -119,6 +123,10 @@ class Model {
     }
   }
 
+  getMax(): number {
+    return this.max.getValue();
+  }
+
   setMax(value: number): void {
     const min = this.min.getValue();
     const from = this.from.getValue();
@@ -139,6 +147,10 @@ class Model {
     }
   }
 
+  getStep(): number {
+    return this.step.getValue();
+  }
+
   setStep(value: number): void {
     if (value <= 0) {
       throw new Error('Step must be > 0!');
@@ -146,6 +158,10 @@ class Model {
     const min = this.min.getValue();
     const max = this.max.getValue();
     this.step.setValue(max - min > value ? value : max - min);
+  }
+
+  getFrom(): number {
+    return this.from.getValue();
   }
 
   setFrom(value: number): void {
@@ -168,6 +184,10 @@ class Model {
     }
   }
 
+  getTo(): number {
+    return this.to.getValue();
+  }
+
   setTo(value: number): void {
     const max = this.max.getValue();
     const from = this.from.getValue();
@@ -184,16 +204,32 @@ class Model {
     }
   }
 
+  isVerticalOrientation(): boolean {
+    return this.isVertical.getValue();
+  }
+
   setVertical(value: boolean): void {
     this.isVertical.setValue(value);
+  }
+
+  isInterval(): boolean {
+    return this.hasInterval.getValue();
   }
 
   setInterval(value: boolean): void {
     this.hasInterval.setValue(value);
   }
 
+  isValue(): boolean {
+    return this.hasValue.getValue();
+  }
+
   setPointer(value: boolean): void {
     this.hasValue.setValue(value);
+  }
+
+  isScale(): boolean {
+    return this.hasScale.getValue();
   }
 
   setScale(value: boolean): void {
