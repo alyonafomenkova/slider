@@ -18,6 +18,7 @@ module.exports = {
     'import/extensions': 'off',
     'no-plusplus': [2, { allowForLoopAfterthoughts: true }],
     'max-len': ['error', { code: 120 }],
+    'no-trailing-spaces': ['error', { skipBlankLines: true }],
   },
   settings: {
     'import/resolver': {
