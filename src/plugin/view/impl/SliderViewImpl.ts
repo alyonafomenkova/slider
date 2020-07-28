@@ -25,6 +25,30 @@ class SliderViewImpl implements SliderView {
     Util.createElement(this.container, 'slider__bar slider__bar--vertical');
     Util.addClassName(this.container, 'slider--vertical');
   }
+
+  getBoundLeft(): number {
+    return this.container.getBoundingClientRect().left;
+  }
+
+  getBoundTop(): number {
+    return this.container.getBoundingClientRect().top;
+  }
+
+  getBoundRight(): number {
+    return this.container.getBoundingClientRect().right;
+  }
+
+  getBoundBottom(): number {
+    return this.container.getBoundingClientRect().bottom;
+  }
+
+  getWidth(): number {
+    return this.container.getBoundingClientRect().width;
+  }
+
+  getHeight(): number {
+    return this.container.getBoundingClientRect().height;
+  }
 }
 
 export default SliderViewImpl;

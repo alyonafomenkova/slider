@@ -9,9 +9,11 @@ class PointerViewImpl implements PointerView {
 
   private pointerContainer?: HTMLElement = undefined;
 
-  private pressed = false;
+  private downEventListener?: (view: PointerView, x: number, y: number) => void = undefined;
 
-  private isVertical = false;
+  private moveEventListener?: (view: PointerView, x: number, y: number) => void = undefined;
+
+  private upEventListener?: (view: PointerView, x: number, y: number) => void = undefined;
 
   constructor(container: Element, presenter: Presenter) {
     this.container = container;
@@ -22,58 +24,79 @@ class PointerViewImpl implements PointerView {
     this.container.innerHTML = '';
   }
 
-  draw(isVertical: boolean, hasValue: boolean): void {
+  draw(hasValue: boolean): void {
     const template = '<div class="slider__pointer"></div>';
     this.pointerContainer = Util.createElement(this.container, 'slider__pointer-container', template);
-    this.isVertical = isVertical;
     this.setupMouseListeners();
     if (hasValue) {
       Util.createElement(this.pointerContainer, 'slider__value');
     }
   }
 
+  setX(value: number): void {
+    if (this.pointerContainer) {
+      this.pointerContainer.style.left = `${value}px`;
+    }
+  }
+
+  setY(value: number): void {
+    if (this.pointerContainer) {
+      this.pointerContainer.style.top = `${value}px`;
+    }
+  }
+
+  getWidth(): number {
+    if (this.pointerContainer) {
+      return this.pointerContainer.getBoundingClientRect().width;
+    }
+    return 0;
+  }
+
+  getHeight(): number {
+    if (this.pointerContainer) {
+      return this.pointerContainer.getBoundingClientRect().height;
+    }
+    return 0;
+  }
+
+  setDownEventListener(listener: (view: PointerView, x: number, y: number) => void): void {
+    this.downEventListener = listener;
+  }
+
+  setMoveEventListener(listener: (view: PointerView, x: number, y: number) => void): void {
+    this.moveEventListener = listener;
+  }
+
+  setUpEventListener(listener: (view: PointerView, x: number, y: number) => void): void {
+    this.upEventListener = listener;
+  }
+
   private setupMouseListeners(): void {
     const pointer = this.container.querySelector('.slider__pointer') as HTMLElement;
     pointer.addEventListener('mousedown', this.handleMouseDown);
-    document.addEventListener('mousemove', this.handleMouseMove);
-    document.addEventListener('mouseup', this.handleMouseUp);
   }
 
-  private handleMouseDown = (): void => {
-    this.pressed = true;
+  private handleMouseDown = (evt: MouseEvent): void => {
+    if (this.downEventListener) {
+      this.downEventListener(this, evt.clientX, evt.clientY);
+    }
+    document.addEventListener('mousemove', this.handleMouseMove);
+    document.addEventListener('mouseup', this.handleMouseUp);
   };
 
   private handleMouseMove = (evt: MouseEvent): void => {
-    if (this.pressed && this.pointerContainer) {
-      const pointerHalfWidth = this.pointerContainer.offsetWidth / 2;
-      const pointerHalfHeight = this.pointerContainer.offsetHeight / 2;
-      let posX = evt.clientX - this.getSliderBounds().left - pointerHalfWidth;
-      let posY = evt.clientY - this.getSliderBounds().top - pointerHalfHeight;
-      if (posX < -pointerHalfWidth) {
-        posX = -pointerHalfWidth;
-      } else if (posX > this.getSliderBounds().width - pointerHalfWidth) {
-        posX = this.getSliderBounds().width - pointerHalfWidth;
-      }
-      if (posY < -pointerHalfHeight) {
-        posY = -pointerHalfHeight;
-      } else if (posY > this.getSliderBounds().height - pointerHalfHeight) {
-        posY = this.getSliderBounds().height - pointerHalfHeight;
-      }
-      if (this.isVertical) {
-        this.pointerContainer.style.top = `${posY}px`;
-      } else {
-        this.pointerContainer.style.left = `${posX}px`;
-      }
+    if (this.moveEventListener) {
+      this.moveEventListener(this, evt.clientX, evt.clientY);
     }
   };
 
-  private handleMouseUp = (): void => {
-    this.pressed = false;
+  private handleMouseUp = (evt: MouseEvent): void => {
+    if (this.upEventListener) {
+      this.upEventListener(this, evt.clientX, evt.clientY);
+    }
+    document.removeEventListener('mousemove', this.handleMouseMove);
+    document.removeEventListener('mouseup', this.handleMouseUp);
   };
-
-  private getSliderBounds(): DOMRect {
-    return this.container.getBoundingClientRect();
-  }
 }
 
 export default PointerViewImpl;
