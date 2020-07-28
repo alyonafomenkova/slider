@@ -11,6 +11,8 @@ class PointerViewImpl implements PointerView {
 
   private pressed = false;
 
+  private isVertical = false;
+
   constructor(container: Element, presenter: Presenter) {
     this.container = container;
     this.presenter = presenter;
@@ -23,6 +25,7 @@ class PointerViewImpl implements PointerView {
   draw(isVertical: boolean, hasValue: boolean): void {
     const template = '<div class="slider__pointer"></div>';
     this.pointerContainer = Util.createElement(this.container, 'slider__pointer-container', template);
+    this.isVertical = isVertical;
     this.setupMouseListeners();
     if (hasValue) {
       Util.createElement(this.pointerContainer, 'slider__value');
@@ -43,13 +46,24 @@ class PointerViewImpl implements PointerView {
   private handleMouseMove = (evt: MouseEvent): void => {
     if (this.pressed && this.pointerContainer) {
       const pointerHalfWidth = this.pointerContainer.offsetWidth / 2;
+      const pointerHalfHeight = this.pointerContainer.offsetHeight / 2;
       let posX = evt.clientX - this.getSliderBounds().left - pointerHalfWidth;
+      let posY = evt.clientY - this.getSliderBounds().top - pointerHalfHeight;
       if (posX < -pointerHalfWidth) {
         posX = -pointerHalfWidth;
       } else if (posX > this.getSliderBounds().width - pointerHalfWidth) {
         posX = this.getSliderBounds().width - pointerHalfWidth;
       }
-      this.pointerContainer.style.left = `${posX}px`;
+      if (posY < -pointerHalfHeight) {
+        posY = -pointerHalfHeight;
+      } else if (posY > this.getSliderBounds().height - pointerHalfHeight) {
+        posY = this.getSliderBounds().height - pointerHalfHeight;
+      }
+      if (this.isVertical) {
+        this.pointerContainer.style.top = `${posY}px`;
+      } else {
+        this.pointerContainer.style.left = `${posX}px`;
+      }
     }
   };
 
