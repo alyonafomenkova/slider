@@ -3,7 +3,6 @@ import Presenter from '../../presenter/Presenter';
 import Util from '../../util/Util';
 
 class ScaleViewImpl implements ScaleView {
-  //private readonly ELEMENT_SPACE_COEFFICIENT = 0.025;
   private readonly ELEMENT_SPACE_COEFFICIENT = 0.025;
 
   private readonly container: Element;
