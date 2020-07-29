@@ -1,4 +1,3 @@
-include ../components/slider/slider
 include ../components/settings-panel/settings-panel
 
 doctype html
@@ -16,7 +15,12 @@ html(lang="en")
     main.demo
       h1.demo__title Plugin demo
       div.demo__component-wrapper
-        div.demo__slider-wrapper
-          +slider({'min': '0', 'max': '100', 'step': '1'})
         div.demo__panel-wrapper
-          +settings-panel()
+          +settings-panel({'index': '0'})
+        div.demo__slider-wrapper
+          div.slider
+      div.demo__component-wrapper
+        div.demo__panel-wrapper
+          +settings-panel({'index': '1'})
+        div.demo__slider-wrapper
+          div.slider

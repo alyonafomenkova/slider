@@ -12,14 +12,20 @@ html {
 }
 
 .demo__component-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
   padding: 2rem;
+  margin-bottom: 3rem;
   background-color: #CCE7E8;
 }
 
-.demo__slider-wrapper {
-  max-width: 770px;
+.demo__panel-wrapper {
+  max-width: 490px;
+  margin-bottom: 2.5rem;
 }
 
-.demo__panel-wrapper {
-  margin-top: 2.75rem;
+.demo__slider-wrapper {
+  width: 40%;
 }
