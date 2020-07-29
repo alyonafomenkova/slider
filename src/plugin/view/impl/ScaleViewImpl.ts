@@ -3,6 +3,7 @@ import Presenter from '../../presenter/Presenter';
 import Util from '../../util/Util';
 
 class ScaleViewImpl implements ScaleView {
+  //private readonly ELEMENT_SPACE_COEFFICIENT = 0.025;
   private readonly ELEMENT_SPACE_COEFFICIENT = 0.025;
 
   private readonly container: Element;
@@ -29,9 +30,9 @@ class ScaleViewImpl implements ScaleView {
 
   private getElementsCount(isVertical: boolean): number {
     if (isVertical) {
-      return (this.container as HTMLElement).offsetHeight * this.ELEMENT_SPACE_COEFFICIENT;
+      return Math.floor((this.container as HTMLElement).offsetHeight * this.ELEMENT_SPACE_COEFFICIENT);
     }
-    return (this.container as HTMLElement).offsetWidth * this.ELEMENT_SPACE_COEFFICIENT;
+    return Math.floor((this.container as HTMLElement).offsetWidth * this.ELEMENT_SPACE_COEFFICIENT);
   }
 
   private buildElements(min: number, max: number, count: number): void {
