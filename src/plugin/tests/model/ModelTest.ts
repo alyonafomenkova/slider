@@ -112,7 +112,8 @@ describe('Validate configuration', () => {
     };
 
     // eslint-disable-next-line no-new
-    expect(() => { new Model(configuration); }).toThrow(new Error('CurrentValueFrom must be less than max, but more than min!'));
+    expect(() => { new Model(configuration); })
+      .toThrow(new Error('CurrentValueFrom must be less than max, but more than min!'));
   });
 
   it('From > max', () => {
@@ -129,7 +130,8 @@ describe('Validate configuration', () => {
     };
 
     // eslint-disable-next-line no-new
-    expect(() => { new Model(configuration); }).toThrow(new Error('CurrentValueFrom must be less than max, but more than min!'));
+    expect(() => { new Model(configuration); })
+      .toThrow(new Error('CurrentValueFrom must be less than max, but more than min!'));
   });
 
   it('To < min', () => {
@@ -146,7 +148,8 @@ describe('Validate configuration', () => {
     };
 
     // eslint-disable-next-line no-new
-    expect(() => { new Model(configuration); }).toThrow(new Error('CurrentValueTo must be less than max, but more than min!'));
+    expect(() => { new Model(configuration); })
+      .toThrow(new Error('CurrentValueTo must be less than max, but more than min!'));
   });
 
   it('To > max', () => {
@@ -163,7 +166,8 @@ describe('Validate configuration', () => {
     };
 
     // eslint-disable-next-line no-new
-    expect(() => { new Model(configuration); }).toThrow(new Error('CurrentValueTo must be less than max, but more than min!'));
+    expect(() => { new Model(configuration); })
+      .toThrow(new Error('CurrentValueTo must be less than max, but more than min!'));
   });
 
   it('To < from', () => {
@@ -180,7 +184,57 @@ describe('Validate configuration', () => {
     };
 
     // eslint-disable-next-line no-new
-    expect(() => { new Model(configuration); }).toThrow(new Error('CurrentValueTo must be more than currentValueFrom!'));
+    expect(() => { new Model(configuration); })
+      .toThrow(new Error('CurrentValueTo must be more than currentValueFrom!'));
+  });
+});
+
+describe('Get values', () => {
+  const model = new Model(testConfiguration);
+
+  it('Get min', () => {
+    const min = model.getMin();
+    expect(min).toEqual(0);
+  });
+
+  it('Get max', () => {
+    const max = model.getMax();
+    expect(max).toEqual(100);
+  });
+
+  it('Get step', () => {
+    const step = model.getStep();
+    expect(step).toEqual(10);
+  });
+
+  it('Get from', () => {
+    const from = model.getFrom();
+    expect(from).toEqual(20);
+  });
+
+  it('Get to', () => {
+    const to = model.getTo();
+    expect(to).toEqual(70);
+  });
+
+  it('Get isVertical', () => {
+    const isVertical = model.isVerticalOrientation();
+    expect(isVertical).toEqual(false);
+  });
+
+  it('Get isInterval', () => {
+    const hasInterval = model.isInterval();
+    expect(hasInterval).toEqual(true);
+  });
+
+  it('Get hasValue', () => {
+    const hasValue = model.isValue();
+    expect(hasValue).toEqual(true);
+  });
+
+  it('Get hasScale', () => {
+    const hasScale = model.isScale();
+    expect(hasScale).toEqual(true);
   });
 });
 
