@@ -1,32 +1,32 @@
-mixin settings-panel()
+mixin settings-panel(settings)
   form.settings-panel
     fieldset.settings-panel__fieldset
       legend.settings-panel__fieldset-title Orientation
       div.settings-panel__fieldset-inputs-wrapper
         div
-          input(type = 'radio' name='orientation' id = 'vertical')
-          label(for = 'vertical') Vertical
+          input(type = 'radio' name='orientation' id = `vertical_` + settings.index)
+          label(for = `vertical_` + settings.index) Vertical
         div
-          input(type = 'radio' name='orientation' id = 'horizontal' checked)
-          label(for = 'horizontal') Horizontal
+          input(type = 'radio' name='orientation' id = `horizontal_` + settings.index checked)
+          label(for = `horizontal_` + settings.index) Horizontal
     fieldset.settings-panel__fieldset
       legend.settings-panel__fieldset-title Type
       div.settings-panel__fieldset-inputs-wrapper
         div
-          input(type = 'radio' name='type' id = 'single' checked)
-          label(for = 'single') Single
+          input(type = 'radio' name='type' id = 'single_' + settings.index checked)
+          label(for = 'single_' + settings.index) Single
         div
-          input(type = 'radio' name='type' id = 'interval')
-          label(for = 'interval') Interval
+          input(type = 'radio' name='type' id = 'interval_' + settings.index)
+          label(for = 'interval_' + settings.index) Interval
     fieldset.settings-panel__fieldset
       legend.settings-panel__fieldset-title Additional
       div.settings-panel__fieldset-inputs-wrapper
         div
-          input(type = 'checkbox' name='scale' id = 'scale' checked)
-          label(for = 'scale') Scale
+          input(type = 'checkbox' name='scale' id = 'scale_' + settings.index checked)
+          label(for = 'scale_' + settings.index) Scale
         div
-          input(type = 'checkbox' name='pointer' id = 'pointer' checked)
-          label(for = 'pointer') Pointer
+          input(type = 'checkbox' name='pointer' id = 'pointer_' + settings.index checked)
+          label(for = 'pointer_' + settings.index) Pointer
     div.settings-panel__values
       label.settings-panel__values-label MIN
         input.settings-panel__values-input(type='number' name='min' min='0' max='100')
@@ -34,7 +34,8 @@ mixin settings-panel()
         input.settings-panel__values-input(type='number' name='max' min='0')
       label.settings-panel__values-label Step
         input.settings-panel__values-input(type='number' name='step' min='0')
-      label.settings-panel__values-label Current Value_1
-        input.settings-panel__values-input(type='number' name='value1' min='0')
-      label.settings-panel__values-label Current Value_2
-        input.settings-panel__values-input(type='number' name='value2' min='0')
+      div.settings-panel__current-values-wrapper
+        label.settings-panel__values-label Current Value_1
+          input.settings-panel__values-input(type='number' name='value1' min='0')
+        label.settings-panel__values-label Current Value_2
+          input.settings-panel__values-input(type='number' name='value2' min='0')
