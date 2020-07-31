@@ -5,9 +5,9 @@ import Util from '../../util/Util';
 class PointerViewImpl implements PointerView {
   private readonly container: Element;
 
-  private hasValue?: boolean = undefined;
-
   private readonly presenter: Presenter;
+
+  private hasValue?: boolean = undefined;
 
   private pointerContainer?: HTMLElement = undefined;
 
@@ -17,7 +17,7 @@ class PointerViewImpl implements PointerView {
 
   private upEventListener?: (view: PointerView, x: number, y: number) => void = undefined;
 
-  constructor(container: Element, presenter: Presenter) {
+  constructor(id: string, container: Element, presenter: Presenter) {
     this.container = container;
     this.presenter = presenter;
   }
@@ -38,10 +38,15 @@ class PointerViewImpl implements PointerView {
 
   setValue(value: number): void {
     if (this.hasValue) {
-      const container = this.container.querySelector('.slider__value');
-      if (container) {
-        console.log('[VIEW setValue] value:', value);
-        container.innerHTML = String(value);
+      if (this.pointerContainer) {
+        const container = this.pointerContainer.querySelector('.slider__value');
+
+        if (container) {
+          console.log('[VIEW setValue] value:', value);
+          container.innerHTML = String(value);
+        }
+      } else {
+        throw new Error('Pointer container is null');
       }
     }
   }
@@ -99,8 +104,12 @@ class PointerViewImpl implements PointerView {
   }
 
   private setupMouseListeners(): void {
-    const pointer = this.container.querySelector('.slider__pointer') as HTMLElement;
-    pointer.addEventListener('mousedown', this.handleMouseDown);
+    if (this.pointerContainer) {
+      const pointer = this.pointerContainer.querySelector('.slider__pointer') as HTMLElement;
+      pointer.addEventListener('mousedown', this.handleMouseDown);
+    } else {
+      throw new Error('Pointer container is null');
+    }
   }
 
   private handleMouseDown = (evt: MouseEvent): void => {

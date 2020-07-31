@@ -45,15 +45,26 @@ class Presenter {
     this.model.attachValueFrom((value: number): void => {
       if (this.pointerFromView) {
         this.pointerFromView.setValue(value);
-        console.log(`[attachValueFrom] Value from = ${value}`); //
       }
     });
 
-    this.model.attachValueTo((value: number): void => {
-      console.log(`[attachValueTo] Value to = ${value}`);
-    });
+    this.setupPositionByValue(pointerFromView, this.model.getFrom());
 
-    this.setupPositionByValue(pointerFromView, this.model.getFrom());//
+    if (this.model.isInterval()) { //
+      pointerToView.draw(this.model.isValue());
+      pointerToView.setDownEventListener(this.pointerDownEventListener);
+      pointerToView.setMoveEventListener(this.pointerMoveEventListener);
+      pointerToView.setUpEventListener(this.pointerUpEventListener);
+
+      this.model.attachValueTo((value: number): void => {
+        if (this.pointerToView) {
+          this.pointerToView.setValue(value);
+          console.log(`[attachValueTo] Value to = ${value}`); //
+        }
+      });
+
+      this.setupPositionByValue(pointerToView, this.model.getTo());//
+    } //
   }
 
   private pointerDownEventListener = (view: PointerView, x: number, y: number): void => {
@@ -113,7 +124,7 @@ class Presenter {
     return undefined;
   };
 
-  setupPositionByValue(view: PointerView, value: number): number | undefined {
+  private setupPositionByValue(view: PointerView, value: number): number | undefined {
     if (this.sliderView) {
       console.log('calculatePosition');
       const min = this.model.getMin();

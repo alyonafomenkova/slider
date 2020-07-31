@@ -8,11 +8,11 @@ import PointerViewImpl from './view/impl/PointerViewImpl';
 import ScaleViewImpl from './view/impl/ScaleViewImpl';
 
 const verticalConfiguration = {
-  min: 0,
-  max: 100,
-  step: 10,
+  min: 17,
+  max: 71,
+  step: 1,
   from: 20,
-  to: 70,
+  to: 71,
   isVertical: true,
   hasInterval: true,
   hasValue: true,
@@ -20,11 +20,11 @@ const verticalConfiguration = {
 };
 
 const horizontalConfiguration = {
-  min: 10,
-  max: 75,
-  step: 5,
+  min: 17,
+  max: 70,
+  step: 1,
   from: 20,
-  to: 65,
+  to: 70,
   isVertical: false,
   hasInterval: true,
   hasValue: true,
@@ -37,15 +37,15 @@ const horizontalConfiguration = {
 // eslint-disable-next-line func-names
 (function ($) {
   // создаём свойство-функцию для объекта jQuery. Имя нового свойства -  имя нашего плагина
-  // eslint-disable-next-line func-names
+  // eslint-disable-next-line func-names,no-param-reassign
   $.fn.sliderPlugin = function (): JQuery {
     return this.each((index, element) => {
       const config = index === 0 ? horizontalConfiguration : verticalConfiguration; // DEBUG
       const model = new Model(config);
       const presenter = new Presenter(model);
       const sliderView = new SliderViewImpl(element, presenter);
-      const pointerFromView = new PointerViewImpl(element, presenter);
-      const pointerToView = new PointerViewImpl(element, presenter);
+      const pointerFromView = new PointerViewImpl('from', element, presenter);
+      const pointerToView = new PointerViewImpl('to', element, presenter);
       const scaleView = new ScaleViewImpl(element, presenter);
       presenter.init(sliderView, pointerFromView, pointerToView, scaleView);
     });
