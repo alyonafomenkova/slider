@@ -5,6 +5,8 @@ import Util from '../../util/Util';
 class PointerViewImpl implements PointerView {
   private readonly container: Element;
 
+  private hasValue?: boolean = undefined;
+
   private readonly presenter: Presenter;
 
   private pointerContainer?: HTMLElement = undefined;
@@ -28,8 +30,19 @@ class PointerViewImpl implements PointerView {
     const template = '<div class="slider__pointer"></div>';
     this.pointerContainer = Util.createElement(this.container, 'slider__pointer-container', template);
     this.setupMouseListeners();
+    this.hasValue = hasValue;
     if (hasValue) {
       Util.createElement(this.pointerContainer, 'slider__value');
+    }
+  }
+
+  setValue(value: number): void {
+    if (this.hasValue) {
+      const container = this.container.querySelector('.slider__value');
+      if (container) {
+        console.log('[VIEW setValue] value:', value);
+        container.innerHTML = String(value);
+      }
     }
   }
 
@@ -39,9 +52,9 @@ class PointerViewImpl implements PointerView {
     }
   }
 
-  setY(value: number): void {
+  setY(position: number): void {
     if (this.pointerContainer) {
-      this.pointerContainer.style.top = `${value}px`;
+      this.pointerContainer.style.top = `${position}px`;
     }
   }
 
@@ -55,6 +68,20 @@ class PointerViewImpl implements PointerView {
   getHeight(): number {
     if (this.pointerContainer) {
       return this.pointerContainer.getBoundingClientRect().height;
+    }
+    return 0;
+  }
+
+  getLeft(): number {
+    if (this.pointerContainer) {
+      return this.pointerContainer.getBoundingClientRect().left;
+    }
+    return 0;
+  }
+
+  getTop(): number {
+    if (this.pointerContainer) {
+      return this.pointerContainer.getBoundingClientRect().top;
     }
     return 0;
   }
