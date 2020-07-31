@@ -52,6 +52,8 @@ class Presenter {
     this.model.attachValueTo((value: number): void => {
       console.log(`[attachValueTo] Value to = ${value}`);
     });
+
+    this.setupPositionByValue(pointerFromView, this.model.getFrom());//
   }
 
   private pointerDownEventListener = (view: PointerView, x: number, y: number): void => {
@@ -110,6 +112,31 @@ class Presenter {
     }
     return undefined;
   };
+
+  setupPositionByValue(view: PointerView, value: number): number | undefined {
+    if (this.sliderView) {
+      console.log('calculatePosition');
+      const min = this.model.getMin();
+      const max = this.model.getMax();
+      let posMin;
+      let posMax;
+      let centerOfPointer;
+
+      if (this.model.isVerticalOrientation()) {
+        posMin = this.sliderView.getBoundTop();
+        posMax = this.sliderView.getBoundBottom();
+        centerOfPointer = (((value - min) * (posMin - posMax)) / (max - min)) + posMax;
+        this.setPointerY(view, centerOfPointer);
+      } else {
+        posMin = this.sliderView.getBoundLeft();
+        posMax = this.sliderView.getBoundRight();
+        centerOfPointer = (((value - min) * (posMax - posMin)) / (max - min)) + posMin;
+        this.setPointerX(view, centerOfPointer);
+      }
+      if (centerOfPointer) { return centerOfPointer; }
+    }
+    return undefined;
+  }
 
   private setPointerX(view: PointerView, x: number) {
     if (this.sliderView) {
