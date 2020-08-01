@@ -198,7 +198,6 @@ class Presenter {
 
   private setPointerX(view: PointerView, x: number) {
     if (this.sliderView) {
-      const pointerHalfWidth = view.getWidth() / 2;
       let posX = x - this.sliderView.getBoundLeft();
       const xMin = 0;
       const xMax = this.sliderView.getWidth();
@@ -211,7 +210,8 @@ class Presenter {
       } else if (posX < xMin) {
         posX = xMin;
       }
-      view.setX(posX - pointerHalfWidth);
+      const percent = (posX / this.sliderView.getWidth()) * 100;
+      view.setX(percent);
     }
   }
 

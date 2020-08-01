@@ -53,13 +53,14 @@ class PointerViewImpl implements PointerView {
 
   setX(value: number): void {
     if (this.pointerContainer) {
-      this.pointerContainer.style.left = `${value}px`;
+      this.pointerContainer.style.transform = 'translate(-50%, 0)';
+      this.pointerContainer.style.left = `${value}%`;
     }
   }
 
   setY(position: number): void {
     if (this.pointerContainer) {
-      this.pointerContainer.style.top = `${position}px`;
+      this.pointerContainer.style.top = `${position}%`;
     }
   }
 
