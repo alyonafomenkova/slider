@@ -165,22 +165,24 @@ class Model {
   }
 
   setFrom(value: number): void {
+    const min = this.min.getValue();
     const max = this.max.getValue();
-    const step = this.step.getValue();
     const to = this.to.getValue();
-    const from = Math.round(value / step) * step;
     const hasInterval = this.hasInterval.getValue();
 
+    if (value > max) {
+      this.from.setValue(max);
+    } else if (value < min) {
+      this.from.setValue(min);
+    } else {
+      this.from.setValue(value);
+    }
     if (hasInterval) {
       if (value > to) {
         this.from.setValue(to);
       } else {
-        this.from.setValue(from);
+        this.from.setValue(value);
       }
-    } else if (value > max) {
-      this.from.setValue(max);
-    } else {
-      this.from.setValue(from);
     }
   }
 
@@ -189,18 +191,24 @@ class Model {
   }
 
   setTo(value: number): void {
+    const min = this.min.getValue();
     const max = this.max.getValue();
     const from = this.from.getValue();
-    const step = this.step.getValue();
-    const to = Math.round(value / step) * step;
+    const hasInterval = this.hasInterval.getValue();
 
-    if (value < from) {
-      this.to.setValue(from);
-    } else {
-      this.to.setValue(to);
-    }
     if (value > max) {
       this.to.setValue(max);
+    } else if (value < min) {
+      this.to.setValue(min);
+    } else {
+      this.to.setValue(value);
+    }
+    if (hasInterval) {
+      if (value < from) {
+        this.to.setValue(from);
+      } else {
+        this.to.setValue(value);
+      }
     }
   }
 

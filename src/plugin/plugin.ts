@@ -20,13 +20,13 @@ const verticalConfiguration = {
 };
 
 const horizontalConfiguration = {
-  min: 17,
-  max: 70,
-  step: 1,
-  from: 20,
-  to: 70,
+  min: -0.5,
+  max: 0.5,
+  step: 0.1,
+  from: -0.5,
+  to: 0.5,
   isVertical: false,
-  hasInterval: true,
+  hasInterval: false,
   hasValue: true,
   hasScale: true,
 };

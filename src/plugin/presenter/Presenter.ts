@@ -16,6 +16,40 @@ class Presenter {
     this.model = model;
   }
 
+  private initPointerFrom(view: PointerView):void {
+    view.draw(this.model.isValue());
+    view.setDownEventListener(this.pointerDownEventListener);
+    view.setMoveEventListener(this.pointerMoveEventListener);
+    view.setUpEventListener(this.pointerUpEventListener);
+
+    this.model.attachValueFrom((value: number): void => {
+      if (this.pointerFromView) {
+        this.pointerFromView.setValue(value);
+      }
+    });
+
+    this.setupPositionByValue(view, this.model.getFrom());
+    this.calculateValue(view);
+  }
+
+  private initPointerTo(view: PointerView): void {
+    if (this.model.isInterval()) {
+      view.draw(this.model.isValue());
+      view.setDownEventListener(this.pointerDownEventListener);
+      view.setMoveEventListener(this.pointerMoveEventListener);
+      view.setUpEventListener(this.pointerUpEventListener);
+
+      this.model.attachValueTo((value: number): void => {
+        if (this.pointerToView) {
+          this.pointerToView.setValue(value);
+        }
+      });
+
+      this.setupPositionByValue(view, this.model.getTo());
+      this.calculateValue(view);
+    }
+  }
+
   init(sliderView: SliderView, pointerFromView: PointerView, pointerToView: PointerView, scaleView: ScaleView): void {
     this.sliderView = sliderView;
     this.pointerFromView = pointerFromView;
@@ -37,34 +71,8 @@ class Presenter {
       }
     }
 
-    pointerFromView.draw(this.model.isValue());
-    pointerFromView.setDownEventListener(this.pointerDownEventListener);
-    pointerFromView.setMoveEventListener(this.pointerMoveEventListener);
-    pointerFromView.setUpEventListener(this.pointerUpEventListener);
-
-    this.model.attachValueFrom((value: number): void => {
-      if (this.pointerFromView) {
-        this.pointerFromView.setValue(value);
-      }
-    });
-
-    this.setupPositionByValue(pointerFromView, this.model.getFrom());
-
-    if (this.model.isInterval()) { //
-      pointerToView.draw(this.model.isValue());
-      pointerToView.setDownEventListener(this.pointerDownEventListener);
-      pointerToView.setMoveEventListener(this.pointerMoveEventListener);
-      pointerToView.setUpEventListener(this.pointerUpEventListener);
-
-      this.model.attachValueTo((value: number): void => {
-        if (this.pointerToView) {
-          this.pointerToView.setValue(value);
-          console.log(`[attachValueTo] Value to = ${value}`); //
-        }
-      });
-
-      this.setupPositionByValue(pointerToView, this.model.getTo());//
-    } //
+    this.initPointerFrom(pointerFromView);
+    this.initPointerTo(pointerToView);
   }
 
   private pointerDownEventListener = (view: PointerView, x: number, y: number): void => {
@@ -80,49 +88,53 @@ class Presenter {
   };
 
   private setPointerPosition(view: PointerView, x: number, y: number) {
-    const value = this.calculateValue(view);
     if (this.model.isVerticalOrientation()) {
-      console.log('setPointerPosition value: ', value);//
       this.setPointerY(view, y);
     } else {
-      console.log('setPointerPosition value: ', value);//
       this.setPointerX(view, x);
     }
+    this.calculateValue(view);
   }
 
-  private calculateValue = (view: PointerView): number | undefined => {
+  private calculateValue(view: PointerView): void {
     if (this.sliderView) {
       const pointerHalfWidth = view.getWidth() / 2;
       const pointerHalfHeight = view.getHeight() / 2;
       const min = this.model.getMin();
       const max = this.model.getMax();
+      const step = this.model.getStep();
       let centerOfPointer;
       let posMin;
       let posMax;
       let value;
 
       if (this.model.isVerticalOrientation()) {
-        centerOfPointer = view.getTop() + pointerHalfHeight;
-        posMin = this.sliderView.getBoundTop();
-        posMax = this.sliderView.getBoundBottom();
-        value = (((max - min) * (centerOfPointer - posMax)) / (posMin - posMax)) + min;
+        // centerOfPointer = view.getTop() + pointerHalfHeight;
+        // posMin = this.sliderView.getBoundTop();
+        // posMax = this.sliderView.getBoundBottom();
+        // value = (((max - min) * (centerOfPointer - posMax)) / (posMin - posMax)) + min;
+        value = -1;
       } else {
-        centerOfPointer = view.getLeft() + pointerHalfWidth;
-        posMin = this.sliderView.getBoundLeft();
-        posMax = this.sliderView.getBoundRight();
-        value = (((max - min) * (centerOfPointer - posMin)) / (posMax - posMin)) + min;
-      }
-      if (value) {
-        if (view === this.pointerFromView) {
-          this.model.setFrom(value);
+        const posX = view.getLeft() + pointerHalfWidth - this.sliderView.getBoundLeft();
+        const stepsTotal = (max - min) / step;
+        const stepWidth = this.sliderView.getWidth() / stepsTotal;
+
+        if (posX < this.sliderView.getWidth()) {
+          value = Math.round(posX / stepWidth) * step + min;
         } else {
-          this.model.setTo(value);
+          value = max;
         }
-        return value;
       }
+
+      if (view === this.pointerFromView) {
+        this.model.setFrom(value);
+      } else {
+        this.model.setTo(value);
+      }
+    } else {
+      throw new Error('Slider view is undefined');
     }
-    return undefined;
-  };
+  }
 
   private setupPositionByValue(view: PointerView, value: number): number | undefined {
     if (this.sliderView) {
@@ -152,14 +164,21 @@ class Presenter {
   private setPointerX(view: PointerView, x: number) {
     if (this.sliderView) {
       const pointerHalfWidth = view.getWidth() / 2;
-      let posX = x - this.sliderView.getBoundLeft() - pointerHalfWidth;
+      let posX = x - this.sliderView.getBoundLeft();
+      const xMin = 0;
+      const xMax = this.sliderView.getWidth();
+      const stepCount = (this.model.getMax() - this.model.getMin()) / this.model.getStep();
+      const stepX = this.sliderView.getWidth() / stepCount;
 
-      if (posX < -pointerHalfWidth) {
-        posX = -pointerHalfWidth;
-      } else if (posX > this.sliderView.getWidth() - pointerHalfWidth) {
-        posX = this.sliderView.getWidth() - pointerHalfWidth;
+      if (posX < xMax) {
+        posX = Math.round(posX / stepX) * stepX;
+      } else {
+        posX = xMax;
       }
-      view.setX(posX);
+      if (posX < xMin) {
+        posX = xMin;
+      }
+      view.setX(posX - pointerHalfWidth);
     }
   }
 
