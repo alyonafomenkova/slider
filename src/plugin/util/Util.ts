@@ -1,4 +1,6 @@
 class Util {
+  private static ROUND_PRECISION = 1000;
+
   static addClassName(element: Element, className: string): void {
     element.classList.add(className);
   }
@@ -11,6 +13,10 @@ class Util {
     }
     container.append(element);
     return element;
+  }
+
+  static roundWithEpsilon(value: number): number {
+    return Math.round((value + Number.EPSILON) * Util.ROUND_PRECISION) / Util.ROUND_PRECISION;
   }
 }
 
