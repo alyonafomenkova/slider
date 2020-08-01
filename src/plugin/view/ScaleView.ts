@@ -1,6 +1,8 @@
+import ScaleItem from './ScaleItem';
+
 interface ScaleView {
   clear(): void;
-  draw(min: number, max: number, isVertical: boolean): void;
+  addItems(items: Array<ScaleItem>, isVertical: boolean): void;
 }
 
 export default ScaleView;

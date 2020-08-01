@@ -2,8 +2,12 @@ import Model from '../model/Model';
 import SliderView from '../view/SliderView';
 import PointerView from '../view/PointerView';
 import ScaleView from '../view/ScaleView';
+import ScaleItem from '../view/ScaleItem';
+import Util from '../util/Util';
 
 class Presenter {
+  private readonly MAX_SCALE_ITEMS_STEP = 26;
+
   private model: Model;
 
   private sliderView?: SliderView = undefined;
@@ -54,25 +58,55 @@ class Presenter {
     this.sliderView = sliderView;
     this.pointerFromView = pointerFromView;
     this.pointerToView = pointerToView;
-    const min = this.model.getMin();
-    const max = this.model.getMax();
 
     if (this.model.isVerticalOrientation()) {
       sliderView.clear();
       sliderView.drawVertical();
       if (this.model.isScale()) {
-        scaleView.draw(min, max, true);
+        this.setupScale(scaleView);
       }
     } else {
       sliderView.clear();
       sliderView.drawHorizontal();
       if (this.model.isScale()) {
-        scaleView.draw(min, max, false);
+        this.setupScale(scaleView);
       }
     }
 
     this.initPointerFrom(pointerFromView);
     this.initPointerTo(pointerToView);
+  }
+
+  private setupScale(view: ScaleView): void {
+    if (this.sliderView) {
+      const items: Array<ScaleItem> = [];
+      const min = this.model.getMin();
+      const max = this.model.getMax();
+      const sliderWidth = this.sliderView.getWidth();
+      const step = this.model.getStep();
+      const count = Math.floor((max - min) / step);
+      const stepWidth = sliderWidth / count;
+      const itemStep = this.getItemsStep(stepWidth);
+
+      for (let i = 0; i <= count; i += itemStep) {
+        const value = min + step * i;
+        const rounded = Util.roundWithEpsilon(value);
+        const percent = ((value - min) * 100) / (max - min);
+        items.push(new ScaleItem(rounded, percent));
+      }
+      view.addItems(items, false);
+    }
+  }
+
+  private getItemsStep(stepWidth: number): number {
+    let step = 1;
+    let width = stepWidth;
+
+    while (width < this.MAX_SCALE_ITEMS_STEP) {
+      width *= 2;
+      step *= 2;
+    }
+    return step;
   }
 
   private pointerDownEventListener = (view: PointerView, x: number, y: number): void => {
@@ -125,11 +159,12 @@ class Presenter {
           value = max;
         }
       }
+      const rounded = Util.roundWithEpsilon(value);
 
       if (view === this.pointerFromView) {
-        this.model.setFrom(value);
+        this.model.setFrom(rounded);
       } else {
-        this.model.setTo(value);
+        this.model.setTo(rounded);
       }
     } else {
       throw new Error('Slider view is undefined');
@@ -169,13 +204,11 @@ class Presenter {
       const xMax = this.sliderView.getWidth();
       const stepCount = (this.model.getMax() - this.model.getMin()) / this.model.getStep();
       const stepX = this.sliderView.getWidth() / stepCount;
+      posX = Math.round(posX / stepX) * stepX;
 
-      if (posX < xMax) {
-        posX = Math.round(posX / stepX) * stepX;
-      } else {
+      if (posX > xMax) {
         posX = xMax;
-      }
-      if (posX < xMin) {
+      } else if (posX < xMin) {
         posX = xMin;
       }
       view.setX(posX - pointerHalfWidth);
