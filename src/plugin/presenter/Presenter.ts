@@ -83,18 +83,19 @@ class Presenter {
       const min = this.model.getMin();
       const max = this.model.getMax();
       const sliderWidth = this.sliderView.getWidth();
+      const sliderHeight = this.sliderView.getHeight();
       const step = this.model.getStep();
       const count = Math.floor((max - min) / step);
-      const stepWidth = sliderWidth / count;
+      const isVertical = this.model.isVerticalOrientation();
+      const stepWidth = isVertical ? (sliderHeight / count) : (sliderWidth / count);
       const itemStep = this.getItemsStep(stepWidth);
-
       for (let i = 0; i <= count; i += itemStep) {
         const value = min + step * i;
         const rounded = Util.roundWithEpsilon(value);
         const percent = ((value - min) * 100) / (max - min);
         items.push(new ScaleItem(rounded, percent));
       }
-      view.addItems(items, false);
+      view.addItems(items, isVertical);
     }
   }
 
@@ -137,17 +138,18 @@ class Presenter {
       const min = this.model.getMin();
       const max = this.model.getMax();
       const step = this.model.getStep();
-      let centerOfPointer;
-      let posMin;
-      let posMax;
       let value;
 
       if (this.model.isVerticalOrientation()) {
-        // centerOfPointer = view.getTop() + pointerHalfHeight;
-        // posMin = this.sliderView.getBoundTop();
-        // posMax = this.sliderView.getBoundBottom();
-        // value = (((max - min) * (centerOfPointer - posMax)) / (posMin - posMax)) + min;
-        value = -1;
+        const posY = view.getTop() + pointerHalfHeight - this.sliderView.getBoundTop();
+        const stepsTotal = (max - min) / step;
+        const stepHeight = this.sliderView.getHeight() / stepsTotal;
+
+        if (posY < this.sliderView.getHeight()) {
+          value = max - Math.round(posY / stepHeight) * step;
+        } else {
+          value = min;
+        }
       } else {
         const posX = view.getLeft() + pointerHalfWidth - this.sliderView.getBoundLeft();
         const stepsTotal = (max - min) / step;
@@ -173,7 +175,6 @@ class Presenter {
 
   private setupPositionByValue(view: PointerView, value: number): number | undefined {
     if (this.sliderView) {
-      console.log('calculatePosition');
       const min = this.model.getMin();
       const max = this.model.getMax();
       let posMin;
@@ -201,7 +202,10 @@ class Presenter {
       let posX = x - this.sliderView.getBoundLeft();
       const xMin = 0;
       const xMax = this.sliderView.getWidth();
-      const stepCount = (this.model.getMax() - this.model.getMin()) / this.model.getStep();
+      const min = this.model.getMin();
+      const max = this.model.getMax();
+      const step = this.model.getStep();
+      const stepCount = (max - min) / step;
       const stepX = this.sliderView.getWidth() / stepCount;
       posX = Math.round(posX / stepX) * stepX;
 
@@ -217,15 +221,23 @@ class Presenter {
 
   private setPointerY(view: PointerView, y: number) {
     if (this.sliderView) {
-      const pointerHalfHeight = view.getHeight() / 2;
-      let posY = y - this.sliderView.getBoundTop() - pointerHalfHeight;
+      let posY = y - this.sliderView.getBoundTop();
+      const yMin = 0;
+      const yMax = this.sliderView.getHeight();
+      const min = this.model.getMin();
+      const max = this.model.getMax();
+      const step = this.model.getStep();
+      const stepCount = (max - min) / step;
+      const stepY = this.sliderView.getHeight() / stepCount;
+      posY = Math.round(posY / stepY) * stepY;
 
-      if (posY < -pointerHalfHeight) {
-        posY = -pointerHalfHeight;
-      } else if (posY > this.sliderView.getHeight() - pointerHalfHeight) {
-        posY = this.sliderView.getHeight() - pointerHalfHeight;
+      if (posY > yMax) {
+        posY = yMax;
+      } else if (posY < yMin) {
+        posY = yMin;
       }
-      view.setY(posY);
+      const percent = (posY / this.sliderView.getHeight()) * 100;
+      view.setY(percent);
     }
   }
 }

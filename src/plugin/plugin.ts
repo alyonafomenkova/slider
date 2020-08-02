@@ -8,13 +8,13 @@ import PointerViewImpl from './view/impl/PointerViewImpl';
 import ScaleViewImpl from './view/impl/ScaleViewImpl';
 
 const verticalConfiguration = {
-  min: 17,
-  max: 71,
-  step: 1,
+  min: 0,
+  max: 100,
+  step: 10,
   from: 20,
-  to: 71,
+  to: 77,
   isVertical: true,
-  hasInterval: true,
+  hasInterval: false,
   hasValue: true,
   hasScale: true,
 };

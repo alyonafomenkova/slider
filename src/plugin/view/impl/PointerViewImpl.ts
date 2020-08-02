@@ -42,11 +42,11 @@ class PointerViewImpl implements PointerView {
         const container = this.pointerContainer.querySelector('.slider__value');
 
         if (container) {
-          console.log('[VIEW setValue] value:', value);
+          console.log('[VIEW setValue] value:', value); //
           container.innerHTML = String(value);
         }
       } else {
-        throw new Error('Pointer container is null');
+        throw new Error('Pointer container is undefined.');
       }
     }
   }
@@ -58,9 +58,10 @@ class PointerViewImpl implements PointerView {
     }
   }
 
-  setY(position: number): void {
+  setY(value: number): void {
     if (this.pointerContainer) {
-      this.pointerContainer.style.top = `${position}%`;
+      this.pointerContainer.style.transform = 'translate(0, -50%)';
+      this.pointerContainer.style.top = `${value}%`;
     }
   }
 
