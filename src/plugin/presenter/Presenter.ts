@@ -138,6 +138,8 @@ class Presenter {
       const min = this.model.getMin();
       const max = this.model.getMax();
       const step = this.model.getStep();
+      const from = this.model.getFrom();
+      const to = this.model.getTo();
       let value;
 
       if (this.model.isVerticalOrientation()) {
@@ -155,7 +157,7 @@ class Presenter {
         const stepsTotal = (max - min) / step;
         const stepWidth = this.sliderView.getWidth() / stepsTotal;
 
-        if (posX < this.sliderView.getWidth()) {
+        if (Math.floor(posX) < Math.floor(this.sliderView.getWidth())) {
           value = Math.round(posX / stepWidth) * step + min;
         } else {
           value = max;
@@ -164,9 +166,9 @@ class Presenter {
       const rounded = Util.roundWithEpsilon(value);
 
       if (view === this.pointerFromView) {
-        this.model.setFrom(rounded);
+        this.model.setFrom(rounded > to ? to : rounded);
       } else {
-        this.model.setTo(rounded);
+        this.model.setTo(rounded < from ? from : rounded);
       }
     } else {
       throw new Error('Slider view is undefined');
@@ -192,7 +194,9 @@ class Presenter {
         centerOfPointer = (((value - min) * (posMax - posMin)) / (max - min)) + posMin;
         this.setPointerX(view, centerOfPointer);
       }
-      if (centerOfPointer) { return centerOfPointer; }
+      if (centerOfPointer) {
+        return centerOfPointer;
+      }
     }
     return undefined;
   }
@@ -207,8 +211,25 @@ class Presenter {
       const step = this.model.getStep();
       const stepCount = (max - min) / step;
       const stepX = this.sliderView.getWidth() / stepCount;
+      const stepsTotal = (max - min) / step;
+      const stepWidth = this.sliderView.getWidth() / stepsTotal;
       posX = Math.round(posX / stepX) * stepX;
 
+      if (this.pointerFromView && this.pointerToView) {
+        if (view === this.pointerFromView) {
+          const pointerToX = ((this.model.getTo() - min) / step) * stepWidth;
+
+          if (posX > pointerToX - stepWidth) {
+            posX = pointerToX - stepWidth;
+          }
+        } else {
+          const pointerFromX = ((this.model.getFrom() - min) / step) * stepWidth;
+
+          if (posX < pointerFromX + stepWidth) {
+            posX = pointerFromX + stepWidth;
+          }
+        }
+      }
       if (posX > xMax) {
         posX = xMax;
       } else if (posX < xMin) {
