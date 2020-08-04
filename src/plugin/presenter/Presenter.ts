@@ -140,21 +140,20 @@ class Presenter {
       const step = this.model.getStep();
       const from = this.model.getFrom();
       const to = this.model.getTo();
+      const stepsTotal = (max - min) / step;
       let value;
 
       if (this.model.isVerticalOrientation()) {
         const posY = view.getTop() + pointerHalfHeight - this.sliderView.getBoundTop();
-        const stepsTotal = (max - min) / step;
         const stepHeight = this.sliderView.getHeight() / stepsTotal;
 
-        if (posY < this.sliderView.getHeight()) {
-          value = max - Math.round(posY / stepHeight) * step;
+        if (Math.floor(posY) === 0) {
+          value = max;
         } else {
-          value = min;
+          value = Math.round((this.sliderView.getHeight() - posY) / stepHeight) * step + min;
         }
       } else {
         const posX = view.getLeft() + pointerHalfWidth - this.sliderView.getBoundLeft();
-        const stepsTotal = (max - min) / step;
         const stepWidth = this.sliderView.getWidth() / stepsTotal;
 
         if (Math.floor(posX) < Math.floor(this.sliderView.getWidth())) {
@@ -250,8 +249,24 @@ class Presenter {
       const step = this.model.getStep();
       const stepCount = (max - min) / step;
       const stepY = this.sliderView.getHeight() / stepCount;
-      posY = Math.round(posY / stepY) * stepY;
+      const stepHeight = this.sliderView.getHeight() / stepCount;
+      const offset = this.sliderView.getHeight() - Math.floor(stepCount) * stepHeight;
+      posY = Math.round((posY - offset) / stepY) * stepY + offset;
 
+      if (this.pointerFromView && this.pointerToView) {
+        if (view === this.pointerFromView) {
+          const pointerToY = Math.abs(((this.model.getTo() - max) / step) * stepHeight);
+          if (posY < pointerToY + stepHeight) {
+            posY = pointerToY + stepHeight;
+          }
+        } else {
+          const pointerFromY = Math.abs(((this.model.getFrom() - max) / step)) * stepHeight;
+
+          if (posY > pointerFromY - stepHeight) {
+            posY = pointerFromY - stepHeight;
+          }
+        }
+      }
       if (posY > yMax) {
         posY = yMax;
       } else if (posY < yMin) {
