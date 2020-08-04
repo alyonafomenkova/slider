@@ -9,24 +9,24 @@ import ScaleViewImpl from './view/impl/ScaleViewImpl';
 
 const verticalConfiguration = {
   min: 0,
-  max: 100,
+  max: 73,
   step: 10,
-  from: 20,
-  to: 77,
+  from: 10,
+  to: 20,
   isVertical: true,
-  hasInterval: false,
+  hasInterval: true,
   hasValue: true,
   hasScale: true,
 };
 
 const horizontalConfiguration = {
   min: 0,
-  max: 100,
-  step: 6,
-  from: 66,
-  to: 100,
+  max: 73,
+  step: 10,
+  from: 10,
+  to: 20,
   isVertical: false,
-  hasInterval: false,
+  hasInterval: true,
   hasValue: true,
   hasScale: true,
 };

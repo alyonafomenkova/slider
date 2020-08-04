@@ -12,13 +12,13 @@ class Model {
 
   private to: Subject<number>;
 
-  private isVertical: Subject<boolean>;
+  private isVertical: Subject<boolean>; // TODO: перенести в Presenter
 
   private hasInterval: Subject<boolean>;
 
-  private hasValue: Subject<boolean>;
+  private hasValue: Subject<boolean>; // TODO: перенести в Presenter
 
-  private hasScale: Subject<boolean>;
+  private hasScale: Subject<boolean>; // TODO: перенести в Presenter
 
   constructor(configuration: Configuration) {
     Model.validateConfiguration(configuration);
@@ -168,6 +168,7 @@ class Model {
     const min = this.min.getValue();
     const max = this.max.getValue();
     const to = this.to.getValue();
+    const step = this.step.getValue();
     const hasInterval = this.hasInterval.getValue();
 
     if (value > max) {
@@ -177,7 +178,10 @@ class Model {
     } else {
       this.from.setValue(value);
     }
-    if (hasInterval) {
+    if (hasInterval) { // TODO поправить тесты
+      if (value === to) {
+        throw new Error('From must be < to!');
+      }
       if (value > to) {
         this.from.setValue(to);
       } else {
@@ -203,7 +207,11 @@ class Model {
     } else {
       this.to.setValue(value);
     }
-    if (hasInterval) {
+
+    if (hasInterval) { // TODO поправить тесты
+      if (value === from) {
+        throw new Error('To must be > from!');
+      }
       if (value < from) {
         this.to.setValue(from);
       } else {

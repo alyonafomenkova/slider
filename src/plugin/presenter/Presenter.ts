@@ -140,6 +140,7 @@ class Presenter {
       const step = this.model.getStep();
       const from = this.model.getFrom();
       const to = this.model.getTo();
+      const isInterval = this.model.isInterval();
       const stepsTotal = (max - min) / step;
       let value;
 
@@ -165,7 +166,11 @@ class Presenter {
       const rounded = Util.roundWithEpsilon(value);
 
       if (view === this.pointerFromView) {
-        this.model.setFrom(rounded > to ? to : rounded);
+        if (isInterval) {
+          this.model.setFrom(rounded > to ? to : rounded);
+        } else {
+          this.model.setFrom(rounded);
+        }
       } else {
         this.model.setTo(rounded < from ? from : rounded);
       }
@@ -212,9 +217,13 @@ class Presenter {
       const stepX = this.sliderView.getWidth() / stepCount;
       const stepsTotal = (max - min) / step;
       const stepWidth = this.sliderView.getWidth() / stepsTotal;
+      const isInterval = this.model.isInterval() && this.pointerFromView && this.pointerToView;
+      console.log('isInterval: ', isInterval);//
       posX = Math.round(posX / stepX) * stepX;
 
-      if (this.pointerFromView && this.pointerToView) {
+
+      if (isInterval) {
+        console.log('Да, это интервал');
         if (view === this.pointerFromView) {
           const pointerToX = ((this.model.getTo() - min) / step) * stepWidth;
 
@@ -251,9 +260,11 @@ class Presenter {
       const stepY = this.sliderView.getHeight() / stepCount;
       const stepHeight = this.sliderView.getHeight() / stepCount;
       const offset = this.sliderView.getHeight() - Math.floor(stepCount) * stepHeight;
+      const isInterval = this.model.isInterval() && this.pointerFromView && this.pointerToView;
       posY = Math.round((posY - offset) / stepY) * stepY + offset;
 
-      if (this.pointerFromView && this.pointerToView) {
+      if (isInterval) {
+        console.log('Да, это интервал');
         if (view === this.pointerFromView) {
           const pointerToY = Math.abs(((this.model.getTo() - max) / step) * stepHeight);
           if (posY < pointerToY + stepHeight) {
