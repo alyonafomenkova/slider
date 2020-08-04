@@ -168,7 +168,6 @@ class Model {
     const min = this.min.getValue();
     const max = this.max.getValue();
     const to = this.to.getValue();
-    const step = this.step.getValue();
     const hasInterval = this.hasInterval.getValue();
 
     if (value > max) {

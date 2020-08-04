@@ -9,7 +9,7 @@ import ScaleViewImpl from './view/impl/ScaleViewImpl';
 
 const verticalConfiguration = {
   min: 0,
-  max: 73,
+  max: 72,
   step: 10,
   from: 10,
   to: 20,
@@ -21,7 +21,7 @@ const verticalConfiguration = {
 
 const horizontalConfiguration = {
   min: 0,
-  max: 73,
+  max: 72,
   step: 10,
   from: 10,
   to: 20,

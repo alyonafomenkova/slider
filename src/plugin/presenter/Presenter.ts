@@ -151,14 +151,14 @@ class Presenter {
         if (Math.floor(posY) === 0) {
           value = max;
         } else {
-          value = Math.round((this.sliderView.getHeight() - posY) / stepHeight) * step + min;
+          value = Math.round(((this.sliderView.getHeight() - posY) / stepHeight) * step) + min;
         }
       } else {
         const posX = view.getLeft() + pointerHalfWidth - this.sliderView.getBoundLeft();
         const stepWidth = this.sliderView.getWidth() / stepsTotal;
 
         if (Math.floor(posX) < Math.floor(this.sliderView.getWidth())) {
-          value = Math.round(posX / stepWidth) * step + min;
+          value = Math.round((posX / stepWidth) * step) + min;
         } else {
           value = max;
         }
@@ -218,12 +218,9 @@ class Presenter {
       const stepsTotal = (max - min) / step;
       const stepWidth = this.sliderView.getWidth() / stepsTotal;
       const isInterval = this.model.isInterval() && this.pointerFromView && this.pointerToView;
-      console.log('isInterval: ', isInterval);//
       posX = Math.round(posX / stepX) * stepX;
 
-
       if (isInterval) {
-        console.log('Да, это интервал');
         if (view === this.pointerFromView) {
           const pointerToX = ((this.model.getTo() - min) / step) * stepWidth;
 
@@ -264,7 +261,6 @@ class Presenter {
       posY = Math.round((posY - offset) / stepY) * stepY + offset;
 
       if (isInterval) {
-        console.log('Да, это интервал');
         if (view === this.pointerFromView) {
           const pointerToY = Math.abs(((this.model.getTo() - max) / step) * stepHeight);
           if (posY < pointerToY + stepHeight) {
