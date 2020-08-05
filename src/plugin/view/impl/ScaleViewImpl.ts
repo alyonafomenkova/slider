@@ -1,12 +1,14 @@
 import ScaleView from '../ScaleView';
 import Presenter from '../../presenter/Presenter';
 import Util from '../../util/Util';
-import ScaleItem from "../ScaleItem";
+import ScaleItem from '../ScaleItem';
 
 class ScaleViewImpl implements ScaleView {
   private readonly container: Element;
 
   private readonly presenter: Presenter;
+
+  private clickEventListener?: (view: ScaleView, value: number) => void = undefined;
 
   constructor(container: Element, presenter: Presenter) {
     this.container = container;
@@ -39,7 +41,37 @@ class ScaleViewImpl implements ScaleView {
         (elements[i] as HTMLElement).style.left = `${percent}%`;
       }
     }
+    this.setupClickListeners();
   }
+
+  setClickListener(listener: (view: ScaleView, value: number) => void): void {
+    this.clickEventListener = listener;
+  }
+
+  private setupClickListeners(): void {
+    if (this.container) {
+      const items = this.container.querySelectorAll('.slider__scale-item');
+      items.forEach((it) => {
+        const item = it as HTMLElement;
+        item.addEventListener('click', this.handleScaleItemClick);
+      });
+    } else {
+      throw new Error('Container is undefined.');
+    }
+  }
+
+  private handleScaleItemClick = (evt: MouseEvent): void => {
+    if (this.clickEventListener) {
+      const item = (evt.target as HTMLElement).closest('.slider__scale-item');
+      if (item) {
+        const valueContainer = item.querySelector('.slider__scale-value');
+        if (valueContainer) {
+          const value = Number((valueContainer as HTMLElement).innerText);
+          this.clickEventListener(this, value);
+        }
+      }
+    }
+  };
 }
 
 export default ScaleViewImpl;

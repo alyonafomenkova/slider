@@ -96,8 +96,33 @@ class Presenter {
         items.push(new ScaleItem(rounded, percent));
       }
       view.addItems(items, isVertical);
+      view.setClickListener(this.scaleClickListener);
     }
   }
+
+  private scaleClickListener = (view: ScaleView, value: number): void => {
+    console.log('[PRESENTER scaleClickListener] value = ', value);
+    const isInterval = this.model.isInterval() && this.pointerFromView && this.pointerToView;
+    const from = this.model.getFrom();
+    const to = this.model.getTo();
+    let pointerView;
+
+    if (isInterval) {
+      const diffBetweenValueAndFrom = Math.abs(value - from);
+      const diffBetweenValueAndTo = Math.abs(value - to);
+      if (diffBetweenValueAndFrom <= diffBetweenValueAndTo) {
+        pointerView = this.pointerFromView;
+      } else {
+        pointerView = this.pointerToView;
+      }
+    } else {
+      pointerView = this.pointerFromView;
+    }
+    if (pointerView) {
+      this.setupPositionByValue(pointerView, value);
+      this.calculateValue(pointerView);
+    }
+  };
 
   private getItemsStep(stepWidth: number): number {
     let step = 1;
