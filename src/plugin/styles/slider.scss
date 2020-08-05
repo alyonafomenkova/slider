@@ -12,7 +12,6 @@ body{
   align-items: center;
   box-sizing: border-box;
   position: relative;
-  background-color: red; //
 
   &--vertical {
     width: max-content;
@@ -111,7 +110,6 @@ body{
   justify-content: center;
   position: relative;
   background-color: #CDFCEF;
-  cursor: pointer;
 }
 
 .slider--vertical .slider__scale {
@@ -121,7 +119,15 @@ body{
 }
 
 .slider__scale-item {
+  display: flex;
   position: absolute;
+  cursor: pointer;
+}
+
+.slider--horizontal .slider__scale-item {
+  flex-direction: column;
+  align-items: center;
+  transform: translateX(-50%);
 }
 
 .slider--vertical .slider__scale-item {
@@ -149,8 +155,4 @@ body{
   display: block;
   font-size: 12px;
   text-align: center;
-}
-
-.slider--horizontal .slider__scale-value {
-  transform: translateX(-50%);
 }
