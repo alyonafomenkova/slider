@@ -2,6 +2,8 @@ interface SliderView {
   clear(): void;
   drawHorizontal(): void;
   drawVertical(): void;
+  drawHorizontalProgress(left: number, width: number): void;
+  drawVerticalProgress(bottom: number, height: number): void;
   getBoundLeft(): number;
   getBoundTop(): number;
   getBoundRight(): number;

@@ -28,6 +28,7 @@ body{
   border: 1px solid rgba(31, 32, 65, 0.25);
   border-radius: 3px;
   background-color: #ffffff;
+  z-index: 1;
 
   &--horizontal {
     width: 100%;
@@ -40,12 +41,32 @@ body{
   }
 }
 
+.slider__progress {
+  box-sizing: border-box;
+  position: absolute;
+  border: 1px solid rgba(31, 32, 65, 0.25);
+  border-radius: 3px;
+  background: linear-gradient(180deg, #6FCF97 0%, #66D2EA 100%);
+  z-index: 2;
+}
+
+.slider--horizontal .slider__progress {
+  height: 10px;
+  top: 0;
+}
+
+.slider--vertical .slider__progress {
+  width: 7.2px;
+  left: 0;
+}
+
 .slider__pointer-container {
   display: flex;
   flex-direction: column-reverse;
   justify-content: center;
   align-items: center;
   position: absolute;
+  z-index: 3;
 }
 
 .slider--horizontal .slider__pointer-container {

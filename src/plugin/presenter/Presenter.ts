@@ -54,6 +54,58 @@ class Presenter {
     }
   }
 
+  private updateHorizontalProgress(sliderView: SliderView): void {
+    const isInterval = this.model.isInterval() && this.pointerFromView && this.pointerToView;
+    const posMin = sliderView.getBoundLeft();
+    const posFrom = this.pointerFromView!.getLeft() + this.pointerFromView!.getWidth() / 2;
+    let start;
+    let end;
+
+    if (isInterval) {
+      const posTo = this.pointerToView!.getLeft() + this.pointerToView!.getWidth() / 2;
+      start = posFrom - posMin;
+      end = posTo;
+    } else {
+      start = 0;
+      end = posFrom;
+    }
+
+    const width = Math.abs(end - start - posMin);
+    const startInPercent = (start / sliderView.getWidth()) * 100;
+    const widthInPercent = (width / sliderView.getWidth()) * 100;
+    sliderView.drawHorizontalProgress(startInPercent, widthInPercent);
+  }
+
+  private updateVerticalProgress(sliderView: SliderView): void {
+    const isInterval = this.model.isInterval() && this.pointerFromView && this.pointerToView;
+    const posMax = sliderView.getBoundBottom();
+    const posFrom = posMax - this.pointerFromView!.getTop() - this.pointerFromView!.getHeight() / 2;
+    let start;
+    let end;
+
+    if (isInterval) {
+      const posTo = posMax - this.pointerToView!.getTop() - this.pointerToView!.getHeight() / 2;
+      start = posFrom;
+      end = posTo;
+    } else {
+      start = 0;
+      end = posFrom;
+    }
+
+    const height = Math.abs(start - end);
+    const startInPercent = (start / sliderView.getHeight()) * 100;
+    const heightInPercent = (height / sliderView.getHeight()) * 100;
+    sliderView.drawVerticalProgress(startInPercent, heightInPercent);
+  }
+
+  private updateProgress(sliderView: SliderView): void {
+    if (this.model.isVerticalOrientation()) {
+      this.updateVerticalProgress(sliderView);
+    } else {
+      this.updateHorizontalProgress(sliderView);
+    }
+  }
+
   init(sliderView: SliderView, pointerFromView: PointerView, pointerToView: PointerView, scaleView: ScaleView): void {
     this.sliderView = sliderView;
     this.pointerFromView = pointerFromView;
@@ -72,9 +124,9 @@ class Presenter {
         this.setupScale(scaleView);
       }
     }
-
     this.initPointerFrom(pointerFromView);
     this.initPointerTo(pointerToView);
+    this.updateProgress(sliderView);
   }
 
   private setupScale(view: ScaleView): void {
@@ -101,7 +153,6 @@ class Presenter {
   }
 
   private scaleClickListener = (view: ScaleView, value: number): void => {
-    console.log('[PRESENTER scaleClickListener] value = ', value);
     const isInterval = this.model.isInterval() && this.pointerFromView && this.pointerToView;
     const from = this.model.getFrom();
     const to = this.model.getTo();
@@ -118,9 +169,10 @@ class Presenter {
     } else {
       pointerView = this.pointerFromView;
     }
-    if (pointerView) {
+    if (this.sliderView && pointerView) {
       this.setupPositionByValue(pointerView, value);
       this.calculateValue(pointerView);
+      this.updateProgress(this.sliderView);
     }
   };
 
@@ -154,6 +206,11 @@ class Presenter {
       this.setPointerX(view, x);
     }
     this.calculateValue(view);
+    if (this.sliderView) {
+      this.updateProgress(this.sliderView);
+    } else {
+      throw new Error('sliderView is undefined');
+    }
   }
 
   private calculateValue(view: PointerView): void {
