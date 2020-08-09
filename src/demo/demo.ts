@@ -36,4 +36,7 @@ if (panelContainer) {
   panel.setFromValueListener((value: number): void => {
     slider.runForSlider('setFrom', value);
   });
+  panel.setToValueListener((value: number): void => {
+    slider.runForSlider('setTo', value);
+  });
 }

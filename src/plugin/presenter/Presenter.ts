@@ -273,6 +273,20 @@ class Presenter {
     this.updateProgress(this.sliderView);
   }
 
+  setValueTo(value: number): void {
+    if (!this.pointerToView) {
+      throw new Error('Pointer view to not defined');
+    }
+    if (!this.sliderView) {
+      throw new Error('Slider view is not defined');
+    }
+    if (this.model.isInterval()) {
+      this.setupPositionByValue(this.pointerToView, value);
+      this.calculateValue(this.pointerToView);
+      this.updateProgress(this.sliderView);
+    }
+  }
+
   private setupPositionByValue(view: PointerView, value: number): number | undefined {
     if (this.sliderView) {
       const min = this.model.getMin();

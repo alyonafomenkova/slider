@@ -7,10 +7,7 @@ import PointerViewImpl from './view/impl/PointerViewImpl';
 import ScaleViewImpl from './view/impl/ScaleViewImpl';
 import Configuration from './model/Configuration';
 
-// eslint-disable-next-line func-names
 (function ($) {
-  // eslint-disable-next-line func-names,no-param-reassign
-
   let root: JQuery<HTMLElement>;
   let presenter: Presenter;
 
@@ -34,6 +31,12 @@ import Configuration from './model/Configuration';
       }
       presenter.setValueFrom(value);
     },
+    setTo(value: number): void {
+      if (!presenter) {
+        throw new Error('Presenter is not defined. Init slider first');
+      }
+      presenter.setValueTo(value);
+    },
   };
 
   $.fn.runForSlider = function (method: string, ...args: any): JQuery {
@@ -43,6 +46,8 @@ import Configuration from './model/Configuration';
       methods.init.apply(this, args);
     } else if (method === 'setFrom') {
       methods.setFrom.apply(this, args);
+    } else if (method === 'setTo') {
+      methods.setTo.apply(this, args);
     } else {
       throw new Error(`Unknown method name: ${method}`);
     }
