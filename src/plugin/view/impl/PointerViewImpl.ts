@@ -42,7 +42,6 @@ class PointerViewImpl implements PointerView {
         const container = this.pointerContainer.querySelector('.slider__value');
 
         if (container) {
-          console.log('[VIEW setValue] value:', value); //
           container.innerHTML = String(value);
         }
       } else {
