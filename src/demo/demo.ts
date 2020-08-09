@@ -2,11 +2,38 @@ import './demo.scss';
 import SettingsPanel from '../components/settings-panel/settings-panel';
 import '../plugin/plugin.ts';
 
-const panels = document.querySelectorAll('.settings-panel');
+const verticalConfiguration = {
+  min: 0,
+  max: 72,
+  step: 10,
+  from: 10,
+  to: 20,
+  isVertical: true,
+  hasInterval: true,
+  hasValue: true,
+  hasScale: true,
+};
 
-panels.forEach((it) => {
-  const panel = new SettingsPanel(it as HTMLElement);
-});
+const horizontalConfiguration = {
+  min: 0,
+  max: 72,
+  step: 10,
+  from: 10,
+  to: 20,
+  isVertical: false,
+  hasInterval: true,
+  hasValue: true,
+  hasScale: true,
+};
 
-// eslint-disable-next-line fsd/jq-use-js-prefix-in-selector
-$('.slider').sliderPlugin({ min: 1, max: 5, step: 1 });
+const panelContainer = document.querySelector('#panel-0');
+
+if (panelContainer) {
+  const slider = $('#slider-0').runForSlider('init', horizontalConfiguration);
+  const panel = new SettingsPanel(panelContainer);
+
+  panel.init();
+  panel.setFromValueListener((value: number): void => {
+    slider.runForSlider('setFrom', value);
+  });
+}
