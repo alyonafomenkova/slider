@@ -11,6 +11,8 @@ class SettingsPanel {
 
   private toValueListener?: (value: number) => void;
 
+  private stepListener?: (value: number) => void;
+
   constructor(panel: Element) {
     this.panel = panel;
   }
@@ -60,6 +62,19 @@ class SettingsPanel {
 
   setToValueListener(listener: (value: number) => void): void {
     this.toValueListener = listener;
+  }
+
+  setStepListener(listener: (value: number) => void): void {
+    this.stepListener = listener;
+  }
+
+  setStep(value: number): void {
+    if (this.inputFrom) {
+      (this.inputFrom as HTMLInputElement).step = value.toString();
+    }
+    if (this.inputTo) {
+      (this.inputTo as HTMLInputElement).step = value.toString();
+    }
   }
 }
 

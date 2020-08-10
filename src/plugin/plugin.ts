@@ -49,6 +49,12 @@ import Configuration from './model/Configuration';
       }
       presenter.setValueToListener(listener);
     },
+    setStepListener(listener: (value: number) => void): void {
+      if (!presenter) {
+        throw new Error('Presenter is not defined. Init slider first');
+      }
+      presenter.setStepListener(listener);
+    },
   };
 
   $.fn.runForSlider = function (method: string, ...args: any): JQuery {
@@ -64,6 +70,8 @@ import Configuration from './model/Configuration';
       methods.setFromListener.apply(this, args);
     } else if (method === 'setToListener') {
       methods.setToListener.apply(this, args);
+    } else if (method === 'setStepListener') {
+      methods.setStepListener.apply(this, args);
     } else {
       throw new Error(`Unknown method name: ${method}`);
     }

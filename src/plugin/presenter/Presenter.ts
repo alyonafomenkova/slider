@@ -295,6 +295,10 @@ class Presenter {
     this.model.attachValueTo(listener);
   }
 
+  setStepListener(listener: (value: number) => void): void {
+    this.model.attachStep(listener);
+  }
+
   private setupPositionByValue(view: PointerView, value: number): number | undefined {
     if (this.sliderView) {
       const min = this.model.getMin();

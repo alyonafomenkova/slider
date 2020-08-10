@@ -45,4 +45,8 @@ if (panelContainer) {
   slider.runForSlider('setToListener', (to: number): void => {
     panel.setToValue(to);
   });
+  //
+  slider.runForSlider('setStepListener', (step: number): void => {
+    panel.setStep(step);
+  });
 }
