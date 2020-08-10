@@ -16,6 +16,8 @@ class Presenter {
 
   private pointerToView?: PointerView = undefined;
 
+  private scaleView?: ScaleView = undefined;
+
   constructor(model: Model) {
     this.model = model;
   }
@@ -110,6 +112,7 @@ class Presenter {
     this.sliderView = sliderView;
     this.pointerFromView = pointerFromView;
     this.pointerToView = pointerToView;
+    this.scaleView = scaleView;
 
     if (this.model.isVerticalOrientation()) {
       sliderView.clear();
@@ -265,7 +268,7 @@ class Presenter {
     this.model.setStep(value);
   }
 
-  setValueFrom(value: number): void {
+  public setValueFrom(value: number): void {
     if (!this.pointerFromView) {
       throw new Error('Pointer view from not defined');
     }
@@ -277,7 +280,7 @@ class Presenter {
     this.updateProgress(this.sliderView);
   }
 
-  setValueTo(value: number): void {
+  public setValueTo(value: number): void {
     if (!this.pointerToView) {
       throw new Error('Pointer view to not defined');
     }
@@ -288,6 +291,17 @@ class Presenter {
       this.setupPositionByValue(this.pointerToView, value);
       this.calculateValue(this.pointerToView);
       this.updateProgress(this.sliderView);
+    }
+  }
+
+  public setScale(value: boolean): void {
+    this.model.setScale(value);
+    if (this.scaleView) {
+      if (value) {
+        this.scaleView.show();
+      } else {
+        this.scaleView.hide();
+      }
     }
   }
 
