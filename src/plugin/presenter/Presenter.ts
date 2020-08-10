@@ -261,6 +261,10 @@ class Presenter {
     }
   }
 
+  public setStep(value: number): void {
+    this.model.setStep(value);
+  }
+
   setValueFrom(value: number): void {
     if (!this.pointerFromView) {
       throw new Error('Pointer view from not defined');

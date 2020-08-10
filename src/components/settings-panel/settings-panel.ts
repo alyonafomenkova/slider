@@ -3,26 +3,40 @@ import './settings-panel.scss';
 class SettingsPanel {
   private panel: Element;
 
+  private inputStep?: Element;
+
   private inputFrom?: Element;
 
   private inputTo?: Element;
 
+  private stepListener?: (value: number) => void;
+
   private fromValueListener?: (value: number) => void;
 
   private toValueListener?: (value: number) => void;
-
-  private stepListener?: (value: number) => void;
 
   constructor(panel: Element) {
     this.panel = panel;
   }
 
   init(): void {
+    this.inputStep = this.panel.querySelector('.settings-panel__values-input--step') as Element;
     this.inputFrom = this.panel.querySelector('.settings-panel__values-input--from') as Element;
     this.inputTo = this.panel.querySelector('.settings-panel__values-input--to') as Element;
+    this.inputStep.addEventListener('input', this.handleStepInput);
     this.inputFrom.addEventListener('input', this.handleFromInput);
     this.inputTo.addEventListener('input', this.handleInputTo);
   }
+
+  private handleStepInput = (evt: Event): void => {
+    const { value } = evt.target as HTMLInputElement;
+    const num = parseFloat(value);
+    console.log('[handleStepInput]');//
+
+    if (!Number.isNaN(num) && this.stepListener) {
+      this.stepListener(num);
+    }
+  };
 
   private handleFromInput = (evt: Event): void => {
     const { value } = evt.target as HTMLInputElement;
@@ -69,6 +83,9 @@ class SettingsPanel {
   }
 
   setStep(value: number): void {
+    if (this.inputStep) {
+      (this.inputStep as HTMLInputElement).value = value.toString();
+    }
     if (this.inputFrom) {
       (this.inputFrom as HTMLInputElement).step = value.toString();
     }

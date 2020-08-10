@@ -25,6 +25,12 @@ import Configuration from './model/Configuration';
       const scaleView = new ScaleViewImpl(element, presenter);
       presenter.init(sliderView, pointerFromView, pointerToView, scaleView);
     },
+    setStep(value: number): void {
+      if (!presenter) {
+        throw new Error('Presenter is not defined. Init slider first');
+      }
+      presenter.setStep(value);
+    },
     setFrom(value: number): void {
       if (!presenter) {
         throw new Error('Presenter is not defined. Init slider first');
@@ -72,6 +78,8 @@ import Configuration from './model/Configuration';
       methods.setToListener.apply(this, args);
     } else if (method === 'setStepListener') {
       methods.setStepListener.apply(this, args);
+    } else if (method === 'setStep') {
+      methods.setStep.apply(this, args);
     } else {
       throw new Error(`Unknown method name: ${method}`);
     }

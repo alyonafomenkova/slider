@@ -49,4 +49,7 @@ if (panelContainer) {
   slider.runForSlider('setStepListener', (step: number): void => {
     panel.setStep(step);
   });
+  panel.setStepListener((value: number): void => {
+    slider.runForSlider('setStep', value);
+  });
 }
