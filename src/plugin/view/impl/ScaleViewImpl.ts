@@ -15,11 +15,21 @@ class ScaleViewImpl implements ScaleView {
     this.presenter = presenter;
   }
 
-  clear(): void {
-    this.container.innerHTML = '';
+  public show(): void {
+    const scaleContainer = this.container.querySelector('.slider__scale') as HTMLElement;
+    if (scaleContainer) {
+      scaleContainer.style.visibility = 'visible';
+    }
   }
 
-  addItems(items: Array<ScaleItem>, isVertical: boolean): void {
+  public hide(): void {
+    const scaleContainer = this.container.querySelector('.slider__scale') as HTMLElement;
+    if (scaleContainer) {
+      scaleContainer.style.visibility = 'hidden';
+    }
+  }
+
+  public addItems(items: Array<ScaleItem>, isVertical: boolean): void {
     let template = '';
 
     items.forEach((item) => {
@@ -44,7 +54,7 @@ class ScaleViewImpl implements ScaleView {
     this.setupClickListeners();
   }
 
-  setClickListener(listener: (view: ScaleView, value: number) => void): void {
+  public setClickListener(listener: (view: ScaleView, value: number) => void): void {
     this.clickEventListener = listener;
   }
 
