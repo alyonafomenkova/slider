@@ -47,6 +47,13 @@ class SettingsPanel {
     (this.inputFrom as HTMLInputElement).value = value.toString();
   }
 
+  setToValue(value: number): void {
+    if (!this.inputTo) {
+      throw new Error('Input to is not defined');
+    }
+    (this.inputTo as HTMLInputElement).value = value.toString();
+  }
+
   setFromValueListener(listener: (value: number) => void): void {
     this.fromValueListener = listener;
   }

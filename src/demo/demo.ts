@@ -42,4 +42,7 @@ if (panelContainer) {
   slider.runForSlider('setFromListener', (from: number): void => {
     panel.setFromValue(from);
   });
+  slider.runForSlider('setToListener', (to: number): void => {
+    panel.setToValue(to);
+  });
 }
