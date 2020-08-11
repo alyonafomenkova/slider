@@ -54,7 +54,10 @@ if (panelContainer) {
   panel.setScaleListener((value: boolean): void => {
     slider.runForSlider('setScale', value);
   });
-  panel.setPointerValueListeber((value: boolean): void => {
+  panel.setPointerValueListener((value: boolean): void => {
     slider.runForSlider('setPointerValue', value);
+  });
+  panel.setTypeListener((value: boolean): void => {
+    slider.runForSlider('setType', value);
   });
 }

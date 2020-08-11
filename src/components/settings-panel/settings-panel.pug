@@ -13,10 +13,10 @@ mixin settings-panel(settings)
       legend.settings-panel__fieldset-title Type
       div.settings-panel__fieldset-inputs-wrapper
         div
-          input(type = 'radio' name='type' id = 'single_' + settings.index checked)
+          input.settings-panel__input-single(type = 'radio' name='type' id = 'single_' + settings.index)
           label(for = 'single_' + settings.index) Single
         div
-          input(type = 'radio' name='type' id = 'interval_' + settings.index)
+          input.settings-panel__input-interval(type = 'radio' name='type' id = 'interval_' + settings.index checked)
           label(for = 'interval_' + settings.index) Interval
     fieldset.settings-panel__fieldset
       legend.settings-panel__fieldset-title Additional
@@ -37,5 +37,5 @@ mixin settings-panel(settings)
       div.settings-panel__current-values-wrapper
         label.settings-panel__values-label Value From
           input.settings-panel__values-input.settings-panel__values-input--from(type='number' name='value1')
-        label.settings-panel__values-label Value To
+        label.settings-panel__values-label.settings-panel__values-label--to Value To
           input.settings-panel__values-input.settings-panel__values-input--to(type='number' name='value2')

@@ -1,6 +1,8 @@
 interface PointerView {
   show(): void;
   hide(): void;
+  showValue(): void;
+  hideValue(): void;
   draw(hasValue: boolean): void;
   setX(value: number): void;
   setY(value: number): void;

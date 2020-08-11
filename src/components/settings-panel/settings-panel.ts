@@ -13,6 +13,8 @@ class SettingsPanel {
 
   private inputPointerValue?: Element;
 
+  private inputsType?: NodeList;
+
   private stepListener?: (value: number) => void;
 
   private fromValueListener?: (value: number) => void;
@@ -22,6 +24,8 @@ class SettingsPanel {
   private scaleListener?: (value: boolean) => void;
 
   private pointerValueListener?: (value: boolean) => void;
+
+  private typeListener?: (value: boolean) => void;
 
   constructor(panel: Element) {
     this.panel = panel;
@@ -33,11 +37,26 @@ class SettingsPanel {
     this.inputTo = this.panel.querySelector('.settings-panel__values-input--to') as Element;
     this.inputScale = this.panel.querySelector('input[name=scale]') as Element;
     this.inputPointerValue = this.panel.querySelector('input[name=value]') as Element;
+    this.inputsType = this.panel.querySelectorAll('input[name=type]');
     this.inputStep.addEventListener('input', this.handleStepInput);
     this.inputFrom.addEventListener('input', this.handleFromInput);
     this.inputTo.addEventListener('input', this.handleInputTo);
     this.inputScale.addEventListener('change', this.handleScaleInput);
     this.inputPointerValue.addEventListener('change', this.handlePointerValue);
+    this.inputsType.forEach((input) => {
+      input.addEventListener('change', this.handleType);
+    });
+  }
+
+  private isValueTo(value: boolean) {
+    const inputTo = this.panel.querySelector('.settings-panel__values-label--to') as HTMLInputElement;
+    if (inputTo) {
+      if (value) {
+        inputTo.style.display = 'inline';
+      } else {
+        inputTo.style.display = 'none';
+      }
+    }
   }
 
   private handleStepInput = (evt: Event): void => {
@@ -78,6 +97,19 @@ class SettingsPanel {
     const value = (evt.target as HTMLInputElement).checked;
     if (this.pointerValueListener) {
       this.pointerValueListener(value);
+    }
+  };
+
+  private handleType = (evt: Event): void => {
+    if (this.typeListener) {
+      const isInterval = (evt.target as HTMLInputElement).classList.contains('settings-panel__input-interval');
+      if (isInterval) {
+        this.typeListener(true);
+        this.isValueTo(true);
+      } else {
+        this.typeListener(false);
+        this.isValueTo(false);
+      }
     }
   };
 
@@ -123,8 +155,12 @@ class SettingsPanel {
     this.scaleListener = listener;
   }
 
-  public setPointerValueListeber(listener: (value: boolean) => void): void {
+  public setPointerValueListener(listener: (value: boolean) => void): void {
     this.pointerValueListener = listener;
+  }
+
+  public setTypeListener(listener: (value: boolean) => void): void {
+    this.typeListener = listener;
   }
 }
 

@@ -309,12 +309,24 @@ class Presenter {
     this.model.setPointer(value);
     if (this.pointerFromView && this.pointerToView) {
       if (value) {
-        this.pointerFromView.show();
+        this.pointerFromView.showValue();
+        this.pointerToView.showValue();
+      } else {
+        this.pointerFromView.hideValue();
+        this.pointerToView.hideValue();
+      }
+    }
+  }
+
+  public setType(value: boolean): void {
+    this.model.setInterval(value);
+    if (this.sliderView && this.pointerToView) {
+      if (value) {
         this.pointerToView.show();
       } else {
-        this.pointerFromView.hide();
         this.pointerToView.hide();
       }
+      this.updateProgress(this.sliderView);
     }
   }
 
