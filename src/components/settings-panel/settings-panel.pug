@@ -25,8 +25,8 @@ mixin settings-panel(settings)
           input(type = 'checkbox' name='scale' id = 'scale_' + settings.index checked)
           label(for = 'scale_' + settings.index) Scale
         div
-          input(type = 'checkbox' name='pointer' id = 'pointer_' + settings.index checked)
-          label(for = 'pointer_' + settings.index) Pointer
+          input(type = 'checkbox' name='value' id = 'value_' + settings.index checked)
+          label(for = 'value_' + settings.index) Value
     div.settings-panel__values
       label.settings-panel__values-label MIN
         input.settings-panel__values-input.settings-panel__values-input--min(type='number' name='min')

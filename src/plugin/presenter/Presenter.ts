@@ -305,6 +305,19 @@ class Presenter {
     }
   }
 
+  public setPointerValue(value: boolean): void {
+    this.model.setPointer(value);
+    if (this.pointerFromView && this.pointerToView) {
+      if (value) {
+        this.pointerFromView.show();
+        this.pointerToView.show();
+      } else {
+        this.pointerFromView.hide();
+        this.pointerToView.hide();
+      }
+    }
+  }
+
   setValueFromListener(listener: (value: number) => void): void {
     this.model.attachValueFrom(listener);
   }

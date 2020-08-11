@@ -11,6 +11,8 @@ class SettingsPanel {
 
   private inputScale?: Element;
 
+  private inputPointerValue?: Element;
+
   private stepListener?: (value: number) => void;
 
   private fromValueListener?: (value: number) => void;
@@ -18,6 +20,8 @@ class SettingsPanel {
   private toValueListener?: (value: number) => void;
 
   private scaleListener?: (value: boolean) => void;
+
+  private pointerValueListener?: (value: boolean) => void;
 
   constructor(panel: Element) {
     this.panel = panel;
@@ -28,10 +32,12 @@ class SettingsPanel {
     this.inputFrom = this.panel.querySelector('.settings-panel__values-input--from') as Element;
     this.inputTo = this.panel.querySelector('.settings-panel__values-input--to') as Element;
     this.inputScale = this.panel.querySelector('input[name=scale]') as Element;
+    this.inputPointerValue = this.panel.querySelector('input[name=value]') as Element;
     this.inputStep.addEventListener('input', this.handleStepInput);
     this.inputFrom.addEventListener('input', this.handleFromInput);
     this.inputTo.addEventListener('input', this.handleInputTo);
     this.inputScale.addEventListener('change', this.handleScaleInput);
+    this.inputPointerValue.addEventListener('change', this.handlePointerValue);
   }
 
   private handleStepInput = (evt: Event): void => {
@@ -65,6 +71,13 @@ class SettingsPanel {
     const value = (evt.target as HTMLInputElement).checked;
     if (this.scaleListener) {
       this.scaleListener(value);
+    }
+  };
+
+  private handlePointerValue = (evt: Event): void => {
+    const value = (evt.target as HTMLInputElement).checked;
+    if (this.pointerValueListener) {
+      this.pointerValueListener(value);
     }
   };
 
@@ -108,6 +121,10 @@ class SettingsPanel {
 
   public setScaleListener(listener: (value: boolean) => void): void {
     this.scaleListener = listener;
+  }
+
+  public setPointerValueListeber(listener: (value: boolean) => void): void {
+    this.pointerValueListener = listener;
   }
 }
 

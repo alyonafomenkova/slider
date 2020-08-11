@@ -49,6 +49,12 @@ import Configuration from './model/Configuration';
       }
       presenter.setScale(value);
     },
+    setPointerValue(value: boolean): void {
+      if (!presenter) {
+        throw new Error('Presenter is not defined. Init slider first');
+      }
+      presenter.setPointerValue(value);
+    },
     setFromListener(listener: (value: number) => void): void {
       if (!presenter) {
         throw new Error('Presenter is not defined. Init slider first');
@@ -88,6 +94,8 @@ import Configuration from './model/Configuration';
       methods.setStep.apply(this, args);
     } else if (method === 'setScale') {
       methods.setScale.apply(this, args);
+    } else if (method === 'setPointerValue') {
+      methods.setPointerValue.apply(this, args);
     } else {
       throw new Error(`Unknown method name: ${method}`);
     }
