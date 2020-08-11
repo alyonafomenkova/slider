@@ -22,8 +22,24 @@ class PointerViewImpl implements PointerView {
     this.presenter = presenter;
   }
 
-  clear(): void {
-    this.container.innerHTML = '';
+  public show(): void {
+    const pointerContainer = this.container.querySelectorAll('.slider__value');
+    if (pointerContainer.length > 0) {
+      pointerContainer.forEach((container) => {
+        const element = container as HTMLElement;
+        element.style.display = 'block';
+      });
+    }
+  }
+
+  public hide(): void {
+    const pointerContainer = this.container.querySelectorAll('.slider__value');
+    if (pointerContainer.length > 0) {
+      pointerContainer.forEach((container) => {
+        const element = container as HTMLElement;
+        element.style.display = 'none';
+      });
+    }
   }
 
   draw(hasValue: boolean): void {
