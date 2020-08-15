@@ -59,7 +59,13 @@ import Configuration from './model/Configuration';
       if (!presenter) {
         throw new Error('Presenter is not defined. Init slider first');
       }
-      presenter.setType(isInterval);
+      presenter.setHasInterval(isInterval);
+    },
+    setOrientation(isVertical: boolean): void {
+      if (!presenter) {
+        throw new Error('Presenter is not defined. Init slider first');
+      }
+      presenter.setIsVerticalOrientation(isVertical);
     },
     setFromListener(listener: (value: number) => void): void {
       if (!presenter) {
@@ -104,6 +110,8 @@ import Configuration from './model/Configuration';
       methods.setPointerValue.apply(this, args);
     } else if (method === 'setType') {
       methods.setType.apply(this, args);
+    } else if (method === 'setOrientation') {
+      methods.setOrientation.apply(this, args);
     } else {
       throw new Error(`Unknown method name: ${method}`);
     }

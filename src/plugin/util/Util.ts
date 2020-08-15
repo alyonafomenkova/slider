@@ -5,6 +5,12 @@ class Util {
     element.classList.add(className);
   }
 
+  static removeClassName(element: Element, className: string): void {
+    if (element.classList.contains(className)) {
+      element.classList.remove(className);
+    }
+  }
+
   static createElement(container: Element, classNames: string, template?: string): HTMLElement {
     const element = document.createElement('div');
     element.className = classNames;

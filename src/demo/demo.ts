@@ -60,4 +60,7 @@ if (panelContainer) {
   panel.setTypeListener((value: boolean): void => {
     slider.runForSlider('setType', value);
   });
+  panel.setOrientationListener((value: boolean): void => {
+    slider.runForSlider('setOrientation', value);
+  });
 }

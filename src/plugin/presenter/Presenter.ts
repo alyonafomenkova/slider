@@ -113,19 +113,17 @@ class Presenter {
     this.pointerFromView = pointerFromView;
     this.pointerToView = pointerToView;
     this.scaleView = scaleView;
+    sliderView.clear();
 
     if (this.model.isVerticalOrientation()) {
-      sliderView.clear();
       sliderView.drawVertical();
-      if (this.model.isScale()) {
-        this.setupScale(scaleView);
-      }
     } else {
-      sliderView.clear();
       sliderView.drawHorizontal();
-      if (this.model.isScale()) {
-        this.setupScale(scaleView);
-      }
+    }
+
+    this.setupScale(scaleView);
+    if (!this.model.isScale()) {
+      this.scaleView.hide();
     }
     this.initPointerFrom(pointerFromView);
     this.initPointerTo(pointerToView);
@@ -348,11 +346,9 @@ class Presenter {
     this.model.setVertical(value);
     if (this.sliderView && this.pointerFromView && this.pointerToView && this.scaleView) {//
       if (value) {
-        console.log('VERTICAL');
         this.sliderView.clear();
         this.sliderView.drawVertical();
       } else {
-        console.log('HORIZONTAL');
         this.sliderView.clear();
         this.sliderView.drawHorizontal();
       }

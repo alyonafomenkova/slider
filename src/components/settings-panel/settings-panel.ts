@@ -15,6 +15,8 @@ class SettingsPanel {
 
   private inputsType?: NodeList;
 
+  private inputsOrientation?: NodeList;
+
   private stepListener?: (value: number) => void;
 
   private fromValueListener?: (value: number) => void;
@@ -26,6 +28,8 @@ class SettingsPanel {
   private pointerValueListener?: (value: boolean) => void;
 
   private typeListener?: (value: boolean) => void;
+
+  private orientationListener?: (value: boolean) => void;
 
   constructor(panel: Element) {
     this.panel = panel;
@@ -45,6 +49,10 @@ class SettingsPanel {
     this.inputPointerValue.addEventListener('change', this.handlePointerValue);
     this.inputsType.forEach((input) => {
       input.addEventListener('change', this.handleType);
+    });
+    this.inputsOrientation = this.panel.querySelectorAll('input[name=orientation]');
+    this.inputsOrientation.forEach((input) => {
+      input.addEventListener('change', this.handleOrientation);
     });
   }
 
@@ -113,6 +121,13 @@ class SettingsPanel {
     }
   };
 
+  private handleOrientation = (evt: Event): void => {
+    if (this.orientationListener) {
+      const isVertical = (evt.target as HTMLInputElement).classList.contains('settings-panel__input-vertical');
+      this.orientationListener(isVertical);
+    }
+  };
+
   public setFromValue(value: number): void {
     if (!this.inputFrom) {
       throw new Error('Input from is not defined');
@@ -161,6 +176,10 @@ class SettingsPanel {
 
   public setTypeListener(listener: (value: boolean) => void): void {
     this.typeListener = listener;
+  }
+
+  public setOrientationListener(listever: (value: boolean) => void): void {
+    this.orientationListener = listever;
   }
 }
 

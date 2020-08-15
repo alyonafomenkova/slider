@@ -4,10 +4,10 @@ mixin settings-panel(settings)
       legend.settings-panel__fieldset-title Orientation
       div.settings-panel__fieldset-inputs-wrapper
         div
-          input(type = 'radio' name='orientation' id = `vertical_` + settings.index)
+          input.settings-panel__input-vertical(type = 'radio' name='orientation' id = `vertical_` + settings.index)
           label(for = `vertical_` + settings.index) Vertical
         div
-          input(type = 'radio' name='orientation' id = `horizontal_` + settings.index checked)
+          input.settings-panel__input-horizontal(type = 'radio' name='orientation' id = `horizontal_` + settings.index checked)
           label(for = `horizontal_` + settings.index) Horizontal
     fieldset.settings-panel__fieldset
       legend.settings-panel__fieldset-title Type

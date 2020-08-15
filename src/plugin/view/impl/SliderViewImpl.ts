@@ -19,12 +19,14 @@ class SliderViewImpl implements SliderView {
   drawHorizontal(): void {
     Util.createElement(this.container, 'slider__bar slider__bar--horizontal');
     Util.addClassName(this.container, 'slider--horizontal');
+    Util.removeClassName(this.container, 'slider--vertical');
     Util.createElement(this.container, 'slider__progress');
   }
 
   drawVertical(): void {
     Util.createElement(this.container, 'slider__bar slider__bar--vertical');
     Util.addClassName(this.container, 'slider--vertical');
+    Util.removeClassName(this.container, 'slider--horizontal');
     Util.createElement(this.container, 'slider__progress');
   }
 

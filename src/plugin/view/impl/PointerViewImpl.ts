@@ -43,7 +43,7 @@ class PointerViewImpl implements PointerView {
     if (containers.length > 0) {
       containers.forEach((container) => {
         const element = container as HTMLElement;
-        element.style.display = 'block';
+        element.style.visibility = 'visible';
       });
     }
   }
@@ -53,7 +53,7 @@ class PointerViewImpl implements PointerView {
     if (containers.length > 0) {
       containers.forEach((container) => {
         const element = container as HTMLElement;
-        element.style.display = 'none';
+        element.style.visibility = 'hidden';
       });
     }
   }
@@ -63,22 +63,22 @@ class PointerViewImpl implements PointerView {
     this.pointerContainer = Util.createElement(this.container, 'slider__pointer-container', template);
     this.setupMouseListeners();
     this.hasValue = hasValue;
-    if (hasValue) {
-      Util.createElement(this.pointerContainer, 'slider__value');
+    Util.createElement(this.pointerContainer, 'slider__value');
+
+    if (!hasValue) {
+      this.hideValue();
     }
   }
 
   setValue(value: number): void {
-    if (this.hasValue) {
-      if (this.pointerContainer) {
-        const container = this.pointerContainer.querySelector('.slider__value');
+    if (this.pointerContainer) {
+      const container = this.pointerContainer.querySelector('.slider__value');
 
-        if (container) {
-          container.innerHTML = String(value);
-        }
-      } else {
-        throw new Error('Pointer container is undefined.');
+      if (container) {
+        container.innerHTML = String(value);
       }
+    } else {
+      throw new Error('Pointer container is undefined.');
     }
   }
 
