@@ -318,15 +318,45 @@ class Presenter {
     }
   }
 
-  public setType(value: boolean): void {
+  public setHasInterval(value: boolean): void {
     this.model.setInterval(value);
     if (this.sliderView && this.pointerToView) {
       if (value) {
+        const from = this.model.getFrom();
+        const to = this.model.getTo();
+        const step = this.model.getStep();
+        const max = this.model.getMax();
+
+        if (from === max) {
+          this.model.setFrom(max - step);
+          this.model.setTo(max);
+          this.setValueFrom(max - step);
+          this.setValueTo(max);
+        } else if (from >= to) {
+          this.model.setTo(from + step);
+          this.setValueTo(from + step);
+        }
         this.pointerToView.show();
       } else {
         this.pointerToView.hide();
       }
       this.updateProgress(this.sliderView);
+    }
+  }
+
+  public setIsVerticalOrientation(value: boolean): void {
+    this.model.setVertical(value);
+    if (this.sliderView && this.pointerFromView && this.pointerToView && this.scaleView) {//
+      if (value) {
+        console.log('VERTICAL');
+        this.sliderView.clear();
+        this.sliderView.drawVertical();
+      } else {
+        console.log('HORIZONTAL');
+        this.sliderView.clear();
+        this.sliderView.drawHorizontal();
+      }
+      this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
     }
   }
 

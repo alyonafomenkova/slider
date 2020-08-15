@@ -24,7 +24,7 @@ class PointerViewImpl implements PointerView {
 
   public show(): void {
     if (this.pointerContainer) {
-      this.pointerContainer.style.display = 'flex';
+      this.pointerContainer.style.visibility = 'visible';
     } else {
       throw new Error('Pointer container undefined');
     }
@@ -32,7 +32,7 @@ class PointerViewImpl implements PointerView {
 
   public hide(): void {
     if (this.pointerContainer) {
-      this.pointerContainer.style.display = 'none';
+      this.pointerContainer.style.visibility = 'hidden';
     } else {
       throw new Error('Pointer container undefined');
     }
