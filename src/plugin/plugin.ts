@@ -31,6 +31,18 @@ import Configuration from './model/Configuration';
       }
       presenter.setStep(value);
     },
+    setMin(value: number): void {
+      if (!presenter) {
+        throw new Error('Presenter is not defined. Init slider first');
+      }
+      presenter.setMin(value);
+    },
+    setMax(value: number): void {
+      if (!presenter) {
+        throw new Error('Presenter is not defined. Init slider first');
+      }
+      presenter.setMax(value);
+    },
     setFrom(value: number): void {
       if (!presenter) {
         throw new Error('Presenter is not defined. Init slider first');
@@ -67,6 +79,18 @@ import Configuration from './model/Configuration';
       }
       presenter.setIsVerticalOrientation(isVertical);
     },
+    setMinListener(listener: (value: number) => void): void {
+      if (!presenter) {
+        throw new Error('Presenter is not defined. Init slider first');
+      }
+      presenter.setMinListener(listener);
+    },
+    setMaxListener(listener: (value: number) => void): void {
+      if (!presenter) {
+        throw new Error('Presenter is not defined. Init slider first');
+      }
+      presenter.setMaxListener(listener);
+    },
     setFromListener(listener: (value: number) => void): void {
       if (!presenter) {
         throw new Error('Presenter is not defined. Init slider first');
@@ -92,10 +116,18 @@ import Configuration from './model/Configuration';
 
     if (method === 'init') {
       methods.init.apply(this, args);
+    } else if (method === 'setMin') {
+      methods.setMin.apply(this, args);
+    } else if (method === 'setMax') {
+      methods.setMax.apply(this, args);
     } else if (method === 'setFrom') {
       methods.setFrom.apply(this, args);
     } else if (method === 'setTo') {
       methods.setTo.apply(this, args);
+    } else if (method === 'setMinListener') {
+      methods.setMinListener.apply(this, args);
+    } else if (method === 'setMaxListener') {
+      methods.setMaxListener.apply(this, args);
     } else if (method === 'setFromListener') {
       methods.setFromListener.apply(this, args);
     } else if (method === 'setToListener') {

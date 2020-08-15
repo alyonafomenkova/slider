@@ -39,6 +39,12 @@ if (panelContainer) {
   panel.setToValueListener((value: number): void => {
     slider.runForSlider('setTo', value);
   });
+  slider.runForSlider('setMinListener', (min: number): void => {
+    panel.setMinValue(min);
+  });
+  slider.runForSlider('setMaxListener', (max: number): void => {
+    panel.setMaxValue(max);
+  });
   slider.runForSlider('setFromListener', (from: number): void => {
     panel.setFromValue(from);
   });
@@ -47,6 +53,12 @@ if (panelContainer) {
   });
   slider.runForSlider('setStepListener', (step: number): void => {
     panel.setStep(step);
+  });
+  panel.setMinListener((value: number): void => {
+    slider.runForSlider('setMin', value);
+  });
+  panel.setMaxListener((value: number): void => {
+    slider.runForSlider('setMax', value);
   });
   panel.setStepListener((value: number): void => {
     slider.runForSlider('setStep', value);

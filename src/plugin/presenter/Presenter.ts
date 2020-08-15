@@ -262,8 +262,37 @@ class Presenter {
     }
   }
 
+  public setMin(value: number): void {
+    const max = this.model.getMax();
+    const step = this.model.getStep();
+    if (this.sliderView && this.pointerFromView && this.pointerToView && this.scaleView) {//
+      if (value >= max - step) {
+        this.model.setMin(max - step);
+      } else {
+        this.model.setMin(value);
+      }
+      this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
+    }
+  }
+
+  public setMax(value: number): void {
+    if (this.sliderView && this.pointerFromView && this.pointerToView && this.scaleView) {//
+      const min = this.model.getMin();
+      const step = this.model.getStep();
+      if (value <= min + step) {
+        this.model.setMax(min + step);
+      } else {
+        this.model.setMax(value);
+      }
+      this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
+    }
+  }
+
   public setStep(value: number): void {
-    this.model.setStep(value);
+    if (this.sliderView && this.pointerFromView && this.pointerToView && this.scaleView) {//
+      this.model.setStep(value);
+      this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
+    }
   }
 
   public setValueFrom(value: number): void {
@@ -358,6 +387,14 @@ class Presenter {
 
   setValueFromListener(listener: (value: number) => void): void {
     this.model.attachValueFrom(listener);
+  }
+
+  setMinListener(listener: (value: number) => void): void {
+    this.model.attachMin(listener);
+  }
+
+  setMaxListener(listener: (value: number) => void): void {
+    this.model.attachMax(listener);
   }
 
   setValueToListener(listener: (value: number) => void): void {
