@@ -16,11 +16,11 @@ html(lang="en")
       h1.demo__title Plugin demo
       div.demo__component-wrapper
         div.demo__panel-wrapper
-          +settings-panel({'index': '0'})
+          +settings-panel({'index': '0', 'minStep': 1})
         div.demo__slider-wrapper
           div.slider.js-slider(id="slider-0")
       div.demo__component-wrapper
         div.demo__panel-wrapper
-          +settings-panel({'index': '1'})
+          +settings-panel({'index': '1', 'minStep': 0.5})
         div.demo__slider-wrapper
           div.slider.js-slider(id="slider-1")

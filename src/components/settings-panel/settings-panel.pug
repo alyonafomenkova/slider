@@ -33,7 +33,7 @@ mixin settings-panel(settings)
       label.settings-panel__values-label MAX
         input.settings-panel__values-input.settings-panel__values-input--max(type='number' name='max')
       label.settings-panel__values-label Step
-        input.settings-panel__values-input.settings-panel__values-input--step(type='number' name='step' min='1')
+        input.settings-panel__values-input.settings-panel__values-input--step(type='number' name='step' min=settings.minStep)
       div.settings-panel__current-values-wrapper
         label.settings-panel__values-label Value From
           input.settings-panel__values-input.settings-panel__values-input--from(type='number' name='value1')
