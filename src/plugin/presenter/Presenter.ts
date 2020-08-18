@@ -50,21 +50,22 @@ class Presenter {
   }
 
   private initPointerTo(view: PointerView): void {
-    if (this.model.isInterval()) {
-      view.draw(this.hasValue.getValue());
-      view.setDownEventListener(this.pointerDownEventListener);
-      view.setMoveEventListener(this.pointerMoveEventListener);
-      view.setUpEventListener(this.pointerUpEventListener);
+    view.draw(this.hasValue.getValue());
+    view.setDownEventListener(this.pointerDownEventListener);
+    view.setMoveEventListener(this.pointerMoveEventListener);
+    view.setUpEventListener(this.pointerUpEventListener);
 
-      this.model.attachValueTo((value: number): void => {
-        if (this.pointerToView) {
-          this.pointerToView.setValue(value);
-        }
-      });
+    this.model.attachValueTo((value: number): void => {
+      if (this.pointerToView) {
+        this.pointerToView.setValue(value);
+      }
+    });
 
-      this.setupPositionByValue(view, this.model.getTo());
-      this.calculateValue(view);
-      console.log('[initPointerTo] to: ', this.model.getTo());//
+    this.setupPositionByValue(view, this.model.getTo());
+    this.calculateValue(view);
+
+    if (!this.model.isInterval()) {
+      view.hide();
     }
   }
 
@@ -360,7 +361,6 @@ class Presenter {
       throw new Error('Slider view is not defined');
     }
     if (this.model.isInterval()) {
-      console.log('setValueTo: ', value);//
       this.setupPositionByValue(this.pointerToView, value);
       this.calculateValue(this.pointerToView);
       this.updateProgress(this.sliderView);
@@ -392,7 +392,6 @@ class Presenter {
   }
 
   public setHasInterval(value: boolean): void {
-    console.log('[PRESENTER] setHasInterval: ', value);//
     this.model.setInterval(value);
     if (this.sliderView && this.pointerToView) {
       if (value) {
@@ -406,17 +405,12 @@ class Presenter {
           this.model.setTo(max);
           this.setValueFrom(max - step);
           this.setValueTo(max);
-          console.log('[setHasInterval from === max] to = ', this.model.getTo());//
         } else if (from >= to) {
           this.model.setTo(from + step);
           this.setValueTo(from + step);
-          console.log('[setHasInterval from >= to] to = ', this.model.getTo());//
         }
-        console.log('1 [PRESENTER] показать pointerToView to = ', this.model.getTo());//
         this.pointerToView.show();
-        console.log('2 [PRESENTER] показать pointerToView to = ', this.model.getTo());//
       } else {
-        console.log('[PRESENTER] скрыть pointerToView');//
         this.pointerToView.hide();
       }
       this.updateProgress(this.sliderView);
@@ -426,13 +420,6 @@ class Presenter {
   public setIsVerticalOrientation(value: boolean): void {
     this.isVertical.setValue(value);
     if (this.sliderView && this.pointerFromView && this.pointerToView && this.scaleView) {//
-      if (value) {
-        this.sliderView.clear();
-        this.sliderView.drawVertical();
-      } else {
-        this.sliderView.clear();
-        this.sliderView.drawHorizontal();
-      }
       this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
     }
   }
