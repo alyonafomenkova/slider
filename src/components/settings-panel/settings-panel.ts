@@ -242,8 +242,8 @@ class SettingsPanel {
     this.typeListener = listener;
   }
 
-  public setOrientationListener(listever: (value: boolean) => void): void {
-    this.orientationListener = listever;
+  public setOrientationListener(listener: (value: boolean) => void): void {
+    this.orientationListener = listener;
   }
 }
 

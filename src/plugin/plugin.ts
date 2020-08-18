@@ -18,7 +18,7 @@ import Configuration from './model/Configuration';
       }
       const element = root[0];
       const model = new Model(config);
-      presenter = new Presenter(model);
+      presenter = new Presenter(model, config);
       const sliderView = new SliderViewImpl(element, presenter);
       const pointerFromView = new PointerViewImpl('from', element, presenter);
       const pointerToView = new PointerViewImpl('to', element, presenter);

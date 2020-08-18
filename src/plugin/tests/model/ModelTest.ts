@@ -217,24 +217,9 @@ describe('Get values', () => {
     expect(to).toEqual(70);
   });
 
-  it('Get isVertical', () => {
-    const isVertical = model.isVerticalOrientation();
-    expect(isVertical).toEqual(false);
-  });
-
   it('Get isInterval', () => {
     const hasInterval = model.isInterval();
     expect(hasInterval).toEqual(true);
-  });
-
-  it('Get hasValue', () => {
-    const hasValue = model.isValue();
-    expect(hasValue).toEqual(true);
-  });
-
-  it('Get hasScale', () => {
-    const hasScale = model.isScale();
-    expect(hasScale).toEqual(true);
   });
 });
 
@@ -630,65 +615,5 @@ describe('Set interval', () => {
     model.setInterval(false);
 
     expect(isInterval).toEqual(false);
-  });
-});
-
-describe('Set orientation', () => {
-  let isVertical: boolean;
-  const model = new Model(testConfiguration);
-  const orientationObserver = (value: boolean): void => { isVertical = value; };
-
-  model.attachOrientation(orientationObserver);
-
-  it('Set horizontal orientation', () => {
-    model.setVertical(false);
-
-    expect(isVertical).toEqual(false);
-  });
-
-  it('Set vertical orientation', () => {
-    model.setVertical(true);
-
-    expect(isVertical).toEqual(true);
-  });
-});
-
-describe('Set pointer', () => {
-  let hasValue: boolean;
-  const model = new Model(testConfiguration);
-  const pointerObserver = (value: boolean): void => { hasValue = value; };
-
-  model.attachPointer(pointerObserver);
-
-  it('Without pointer', () => {
-    model.setPointer(false);
-
-    expect(hasValue).toEqual(false);
-  });
-
-  it('With pointer', () => {
-    model.setPointer(true);
-
-    expect(hasValue).toEqual(true);
-  });
-});
-
-describe('Set scale', () => {
-  let hasScale: boolean;
-  const model = new Model(testConfiguration);
-  const scaleObserver = (value: boolean): void => { hasScale = value; };
-
-  model.attachScale(scaleObserver);
-
-  it('Without pointer', () => {
-    model.setScale(false);
-
-    expect(hasScale).toEqual(false);
-  });
-
-  it('With pointer', () => {
-    model.setScale(true);
-
-    expect(hasScale).toEqual(true);
   });
 });

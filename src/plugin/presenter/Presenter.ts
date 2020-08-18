@@ -4,7 +4,8 @@ import PointerView from '../view/PointerView';
 import ScaleView from '../view/ScaleView';
 import ScaleItem from '../view/ScaleItem';
 import Util from '../util/Util';
-import {visitorKeys} from "@typescript-eslint/parser/dist/visitor-keys";
+import Configuration from '../model/Configuration';
+import Subject from '../model/Subject';
 
 class Presenter {
   private readonly MAX_SCALE_ITEMS_STEP = 26;
@@ -19,12 +20,21 @@ class Presenter {
 
   private scaleView?: ScaleView = undefined;
 
-  constructor(model: Model) {
+  private isVertical: Subject<boolean>;
+
+  private hasValue: Subject<boolean>;
+
+  private hasScale: Subject<boolean>;
+
+  constructor(model: Model, configuration: Configuration) {
     this.model = model;
+    this.isVertical = new Subject(configuration.isVertical);
+    this.hasValue = new Subject(configuration.hasValue);
+    this.hasScale = new Subject(configuration.hasScale);
   }
 
   private initPointerFrom(view: PointerView):void {
-    view.draw(this.model.isValue());
+    view.draw(this.hasValue.getValue());
     view.setDownEventListener(this.pointerDownEventListener);
     view.setMoveEventListener(this.pointerMoveEventListener);
     view.setUpEventListener(this.pointerUpEventListener);
@@ -41,7 +51,7 @@ class Presenter {
 
   private initPointerTo(view: PointerView): void {
     if (this.model.isInterval()) {
-      view.draw(this.model.isValue());
+      view.draw(this.hasValue.getValue());
       view.setDownEventListener(this.pointerDownEventListener);
       view.setMoveEventListener(this.pointerMoveEventListener);
       view.setUpEventListener(this.pointerUpEventListener);
@@ -54,6 +64,7 @@ class Presenter {
 
       this.setupPositionByValue(view, this.model.getTo());
       this.calculateValue(view);
+      console.log('[initPointerTo] to: ', this.model.getTo());//
     }
   }
 
@@ -102,7 +113,7 @@ class Presenter {
   }
 
   private updateProgress(sliderView: SliderView): void {
-    if (this.model.isVerticalOrientation()) {
+    if (this.isVertical.getValue()) {
       this.updateVerticalProgress(sliderView);
     } else {
       this.updateHorizontalProgress(sliderView);
@@ -116,14 +127,14 @@ class Presenter {
     this.scaleView = scaleView;
     sliderView.clear();
 
-    if (this.model.isVerticalOrientation()) {
+    if (this.isVertical.getValue()) {
       sliderView.drawVertical();
     } else {
       sliderView.drawHorizontal();
     }
 
     this.setupScale(scaleView);
-    if (!this.model.isScale()) {
+    if (!this.hasScale.getValue()) {
       this.scaleView.hide();
     }
     this.initPointerFrom(pointerFromView);
@@ -141,7 +152,7 @@ class Presenter {
       const sliderHeight = this.sliderView.getHeight();
       const step = this.model.getStep();
       const count = Math.floor((max - min) / step);
-      const isVertical = this.model.isVerticalOrientation();
+      const isVertical = this.isVertical.getValue();
       const stepWidth = isVertical ? (sliderHeight / count) : (sliderWidth / count);
       const itemStep = this.getItemsStep(stepWidth);
       for (let i = 0; i <= count; i += itemStep) {
@@ -211,7 +222,7 @@ class Presenter {
         let posTo;
         let diffBetweenValueAndFrom;
         let diffBetweenValueAndTo;
-        if (this.model.isVerticalOrientation()) {
+        if (this.isVertical.getValue()) {
           posFrom = this.pointerFromView.getTop() - this.pointerFromView.getHeight() / 2;
           posTo = this.pointerToView.getTop() - this.pointerToView.getHeight() / 2;
           diffBetweenValueAndFrom = Math.abs(y - posFrom);
@@ -235,7 +246,7 @@ class Presenter {
   };
 
   private setPointerPosition(view: PointerView, x: number, y: number) {
-    if (this.model.isVerticalOrientation()) {
+    if (this.isVertical.getValue()) {
       this.setPointerY(view, y);
     } else {
       this.setPointerX(view, x);
@@ -261,7 +272,7 @@ class Presenter {
       const stepsTotal = (max - min) / step;
       let value;
 
-      if (this.model.isVerticalOrientation()) {
+      if (this.isVertical.getValue()) {
         const posY = view.getTop() + pointerHalfHeight - this.sliderView.getBoundTop();
         const stepHeight = this.sliderView.getHeight() / stepsTotal;
 
@@ -349,6 +360,7 @@ class Presenter {
       throw new Error('Slider view is not defined');
     }
     if (this.model.isInterval()) {
+      console.log('setValueTo: ', value);//
       this.setupPositionByValue(this.pointerToView, value);
       this.calculateValue(this.pointerToView);
       this.updateProgress(this.sliderView);
@@ -356,7 +368,7 @@ class Presenter {
   }
 
   public setScale(value: boolean): void {
-    this.model.setScale(value);
+    this.hasScale.setValue(value);
     if (this.scaleView) {
       if (value) {
         this.scaleView.show();
@@ -367,7 +379,7 @@ class Presenter {
   }
 
   public setPointerValue(value: boolean): void {
-    this.model.setPointer(value);
+    this.hasValue.setValue(value);
     if (this.pointerFromView && this.pointerToView) {
       if (value) {
         this.pointerFromView.showValue();
@@ -380,6 +392,7 @@ class Presenter {
   }
 
   public setHasInterval(value: boolean): void {
+    console.log('[PRESENTER] setHasInterval: ', value);//
     this.model.setInterval(value);
     if (this.sliderView && this.pointerToView) {
       if (value) {
@@ -393,12 +406,17 @@ class Presenter {
           this.model.setTo(max);
           this.setValueFrom(max - step);
           this.setValueTo(max);
+          console.log('[setHasInterval from === max] to = ', this.model.getTo());//
         } else if (from >= to) {
           this.model.setTo(from + step);
           this.setValueTo(from + step);
+          console.log('[setHasInterval from >= to] to = ', this.model.getTo());//
         }
+        console.log('1 [PRESENTER] показать pointerToView to = ', this.model.getTo());//
         this.pointerToView.show();
+        console.log('2 [PRESENTER] показать pointerToView to = ', this.model.getTo());//
       } else {
+        console.log('[PRESENTER] скрыть pointerToView');//
         this.pointerToView.hide();
       }
       this.updateProgress(this.sliderView);
@@ -406,7 +424,7 @@ class Presenter {
   }
 
   public setIsVerticalOrientation(value: boolean): void {
-    this.model.setVertical(value);
+    this.isVertical.setValue(value);
     if (this.sliderView && this.pointerFromView && this.pointerToView && this.scaleView) {//
       if (value) {
         this.sliderView.clear();
@@ -447,7 +465,7 @@ class Presenter {
       let posMax;
       let centerOfPointer;
 
-      if (this.model.isVerticalOrientation()) {
+      if (this.isVertical.getValue()) {
         posMin = this.sliderView.getBoundTop();
         posMax = this.sliderView.getBoundBottom();
         centerOfPointer = (((value - min) * (posMin - posMax)) / (max - min)) + posMax;
