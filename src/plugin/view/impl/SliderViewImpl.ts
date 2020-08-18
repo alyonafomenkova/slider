@@ -7,6 +7,8 @@ class SliderViewImpl implements SliderView {
 
   private readonly presenter: Presenter;
 
+  private sliderBarClickListener?: (view: SliderView, x: number, y: number) => void = undefined;
+
   constructor(container: Element, presenter: Presenter) {
     this.container = container;
     this.presenter = presenter;
@@ -21,6 +23,7 @@ class SliderViewImpl implements SliderView {
     Util.addClassName(this.container, 'slider--horizontal');
     Util.removeClassName(this.container, 'slider--vertical');
     Util.createElement(this.container, 'slider__progress');
+    this.setupClickListeners();
   }
 
   drawVertical(): void {
@@ -28,6 +31,7 @@ class SliderViewImpl implements SliderView {
     Util.addClassName(this.container, 'slider--vertical');
     Util.removeClassName(this.container, 'slider--horizontal');
     Util.createElement(this.container, 'slider__progress');
+    this.setupClickListeners();
   }
 
   drawHorizontalProgress(left: number, width: number): void {
@@ -68,6 +72,23 @@ class SliderViewImpl implements SliderView {
 
   getHeight(): number {
     return this.container.getBoundingClientRect().height;
+  }
+
+  setClickSliderBarListener(listener: (view: SliderView, x: number, y: number) => void): void {
+    this.sliderBarClickListener = listener;
+  }
+
+  private setupClickListeners(): void {
+    const sliderBar = this.container.querySelector('.slider__bar') as HTMLElement;
+    const progressBar = this.container.querySelector('.slider__progress') as HTMLElement;
+    sliderBar.addEventListener('click', this.handleSliderBarClick);
+    progressBar.addEventListener('click', this.handleSliderBarClick);
+  }
+
+  private handleSliderBarClick = (evt: MouseEvent): void => {
+    if (this.sliderBarClickListener) {
+      this.sliderBarClickListener(this, evt.clientX, evt.clientY);
+    }
   }
 }
 

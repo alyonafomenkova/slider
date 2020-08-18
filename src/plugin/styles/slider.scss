@@ -29,6 +29,7 @@ body{
   border-radius: 3px;
   background-color: #ffffff;
   z-index: 1;
+  cursor: pointer;
 
   &--horizontal {
     width: 100%;
@@ -48,6 +49,7 @@ body{
   border-radius: 3px;
   background: linear-gradient(180deg, #6FCF97 0%, #66D2EA 100%);
   z-index: 2;
+  cursor: pointer;
 }
 
 .slider--horizontal .slider__progress {

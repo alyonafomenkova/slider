@@ -4,6 +4,7 @@ import PointerView from '../view/PointerView';
 import ScaleView from '../view/ScaleView';
 import ScaleItem from '../view/ScaleItem';
 import Util from '../util/Util';
+import {visitorKeys} from "@typescript-eslint/parser/dist/visitor-keys";
 
 class Presenter {
   private readonly MAX_SCALE_ITEMS_STEP = 26;
@@ -128,6 +129,7 @@ class Presenter {
     this.initPointerFrom(pointerFromView);
     this.initPointerTo(pointerToView);
     this.updateProgress(sliderView);
+    sliderView.setClickSliderBarListener(this.sliderBarClickListener);//
   }
 
   private setupScale(view: ScaleView): void {
@@ -198,6 +200,38 @@ class Presenter {
 
   private pointerUpEventListener = (view: PointerView, x: number, y: number): void => {
     this.setPointerPosition(view, x, y);
+  };
+
+  private sliderBarClickListener = (view: SliderView, x: number, y: number): void => {
+    if (this.pointerFromView) {
+      let posFrom;
+      let pointerView;
+
+      if (this.pointerToView && this.model.isInterval()) {
+        let posTo;
+        let diffBetweenValueAndFrom;
+        let diffBetweenValueAndTo;
+        if (this.model.isVerticalOrientation()) {
+          posFrom = this.pointerFromView.getTop() - this.pointerFromView.getHeight() / 2;
+          posTo = this.pointerToView.getTop() - this.pointerToView.getHeight() / 2;
+          diffBetweenValueAndFrom = Math.abs(y - posFrom);
+          diffBetweenValueAndTo = Math.abs(y - posTo);
+        } else {
+          posFrom = this.pointerFromView.getLeft() + this.pointerFromView.getWidth() / 2;
+          posTo = this.pointerToView.getLeft() + this.pointerToView.getWidth() / 2;
+          diffBetweenValueAndFrom = Math.abs(x - posFrom);
+          diffBetweenValueAndTo = Math.abs(x - posTo);
+        }
+        if (diffBetweenValueAndFrom <= diffBetweenValueAndTo) {
+          pointerView = this.pointerFromView;
+        } else {
+          pointerView = this.pointerToView;
+        }
+      } else {
+        pointerView = this.pointerFromView;
+      }
+      this.setPointerPosition(pointerView, x, y);
+    }
   };
 
   private setPointerPosition(view: PointerView, x: number, y: number) {
