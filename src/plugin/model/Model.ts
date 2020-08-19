@@ -45,35 +45,35 @@ class Model {
     }
   }
 
-  attachMin(observer: (value: number) => void): void {
+  public attachMin(observer: (value: number) => void): void {
     this.min.attach(observer);
   }
 
-  attachMax(observer: (value: number) => void): void {
+  public attachMax(observer: (value: number) => void): void {
     this.max.attach(observer);
   }
 
-  attachStep(observer: (value: number) => void): void {
+  public attachStep(observer: (value: number) => void): void {
     this.step.attach(observer);
   }
 
-  attachValueFrom(observer: (value: number) => void): void {
+  public attachValueFrom(observer: (value: number) => void): void {
     this.from.attach(observer);
   }
 
-  attachValueTo(observer: (value: number) => void): void {
+  public attachValueTo(observer: (value: number) => void): void {
     this.to.attach(observer);
   }
 
-  attachInterval(observer: (value: boolean) => void): void {
+  public attachInterval(observer: (value: boolean) => void): void {
     this.hasInterval.attach(observer);
   }
 
-  getMin(): number {
+  public getMin(): number {
     return this.min.getValue();
   }
 
-  setMin(value: number): void {
+  public setMin(value: number): void {
     const max = this.max.getValue();
     let from = this.from.getValue();
     const to = this.to.getValue();
@@ -102,11 +102,11 @@ class Model {
     }
   }
 
-  getMax(): number {
+  public getMax(): number {
     return this.max.getValue();
   }
 
-  setMax(value: number): void {
+  public setMax(value: number): void {
     const min = this.min.getValue();
     const from = this.from.getValue();
     const to = this.to.getValue();
@@ -126,11 +126,11 @@ class Model {
     }
   }
 
-  getStep(): number {
+  public getStep(): number {
     return this.step.getValue();
   }
 
-  setStep(value: number): void {
+  public setStep(value: number): void {
     if (value <= 0) {
       throw new Error('Step must be > 0!');
     }
@@ -139,11 +139,11 @@ class Model {
     this.step.setValue(max - min > value ? value : max - min);
   }
 
-  getFrom(): number {
+  public getFrom(): number {
     return this.from.getValue();
   }
 
-  setFrom(value: number): void {
+  public setFrom(value: number): void {
     const min = this.min.getValue();
     const max = this.max.getValue();
     const to = this.to.getValue();
@@ -156,11 +156,12 @@ class Model {
     } else {
       this.from.setValue(value);
     }
-    if (hasInterval) { // TODO поправить тесты
-      if (value === to) {
+    if (hasInterval) {
+      if (value < min) {
+        this.from.setValue(min);
+      } else if (value === to) {
         throw new Error('From must be < to!');
-      }
-      if (value > to) {
+      } else if (value > to) {
         this.from.setValue(to);
       } else {
         this.from.setValue(value);
@@ -168,11 +169,11 @@ class Model {
     }
   }
 
-  getTo(): number {
+  public getTo(): number {
     return this.to.getValue();
   }
 
-  setTo(value: number): void {
+  public setTo(value: number): void {
     const min = this.min.getValue();
     const max = this.max.getValue();
     const from = this.from.getValue();
@@ -186,11 +187,12 @@ class Model {
       this.to.setValue(value);
     }
 
-    if (hasInterval) { // TODO поправить тесты
-      if (value === from) {
-        throw new Error('To must be > from!');
-      }
-      if (value < from) {
+    if (hasInterval) {
+      if (value > max) {
+        this.to.setValue(max);
+      } else if (value === from) {
+        throw new Error('From must be < to!');
+      } else if (value < from) {
         this.to.setValue(from);
       } else {
         this.to.setValue(value);
@@ -198,11 +200,11 @@ class Model {
     }
   }
 
-  isInterval(): boolean {
+  public isInterval(): boolean {
     return this.hasInterval.getValue();
   }
 
-  setInterval(value: boolean): void {
+  public setInterval(value: boolean): void {
     this.hasInterval.setValue(value);
   }
 }
