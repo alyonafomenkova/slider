@@ -461,6 +461,23 @@ describe('Set from value', () => {
     expect(step).toEqual(10);
   });
 
+  it('To value exist and  from < min', () => {
+    model.setInterval(true);
+    model.setFrom(-5);
+
+    expect(isInterval).toEqual(true);
+    expect(from).toEqual(0);
+    expect(to).toEqual(70);
+  });
+
+  it('To value exist and  from = to', () => {
+    model.setInterval(true);
+
+    expect(isInterval).toEqual(true);
+    expect(to).toEqual(70);
+    expect(() => { model.setFrom(70); }).toThrow(new Error('From must be < to!'));
+  });
+
   it('To value does not exist and  from < max', () => {
     model.setInterval(false);
     model.setFrom(10);
@@ -483,32 +500,6 @@ describe('Set from value', () => {
     expect(from).toEqual(100);
     expect(to).toEqual(70);
     expect(step).toEqual(10);
-  });
-
-  it('To value does not exist, step = 15, set from 18', () => {
-    model.setInterval(false);
-    model.setStep(15);
-    model.setFrom(18);
-
-    expect(isInterval).toEqual(false);
-    expect(min).toEqual(0);
-    expect(max).toEqual(100);
-    expect(from).toEqual(15);
-    expect(to).toEqual(70);
-    expect(step).toEqual(15);
-  });
-
-  it('To value does not exist, step = 15, set from 25', () => {
-    model.setInterval(false);
-    model.setStep(15);
-    model.setFrom(25);
-
-    expect(isInterval).toEqual(false);
-    expect(min).toEqual(0);
-    expect(max).toEqual(100);
-    expect(from).toEqual(30);
-    expect(to).toEqual(70);
-    expect(step).toEqual(15);
   });
 });
 
@@ -567,34 +558,27 @@ describe('Set to value', () => {
     expect(min).toEqual(0);
     expect(max).toEqual(100);
     expect(from).toEqual(20);
-    expect(to).toEqual(100);
     expect(step).toEqual(10);
+    expect(to).toEqual(100);
   });
 
-  it('Set to 30, step = 25', () => {
+  it('Set  to < min', () => {
     model.setInterval(true);
-    model.setStep(25);
-    model.setTo(30);
+    model.setTo(-50);
 
     expect(isInterval).toEqual(true);
     expect(min).toEqual(0);
     expect(max).toEqual(100);
     expect(from).toEqual(20);
-    expect(to).toEqual(25);
-    expect(step).toEqual(25);
+    expect(step).toEqual(10);
+    expect(to).toEqual(20);
   });
 
-  it('Set to 40, step = 25', () => {
+  it('Set  to === from', () => {
     model.setInterval(true);
-    model.setStep(25);
-    model.setTo(40);
 
     expect(isInterval).toEqual(true);
-    expect(min).toEqual(0);
-    expect(max).toEqual(100);
-    expect(from).toEqual(20);
-    expect(to).toEqual(50);
-    expect(step).toEqual(25);
+    expect(() => { model.setTo(20); }).toThrow(new Error('From must be < to!'));
   });
 });
 
