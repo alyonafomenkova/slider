@@ -1,6 +1,6 @@
-import PointerView from '../PointerView';
 import Presenter from '../../presenter/Presenter';
 import Util from '../../util/Util';
+import PointerView from '../PointerView';
 
 class PointerViewImpl implements PointerView {
   private readonly container: Element;
@@ -58,7 +58,7 @@ class PointerViewImpl implements PointerView {
     }
   }
 
-  draw(hasValue: boolean): void {
+  public draw(hasValue: boolean): void {
     const template = '<div class="slider__pointer"></div>';
     this.pointerContainer = Util.createElement(this.container, 'slider__pointer-container', template);
     this.setupMouseListeners();
@@ -70,7 +70,7 @@ class PointerViewImpl implements PointerView {
     }
   }
 
-  setValue(value: number): void {
+  public setValue(value: number): void {
     if (this.pointerContainer) {
       const container = this.pointerContainer.querySelector('.slider__value');
 
@@ -82,57 +82,57 @@ class PointerViewImpl implements PointerView {
     }
   }
 
-  setX(value: number): void {
+  public setX(value: number): void {
     if (this.pointerContainer) {
       this.pointerContainer.style.transform = 'translate(-50%, 0)';
       this.pointerContainer.style.left = `${value}%`;
     }
   }
 
-  setY(value: number): void {
+  public setY(value: number): void {
     if (this.pointerContainer) {
       this.pointerContainer.style.transform = 'translate(0, -50%)';
       this.pointerContainer.style.top = `${value}%`;
     }
   }
 
-  getWidth(): number {
+  public getWidth(): number {
     if (this.pointerContainer) {
       return this.pointerContainer.getBoundingClientRect().width;
     }
     return 0;
   }
 
-  getHeight(): number {
+  public getHeight(): number {
     if (this.pointerContainer) {
       return this.pointerContainer.getBoundingClientRect().height;
     }
     return 0;
   }
 
-  getLeft(): number {
+  public getLeft(): number {
     if (this.pointerContainer) {
       return this.pointerContainer.getBoundingClientRect().left;
     }
     return 0;
   }
 
-  getTop(): number {
+  public getTop(): number {
     if (this.pointerContainer) {
       return this.pointerContainer.getBoundingClientRect().top;
     }
     return 0;
   }
 
-  setDownEventListener(listener: (view: PointerView, x: number, y: number) => void): void {
+  public setDownEventListener(listener: (view: PointerView, x: number, y: number) => void): void {
     this.downEventListener = listener;
   }
 
-  setMoveEventListener(listener: (view: PointerView, x: number, y: number) => void): void {
+  public setMoveEventListener(listener: (view: PointerView, x: number, y: number) => void): void {
     this.moveEventListener = listener;
   }
 
-  setUpEventListener(listener: (view: PointerView, x: number, y: number) => void): void {
+  public setUpEventListener(listener: (view: PointerView, x: number, y: number) => void): void {
     this.upEventListener = listener;
   }
 
