@@ -1,6 +1,6 @@
-import SliderView from '../SliderView';
 import Presenter from '../../presenter/Presenter';
 import Util from '../../util/Util';
+import SliderView from '../SliderView';
 
 class SliderViewImpl implements SliderView {
   private readonly container: Element;
@@ -14,11 +14,11 @@ class SliderViewImpl implements SliderView {
     this.presenter = presenter;
   }
 
-  clear(): void {
+  public clear(): void {
     this.container.innerHTML = '';
   }
 
-  drawHorizontal(): void {
+  public drawHorizontal(): void {
     Util.createElement(this.container, 'slider__bar slider__bar--horizontal');
     Util.addClassName(this.container, 'slider--horizontal');
     Util.removeClassName(this.container, 'slider--vertical');
@@ -26,7 +26,7 @@ class SliderViewImpl implements SliderView {
     this.setupClickListeners();
   }
 
-  drawVertical(): void {
+  public drawVertical(): void {
     Util.createElement(this.container, 'slider__bar slider__bar--vertical');
     Util.addClassName(this.container, 'slider--vertical');
     Util.removeClassName(this.container, 'slider--horizontal');
@@ -34,7 +34,7 @@ class SliderViewImpl implements SliderView {
     this.setupClickListeners();
   }
 
-  drawHorizontalProgress(left: number, width: number): void {
+  public drawHorizontalProgress(left: number, width: number): void {
     const progress = this.container.querySelector('.slider__progress') as HTMLElement;
     if (progress) {
       progress.style.left = `${left}%`;
@@ -42,7 +42,7 @@ class SliderViewImpl implements SliderView {
     }
   }
 
-  drawVerticalProgress(bottom: number, height: number): void {
+  public drawVerticalProgress(bottom: number, height: number): void {
     const progress = this.container.querySelector('.slider__progress') as HTMLElement;
     if (progress) {
       progress.style.bottom = `${bottom}%`;
@@ -50,31 +50,31 @@ class SliderViewImpl implements SliderView {
     }
   }
 
-  getBoundLeft(): number {
+  public getBoundLeft(): number {
     return this.container.getBoundingClientRect().left;
   }
 
-  getBoundTop(): number {
+  public getBoundTop(): number {
     return this.container.getBoundingClientRect().top;
   }
 
-  getBoundRight(): number {
+  public getBoundRight(): number {
     return this.container.getBoundingClientRect().right;
   }
 
-  getBoundBottom(): number {
+  public getBoundBottom(): number {
     return this.container.getBoundingClientRect().bottom;
   }
 
-  getWidth(): number {
+  public getWidth(): number {
     return this.container.getBoundingClientRect().width;
   }
 
-  getHeight(): number {
+  public getHeight(): number {
     return this.container.getBoundingClientRect().height;
   }
 
-  setClickSliderBarListener(listener: (view: SliderView, x: number, y: number) => void): void {
+  public setClickSliderBarListener(listener: (view: SliderView, x: number, y: number) => void): void {
     this.sliderBarClickListener = listener;
   }
 
