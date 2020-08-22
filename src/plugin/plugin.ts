@@ -9,45 +9,51 @@ import Configuration from './model/Configuration';
 import defaultConfiguration from './model/defaultConfiguration';
 
 (function ($) {
-  let root: JQuery<HTMLElement>;
-  let presenter: Presenter;
+  const presenters = new Map<string, Presenter>();
+
+  const getElement = (element: any): JQuery<HTMLElement> => (element as JQuery<HTMLElement>);
+
+  const getId = (element: any): string => getElement(element)[0].id;
+
+  const getPresenter = (element: any): Presenter => {
+    const id = getId(element);
+    const presenter = presenters.get(id);
+    if (!presenter) {
+      throw new Error(`No presenter mapping found for ID = ${id}`);
+    }
+    return presenter;
+  };
 
   const methods = {
     init(config: Configuration): void {
-      if (!root) {
-        throw new Error('Root JQuery element is not defined');
-      }
-      if (!config) {
-        console.log('No custom configuration defined. Using default one');
-      }
-      const element = root[0];
+      const element = getElement(this)[0];
       const model = new Model(config || defaultConfiguration);
-      presenter = new Presenter(model, config || defaultConfiguration);
+      const presenter = new Presenter(model, config || defaultConfiguration);
       const sliderView = new SliderViewImpl(element, presenter);
       const pointerFromView = new PointerViewImpl('from', element, presenter);
       const pointerToView = new PointerViewImpl('to', element, presenter);
       const scaleView = new ScaleViewImpl(element, presenter);
       presenter.init(sliderView, pointerFromView, pointerToView, scaleView);
+      presenters.set(element.id, presenter);
     },
-    setStep(value: number) { presenter.setStep(value); },
-    setMin(value: number) { presenter.setMin(value); },
-    setMax(value: number) { presenter.setMax(value); },
-    setFrom(value: number) { presenter.setValueFrom(value); },
-    setTo(value: number) { presenter.setValueTo(value); },
-    setScale(value: boolean) { presenter.setScale(value); },
-    setPointerValue(value: boolean) { presenter.setPointerValue(value); },
-    setType(isInterval: boolean) { presenter.setHasInterval(isInterval); },
-    setOrientation(isVertical: boolean) { presenter.setIsVerticalOrientation(isVertical); },
-    setMinListener(listener: (value: number) => void) { presenter.setMinListener(listener); },
-    setMaxListener(listener: (value: number) => void) { presenter.setMaxListener(listener); },
-    setFromListener(listener: (value: number) => void) { presenter.setValueFromListener(listener); },
-    setToListener(listener: (value: number) => void) { presenter.setValueToListener(listener); },
-    setStepListener(listener: (value: number) => void) { presenter.setStepListener(listener); },
+    setStep(value: number) { getPresenter(this).setStep(value); },
+    setMin(value: number) { getPresenter(this).setMin(value); },
+    setMax(value: number) { getPresenter(this).setMax(value); },
+    setFrom(value: number) { getPresenter(this).setValueFrom(value); },
+    setTo(value: number) { getPresenter(this).setValueTo(value); },
+    setScale(value: boolean) { getPresenter(this).setScale(value); },
+    setPointerValue(value: boolean) { getPresenter(this).setPointerValue(value); },
+    setType(isInterval: boolean) { getPresenter(this).setHasInterval(isInterval); },
+    setOrientation(isVertical: boolean) { getPresenter(this).setIsVerticalOrientation(isVertical); },
+    setMinListener(listener: (value: number) => void) { getPresenter(this).setMinListener(listener); },
+    setMaxListener(listener: (value: number) => void) { getPresenter(this).setMaxListener(listener); },
+    setFromListener(listener: (value: number) => void) { getPresenter(this).setValueFromListener(listener); },
+    setToListener(listener: (value: number) => void) { getPresenter(this).setValueToListener(listener); },
+    setStepListener(listener: (value: number) => void) { getPresenter(this).setStepListener(listener); },
   };
 
+  // eslint-disable-next-line no-param-reassign
   $.fn.runForSlider = function (method: string, ...args: any): JQuery {
-    root = this;
-
     if (method === 'init') {
       methods.init.apply(this, args);
     } else if (method === 'setMin') {

@@ -24,15 +24,13 @@ html(lang="en")
           +settings-panel({'index': '1', 'minStep': 0.05, 'step': '0.05', 'orientation': 'vertical', 'type': 'single'})
         div.demo__slider-wrapper
           div.slider.js-slider(id="slider-1")
-
-
-      //div.demo__component-wrapper
-      //  div.demo__panel-wrapper
-      //    +settings-panel({'index': '2', 'minStep': 1})
-      //  div.demo__slider-wrapper
-      //    div.slider.js-slider(id="slider-2")
-      //div.demo__component-wrapper
-      //  div.demo__panel-wrapper
-      //    +settings-panel({'index': '3', 'minStep': 1})
-      //  div.demo__slider-wrapper
-      //    div.slider.js-slider(id="slider-3")
+      div.demo__component-wrapper
+        div.demo__panel-wrapper
+          +settings-panel({'index': '2', 'minStep': 1, 'step': '2', 'orientation': 'vertical', 'type': 'interval'})
+        div.demo__slider-wrapper
+          div.slider.js-slider(id="slider-2")
+      div.demo__component-wrapper
+        div.demo__panel-wrapper
+          +settings-panel({'index': '3', 'minStep': 1, 'step': '5', 'orientation': 'horizontal', 'type': 'interval'})
+        div.demo__slider-wrapper
+          div.slider.js-slider(id="slider-3")
