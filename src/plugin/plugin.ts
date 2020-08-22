@@ -6,6 +6,7 @@ import SliderViewImpl from './view/impl/SliderViewImpl';
 import PointerViewImpl from './view/impl/PointerViewImpl';
 import ScaleViewImpl from './view/impl/ScaleViewImpl';
 import Configuration from './model/Configuration';
+import defaultConfiguration from './model/defaultConfiguration';
 
 (function ($) {
   let root: JQuery<HTMLElement>;
@@ -16,99 +17,32 @@ import Configuration from './model/Configuration';
       if (!root) {
         throw new Error('Root JQuery element is not defined');
       }
+      if (!config) {
+        console.log('No custom configuration defined. Using default one');
+      }
       const element = root[0];
-      const model = new Model(config);
-      presenter = new Presenter(model, config);
+      const model = new Model(config || defaultConfiguration);
+      presenter = new Presenter(model, config || defaultConfiguration);
       const sliderView = new SliderViewImpl(element, presenter);
       const pointerFromView = new PointerViewImpl('from', element, presenter);
       const pointerToView = new PointerViewImpl('to', element, presenter);
       const scaleView = new ScaleViewImpl(element, presenter);
       presenter.init(sliderView, pointerFromView, pointerToView, scaleView);
     },
-    setStep(value: number): void {
-      if (!presenter) {
-        throw new Error('Presenter is not defined. Init slider first');
-      }
-      presenter.setStep(value);
-    },
-    setMin(value: number): void {
-      if (!presenter) {
-        throw new Error('Presenter is not defined. Init slider first');
-      }
-      presenter.setMin(value);
-    },
-    setMax(value: number): void {
-      if (!presenter) {
-        throw new Error('Presenter is not defined. Init slider first');
-      }
-      presenter.setMax(value);
-    },
-    setFrom(value: number): void {
-      if (!presenter) {
-        throw new Error('Presenter is not defined. Init slider first');
-      }
-      presenter.setValueFrom(value);
-    },
-    setTo(value: number): void {
-      if (!presenter) {
-        throw new Error('Presenter is not defined. Init slider first');
-      }
-      presenter.setValueTo(value);
-    },
-    setScale(value: boolean): void {
-      if (!presenter) {
-        throw new Error('Presenter is not defined. Init slider first');
-      }
-      presenter.setScale(value);
-    },
-    setPointerValue(value: boolean): void {
-      if (!presenter) {
-        throw new Error('Presenter is not defined. Init slider first');
-      }
-      presenter.setPointerValue(value);
-    },
-    setType(isInterval: boolean): void {
-      if (!presenter) {
-        throw new Error('Presenter is not defined. Init slider first');
-      }
-      presenter.setHasInterval(isInterval);
-    },
-    setOrientation(isVertical: boolean): void {
-      if (!presenter) {
-        throw new Error('Presenter is not defined. Init slider first');
-      }
-      presenter.setIsVerticalOrientation(isVertical);
-    },
-    setMinListener(listener: (value: number) => void): void {
-      if (!presenter) {
-        throw new Error('Presenter is not defined. Init slider first');
-      }
-      presenter.setMinListener(listener);
-    },
-    setMaxListener(listener: (value: number) => void): void {
-      if (!presenter) {
-        throw new Error('Presenter is not defined. Init slider first');
-      }
-      presenter.setMaxListener(listener);
-    },
-    setFromListener(listener: (value: number) => void): void {
-      if (!presenter) {
-        throw new Error('Presenter is not defined. Init slider first');
-      }
-      presenter.setValueFromListener(listener);
-    },
-    setToListener(listener: (value: number) => void): void {
-      if (!presenter) {
-        throw new Error('Presenter is not defined. Init slider first');
-      }
-      presenter.setValueToListener(listener);
-    },
-    setStepListener(listener: (value: number) => void): void {
-      if (!presenter) {
-        throw new Error('Presenter is not defined. Init slider first');
-      }
-      presenter.setStepListener(listener);
-    },
+    setStep(value: number) { presenter.setStep(value); },
+    setMin(value: number) { presenter.setMin(value); },
+    setMax(value: number) { presenter.setMax(value); },
+    setFrom(value: number) { presenter.setValueFrom(value); },
+    setTo(value: number) { presenter.setValueTo(value); },
+    setScale(value: boolean) { presenter.setScale(value); },
+    setPointerValue(value: boolean) { presenter.setPointerValue(value); },
+    setType(isInterval: boolean) { presenter.setHasInterval(isInterval); },
+    setOrientation(isVertical: boolean) { presenter.setIsVerticalOrientation(isVertical); },
+    setMinListener(listener: (value: number) => void) { presenter.setMinListener(listener); },
+    setMaxListener(listener: (value: number) => void) { presenter.setMaxListener(listener); },
+    setFromListener(listener: (value: number) => void) { presenter.setValueFromListener(listener); },
+    setToListener(listener: (value: number) => void) { presenter.setValueToListener(listener); },
+    setStepListener(listener: (value: number) => void) { presenter.setStepListener(listener); },
   };
 
   $.fn.runForSlider = function (method: string, ...args: any): JQuery {

@@ -45,6 +45,7 @@ class SettingsPanel {
 
   public init(): void {
     this.inputMin = this.panel.querySelector('.settings-panel__values-input--min') as Element;
+    console.log('this.panel: ', this.panel, 'this.inputMin: ', this.inputMin);//
     this.inputMax = this.panel.querySelector('.settings-panel__values-input--max') as Element;
     this.inputStep = this.panel.querySelector('.settings-panel__values-input--step') as Element;
     this.inputFrom = this.panel.querySelector('.settings-panel__values-input--from') as Element;

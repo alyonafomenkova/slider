@@ -4,19 +4,26 @@ mixin settings-panel(settings)
       legend.settings-panel__fieldset-title Orientation
       div.settings-panel__fieldset-inputs-wrapper
         div
-          input.settings-panel__input-vertical(type = 'radio' name='orientation' id = `vertical_` + settings.index)
+          input.settings-panel__input-vertical(
+            type = 'radio' name='orientation' id = `vertical_` + settings.index
+            checked=(settings.orientation==='vertical' ? 'checked' : undefined))
           label(for = `vertical_` + settings.index) Vertical
         div
-          input.settings-panel__input-horizontal(type = 'radio' name='orientation' id = `horizontal_` + settings.index checked)
+          input.settings-panel__input-horizontal(
+            type = 'radio' name='orientation' id = `horizontal_` + settings.index
+            checked=(settings.orientation==='horizontal' ? 'checked' : undefined))
           label(for = `horizontal_` + settings.index) Horizontal
     fieldset.settings-panel__fieldset
       legend.settings-panel__fieldset-title Type
       div.settings-panel__fieldset-inputs-wrapper
         div
-          input.settings-panel__input-single(type = 'radio' name='type' id = 'single_' + settings.index)
+          input.settings-panel__input-single(
+            type = 'radio' name='type' id = 'single_' + settings.index
+            checked=(settings.type==='single' ? 'checked' : undefined))
           label(for = 'single_' + settings.index) Single
         div
-          input.settings-panel__input-interval(type = 'radio' name='type' id = 'interval_' + settings.index checked)
+          input.settings-panel__input-interval(type = 'radio' name='type' id = 'interval_' + settings.index
+            checked=(settings.type==='interval' ? 'checked' : undefined))
           label(for = 'interval_' + settings.index) Interval
     fieldset.settings-panel__fieldset
       legend.settings-panel__fieldset-title Additional
@@ -33,7 +40,7 @@ mixin settings-panel(settings)
       label.settings-panel__values-label MAX
         input.settings-panel__values-input.settings-panel__values-input--max(type='number' name='max')
       label.settings-panel__values-label Step
-        input.settings-panel__values-input.settings-panel__values-input--step(type='number' name='step' min=settings.minStep)
+        input.settings-panel__values-input.settings-panel__values-input--step(type='number' name='step' min=settings.minStep step=settings.step)
       div.settings-panel__current-values-wrapper
         label.settings-panel__values-label Value From
           input.settings-panel__values-input.settings-panel__values-input--from(type='number' name='value1')

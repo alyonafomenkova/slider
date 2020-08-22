@@ -1,78 +1,58 @@
 import './demo.scss';
 import SettingsPanel from '../components/settings-panel/settings-panel';
 import '../plugin/plugin.ts';
+import Configuration from '../plugin/model/Configuration';
 
-const verticalConfiguration = {
-  min: 0,
-  max: 72,
+const configuration0 = {
+  min: -5,
+  max: 105,
   step: 10,
-  from: 10,
-  to: 20,
-  isVertical: true,
-  hasInterval: true,
-  hasValue: true,
-  hasScale: true,
-};
-
-const horizontalConfiguration = {
-  min: 0,
-  max: 72,
-  step: 10,
-  from: 10,
-  to: 20,
+  from: 5,
+  to: 90,
   isVertical: false,
-  hasInterval: true,
+  hasInterval: false,
   hasValue: true,
   hasScale: true,
 };
 
-const panelContainer = document.querySelector('#panel-0');
+const configuration1 = {
+  min: -0.5,
+  max: 0.75,
+  step: 0.05,
+  from: 0,
+  to: 0.7,
+  isVertical: false,
+  hasInterval: false,
+  hasValue: true,
+  hasScale: true,
+};
 
-if (panelContainer) {
-  const slider = $('#slider-0').runForSlider('init', horizontalConfiguration);
-  const panel = new SettingsPanel(panelContainer);
+const createPanelWithSlider = (panelId: string, sliderId: string, config?: Configuration) => {
+  const container = document.querySelector(panelId);
+  if (!container) {
+    throw new Error(`Container not found for panel ID = ${panelId}`);
+  }
+  console.log('panelId: ', panelId, 'sliderId: ', sliderId);//
+  const slider = $(`${sliderId}`).runForSlider('init', config);
+  const panel = new SettingsPanel(container);
 
   panel.init();
-  panel.setFromValueListener((value: number): void => {
-    slider.runForSlider('setFrom', value);
-  });
-  panel.setToValueListener((value: number): void => {
-    slider.runForSlider('setTo', value);
-  });
-  slider.runForSlider('setMinListener', (min: number): void => {
-    panel.setMinValue(min);
-  });
-  slider.runForSlider('setMaxListener', (max: number): void => {
-    panel.setMaxValue(max);
-  });
-  slider.runForSlider('setFromListener', (from: number): void => {
-    panel.setFromValue(from);
-  });
-  slider.runForSlider('setToListener', (to: number): void => {
-    panel.setToValue(to);
-  });
-  slider.runForSlider('setStepListener', (step: number): void => {
-    panel.setStep(step);
-  });
-  panel.setMinListener((value: number): void => {
-    slider.runForSlider('setMin', value);
-  });
-  panel.setMaxListener((value: number): void => {
-    slider.runForSlider('setMax', value);
-  });
-  panel.setStepListener((value: number): void => {
-    slider.runForSlider('setStep', value);
-  });
-  panel.setScaleListener((value: boolean): void => {
-    slider.runForSlider('setScale', value);
-  });
-  panel.setPointerValueListener((value: boolean): void => {
-    slider.runForSlider('setPointerValue', value);
-  });
-  panel.setTypeListener((value: boolean): void => {
-    slider.runForSlider('setType', value);
-  });
-  panel.setOrientationListener((value: boolean): void => {
-    slider.runForSlider('setOrientation', value);
-  });
-}
+  panel.setFromValueListener((value: number) => { slider.runForSlider('setFrom', value); });
+  panel.setToValueListener((value: number) => { slider.runForSlider('setTo', value); });
+  slider.runForSlider('setMinListener', (min: number) => { panel.setMinValue(min); });
+  slider.runForSlider('setMaxListener', (max: number) => { panel.setMaxValue(max); });
+  slider.runForSlider('setFromListener', (from: number) => { panel.setFromValue(from); });
+  slider.runForSlider('setToListener', (to: number) => { panel.setToValue(to); });
+  slider.runForSlider('setStepListener', (step: number) => { panel.setStep(step); });
+  panel.setMinListener((value: number) => { slider.runForSlider('setMin', value); });
+  panel.setMaxListener((value: number) => { slider.runForSlider('setMax', value); });
+  panel.setStepListener((value: number) => { slider.runForSlider('setStep', value); });
+  panel.setScaleListener((value: boolean) => { slider.runForSlider('setScale', value); });
+  panel.setPointerValueListener((value: boolean) => { slider.runForSlider('setPointerValue', value); });
+  panel.setTypeListener((value: boolean) => { slider.runForSlider('setType', value); });
+  panel.setOrientationListener((value: boolean) => { slider.runForSlider('setOrientation', value); });
+};
+
+createPanelWithSlider('#panel-0', '#slider-0', configuration1);
+// createPanelWithSlider('#panel-1', '#slider-1', configuration1);
+// createPanelWithSlider('#panel-2', '#slider-2');
