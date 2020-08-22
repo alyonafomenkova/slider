@@ -291,14 +291,14 @@ class Presenter {
         if (Math.floor(posY) === 0) {
           value = max;
         } else {
-          value = Math.round(((this.sliderView.getHeight() - posY) / stepHeight) * step) + min;
+          value = Math.round((this.sliderView.getHeight() - posY) / stepHeight) * step + min;
         }
       } else {
         const posX = view.getLeft() + pointerHalfWidth - this.sliderView.getBoundLeft();
         const stepWidth = this.sliderView.getWidth() / stepsTotal;
 
         if (Math.floor(posX) < Math.floor(this.sliderView.getWidth())) {
-          value = Math.round((posX / stepWidth) * step) + min;
+          value = Math.round(posX / stepWidth) * step + min;
         } else {
           value = max;
         }
