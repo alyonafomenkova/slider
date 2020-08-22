@@ -1,16 +1,16 @@
-import Model from '../model/Model';
-import SliderView from '../view/SliderView';
-import PointerView from '../view/PointerView';
-import ScaleView from '../view/ScaleView';
-import ScaleItem from '../view/ScaleItem';
-import Util from '../util/Util';
 import Configuration from '../model/Configuration';
+import Model from '../model/Model';
 import Subject from '../model/Subject';
+import PointerView from '../view/PointerView';
+import ScaleItem from '../view/ScaleItem';
+import ScaleView from '../view/ScaleView';
+import SliderView from '../view/SliderView';
+import Util from '../util/Util';
 
 class Presenter {
   private readonly MAX_SCALE_ITEMS_STEP = 26;
 
-  private model: Model;
+  private readonly model: Model;
 
   private sliderView?: SliderView = undefined;
 
@@ -44,7 +44,6 @@ class Presenter {
         this.pointerFromView.setValue(value);
       }
     });
-
     this.setupPositionByValue(view, this.model.getFrom());
     this.calculateValue(view);
   }
@@ -60,7 +59,6 @@ class Presenter {
         this.pointerToView.setValue(value);
       }
     });
-
     this.setupPositionByValue(view, this.model.getTo());
     this.calculateValue(view);
 
@@ -70,21 +68,23 @@ class Presenter {
   }
 
   private updateHorizontalProgress(sliderView: SliderView): void {
-    const isInterval = this.model.isInterval() && this.pointerFromView && this.pointerToView;
+    if (!this.pointerFromView || !this.pointerToView) {
+      throw new Error('Either pointerFromView or pointerToView is not defined');
+    }
+    const isInterval = this.model.isInterval();
     const posMin = sliderView.getBoundLeft();
-    const posFrom = this.pointerFromView!.getLeft() + this.pointerFromView!.getWidth() / 2;
+    const posFrom = this.pointerFromView.getLeft() + this.pointerFromView.getWidth() / 2;
     let start;
     let end;
 
     if (isInterval) {
-      const posTo = this.pointerToView!.getLeft() + this.pointerToView!.getWidth() / 2;
+      const posTo = this.pointerToView.getLeft() + this.pointerToView.getWidth() / 2;
       start = posFrom - posMin;
       end = posTo;
     } else {
       start = 0;
       end = posFrom;
     }
-
     const width = Math.abs(end - start - posMin);
     const startInPercent = (start / sliderView.getWidth()) * 100;
     const widthInPercent = (width / sliderView.getWidth()) * 100;
@@ -92,21 +92,23 @@ class Presenter {
   }
 
   private updateVerticalProgress(sliderView: SliderView): void {
-    const isInterval = this.model.isInterval() && this.pointerFromView && this.pointerToView;
+    if (!this.pointerFromView || !this.pointerToView) {
+      throw new Error('Either pointerFromView or pointerToView is not defined');
+    }
+    const isInterval = this.model.isInterval();
     const posMax = sliderView.getBoundBottom();
-    const posFrom = posMax - this.pointerFromView!.getTop() - this.pointerFromView!.getHeight() / 2;
+    const posFrom = posMax - this.pointerFromView.getTop() - this.pointerFromView.getHeight() / 2;
     let start;
     let end;
 
     if (isInterval) {
-      const posTo = posMax - this.pointerToView!.getTop() - this.pointerToView!.getHeight() / 2;
+      const posTo = posMax - this.pointerToView.getTop() - this.pointerToView.getHeight() / 2;
       start = posFrom;
       end = posTo;
     } else {
       start = 0;
       end = posFrom;
     }
-
     const height = Math.abs(start - end);
     const startInPercent = (start / sliderView.getHeight()) * 100;
     const heightInPercent = (height / sliderView.getHeight()) * 100;
@@ -133,15 +135,15 @@ class Presenter {
     } else {
       sliderView.drawHorizontal();
     }
-
     this.setupScale(scaleView);
+
     if (!this.hasScale.getValue()) {
       this.scaleView.hide();
     }
     this.initPointerFrom(pointerFromView);
     this.initPointerTo(pointerToView);
     this.updateProgress(sliderView);
-    sliderView.setClickSliderBarListener(this.sliderBarClickListener);//
+    sliderView.setClickSliderBarListener(this.sliderBarClickListener);
   }
 
   private setupScale(view: ScaleView): void {
@@ -156,6 +158,7 @@ class Presenter {
       const isVertical = this.isVertical.getValue();
       const stepWidth = isVertical ? (sliderHeight / count) : (sliderWidth / count);
       const itemStep = this.getItemsStep(stepWidth);
+
       for (let i = 0; i <= count; i += itemStep) {
         const value = min + step * i;
         const rounded = Util.roundWithEpsilon(value);
@@ -168,7 +171,10 @@ class Presenter {
   }
 
   private scaleClickListener = (view: ScaleView, value: number): void => {
-    const isInterval = this.model.isInterval() && this.pointerFromView && this.pointerToView;
+    if (!this.pointerFromView || !this.pointerToView) {
+      throw new Error('Either pointerFromView or pointerToView is not defined');
+    }
+    const isInterval = this.model.isInterval();
     const from = this.model.getFrom();
     const to = this.model.getTo();
     let pointerView;
@@ -176,6 +182,7 @@ class Presenter {
     if (isInterval) {
       const diffBetweenValueAndFrom = Math.abs(value - from);
       const diffBetweenValueAndTo = Math.abs(value - to);
+
       if (diffBetweenValueAndFrom <= diffBetweenValueAndTo) {
         pointerView = this.pointerFromView;
       } else {
@@ -253,11 +260,11 @@ class Presenter {
       this.setPointerX(view, x);
     }
     this.calculateValue(view);
-    if (this.sliderView) {
-      this.updateProgress(this.sliderView);
-    } else {
+
+    if (!this.sliderView) {
       throw new Error('sliderView is undefined');
     }
+    this.updateProgress(this.sliderView);
   }
 
   private calculateValue(view: PointerView): void {
@@ -311,33 +318,32 @@ class Presenter {
   public setMin(value: number): void {
     const max = this.model.getMax();
     const step = this.model.getStep();
-    if (this.sliderView && this.pointerFromView && this.pointerToView && this.scaleView) {//
-      if (value >= max - step) {
-        this.model.setMin(max - step);
-      } else {
-        this.model.setMin(value);
+
+    if (this.pointerFromView && this.pointerToView) {
+      if (this.sliderView && this.scaleView) {
+        this.model.setMin(value >= max - step ? max - step : value);
+        this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
       }
-      this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
     }
   }
 
   public setMax(value: number): void {
-    if (this.sliderView && this.pointerFromView && this.pointerToView && this.scaleView) {//
-      const min = this.model.getMin();
-      const step = this.model.getStep();
-      if (value <= min + step) {
-        this.model.setMax(min + step);
-      } else {
-        this.model.setMax(value);
+    if (this.pointerFromView && this.pointerToView) {
+      if (this.sliderView && this.scaleView) {
+        const min = this.model.getMin();
+        const step = this.model.getStep();
+        this.model.setMax(value <= min + step ? min + step : value);
+        this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
       }
-      this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
     }
   }
 
   public setStep(value: number): void {
-    if (this.sliderView && this.pointerFromView && this.pointerToView && this.scaleView) {//
-      this.model.setStep(value);
-      this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
+    if (this.pointerFromView && this.pointerToView) {
+      if (this.sliderView && this.scaleView) {
+        this.model.setStep(value);
+        this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
+      }
     }
   }
 
@@ -419,8 +425,10 @@ class Presenter {
 
   public setIsVerticalOrientation(value: boolean): void {
     this.isVertical.setValue(value);
-    if (this.sliderView && this.pointerFromView && this.pointerToView && this.scaleView) {//
-      this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
+    if (this.pointerFromView && this.pointerToView) {
+      if (this.sliderView && this.scaleView) {
+        this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
+      }
     }
   }
 
@@ -471,6 +479,9 @@ class Presenter {
   }
 
   private setPointerX(view: PointerView, x: number) {
+    if (!this.pointerFromView || !this.pointerToView) {
+      throw new Error('Either pointerFromView or pointerToView is not defined');
+    }
     if (this.sliderView) {
       let posX = x - this.sliderView.getBoundLeft();
       const xMin = 0;
@@ -482,7 +493,7 @@ class Presenter {
       const stepX = this.sliderView.getWidth() / stepCount;
       const stepsTotal = (max - min) / step;
       const stepWidth = this.sliderView.getWidth() / stepsTotal;
-      const isInterval = this.model.isInterval() && this.pointerFromView && this.pointerToView;
+      const isInterval = this.model.isInterval();
       posX = Math.round(posX / stepX) * stepX;
 
       if (isInterval) {
@@ -511,6 +522,9 @@ class Presenter {
   }
 
   private setPointerY(view: PointerView, y: number) {
+    if (!this.pointerFromView || !this.pointerToView) {
+      throw new Error('Either pointerFromView or pointerToView is not defined');
+    }
     if (this.sliderView) {
       let posY = y - this.sliderView.getBoundTop();
       const yMin = 0;
@@ -522,7 +536,7 @@ class Presenter {
       const stepY = this.sliderView.getHeight() / stepCount;
       const stepHeight = this.sliderView.getHeight() / stepCount;
       const offset = this.sliderView.getHeight() - Math.floor(stepCount) * stepHeight;
-      const isInterval = this.model.isInterval() && this.pointerFromView && this.pointerToView;
+      const isInterval = this.model.isInterval();
       posY = Math.round((posY - offset) / stepY) * stepY + offset;
 
       if (isInterval) {
@@ -547,6 +561,20 @@ class Presenter {
       const percent = (posY / this.sliderView.getHeight()) * 100;
       view.setY(percent);
     }
+  }
+
+  private getModelData() : { from: number; to: number, min: number, max: number, step: number, isInterval: boolean } {
+    if (!this.model) {
+      throw new Error('No model defined');
+    }
+    return {
+      from: this.model.getFrom(),
+      to: this.model.getTo(),
+      min: this.model.getMin(),
+      max: this.model.getMax(),
+      step: this.model.getStep(),
+      isInterval: this.model.isInterval(),
+    };
   }
 }
 
