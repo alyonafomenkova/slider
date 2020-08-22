@@ -65,6 +65,10 @@ class Presenter {
     if (!this.model.isInterval()) {
       view.hide();
     }
+
+    if (!this.hasValue.getValue()) {
+      view.hideValue();
+    }
   }
 
   private updateHorizontalProgress(sliderView: SliderView): void {
@@ -389,7 +393,12 @@ class Presenter {
     if (this.pointerFromView && this.pointerToView) {
       if (value) {
         this.pointerFromView.showValue();
-        this.pointerToView.showValue();
+
+        if (this.model.isInterval()) {
+          this.pointerToView.showValue();
+        } else {
+          this.pointerToView.hideValue();
+        }
       } else {
         this.pointerFromView.hideValue();
         this.pointerToView.hideValue();
@@ -416,8 +425,15 @@ class Presenter {
           this.setValueTo(from + step);
         }
         this.pointerToView.show();
+
+        if (this.hasValue.getValue()) {
+          this.pointerToView.showValue();
+        } else {
+          this.pointerToView.hideValue();
+        }
       } else {
         this.pointerToView.hide();
+        this.pointerToView.hideValue();
       }
       this.updateProgress(this.sliderView);
     }
@@ -561,20 +577,6 @@ class Presenter {
       const percent = (posY / this.sliderView.getHeight()) * 100;
       view.setY(percent);
     }
-  }
-
-  private getModelData() : { from: number; to: number, min: number, max: number, step: number, isInterval: boolean } {
-    if (!this.model) {
-      throw new Error('No model defined');
-    }
-    return {
-      from: this.model.getFrom(),
-      to: this.model.getTo(),
-      min: this.model.getMin(),
-      max: this.model.getMax(),
-      step: this.model.getStep(),
-      isInterval: this.model.isInterval(),
-    };
   }
 }
 

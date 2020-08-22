@@ -39,22 +39,20 @@ class PointerViewImpl implements PointerView {
   }
 
   public showValue(): void {
-    const containers = this.container.querySelectorAll('.slider__value');
-    if (containers.length > 0) {
-      containers.forEach((container) => {
-        const element = container as HTMLElement;
-        element.style.visibility = 'visible';
-      });
+    if (this.pointerContainer) {
+      const valueContainer = this.pointerContainer.querySelector('.slider__value') as HTMLElement;
+      valueContainer.style.visibility = 'visible';
+    } else {
+      throw new Error('Pointer container undefined');
     }
   }
 
   public hideValue(): void {
-    const containers = this.container.querySelectorAll('.slider__value');
-    if (containers.length > 0) {
-      containers.forEach((container) => {
-        const element = container as HTMLElement;
-        element.style.visibility = 'hidden';
-      });
+    if (this.pointerContainer) {
+      const valueContainer = this.pointerContainer.querySelector('.slider__value') as HTMLElement;
+      valueContainer.style.visibility = 'hidden';
+    } else {
+      throw new Error('Pointer container undefined');
     }
   }
 
