@@ -1,10 +1,11 @@
-import {anyNumber, anything, capture, instance, mock, reset, verify, when} from 'ts-mockito';
+import {
+  anyNumber, anything, capture, instance, mock, resetCalls, verify, when,
+} from 'ts-mockito';
 import Presenter from '../../presenter/Presenter';
 import Model from '../../model/Model';
 import SliderView from '../../view/SliderView';
 import PointerView from '../../view/PointerView';
 import ScaleView from '../../view/ScaleView';
-import any = jasmine.any;
 
 // Mocks
 const mockSliderView = mock<SliderView>();
@@ -20,46 +21,78 @@ const initPresenter = (presenter: Presenter) => {
   presenter.init(sliderView, pointerFromView, pointerToView, scaleView);
 };
 
+const resetAllMockCalls = () => {
+  resetCalls(mockSliderView);
+  resetCalls(mockPointerFromView);
+  resetCalls(mockPointerToView);
+  resetCalls(mockScaleView);
+};
+
+const arrangeHorizontalSlider = () => {
+  // Arrange mock slider view
+  when(mockSliderView.getBoundLeft()).thenReturn(0);
+  when(mockSliderView.getBoundTop()).thenReturn(0);
+  when(mockSliderView.getBoundRight()).thenReturn(1000);
+  when(mockSliderView.getBoundBottom()).thenReturn(100);
+  when(mockSliderView.getWidth()).thenReturn(1000);
+  when(mockSliderView.getHeight()).thenReturn(100);
+
+  // Arrange mock pointer from view
+  when(mockPointerFromView.getWidth()).thenReturn(25);
+  when(mockPointerFromView.getHeight()).thenReturn(25);
+  when(mockPointerFromView.getLeft()).thenReturn(100);
+  when(mockPointerFromView.getTop()).thenReturn(50);
+
+  // Arrange mock pointer to view
+  when(mockPointerToView.getWidth()).thenReturn(25);
+  when(mockPointerToView.getHeight()).thenReturn(25);
+  when(mockPointerToView.getLeft()).thenReturn(900);
+  when(mockPointerToView.getTop()).thenReturn(50);
+};
+
+const createConfiguration = (vertical: boolean) => ({
+  min: 0,
+  max: 100,
+  step: 5,
+  from: 20,
+  to: 70,
+  isVertical: vertical,
+  hasInterval: true,
+  hasValue: true,
+  hasScale: true,
+});
+
+const arrangeVerticalSlider = () => {
+  // Arrange mock slider view
+  when(mockSliderView.getBoundLeft()).thenReturn(0);
+  when(mockSliderView.getBoundTop()).thenReturn(0);
+  when(mockSliderView.getBoundRight()).thenReturn(100);
+  when(mockSliderView.getBoundBottom()).thenReturn(1000);
+  when(mockSliderView.getWidth()).thenReturn(100);
+  when(mockSliderView.getHeight()).thenReturn(1000);
+
+  // Arrange mock pointer from view
+  when(mockPointerFromView.getWidth()).thenReturn(25);
+  when(mockPointerFromView.getHeight()).thenReturn(25);
+  when(mockPointerFromView.getLeft()).thenReturn(50);
+  when(mockPointerFromView.getTop()).thenReturn(900);
+
+  // Arrange mock pointer to view
+  when(mockPointerToView.getWidth()).thenReturn(25);
+  when(mockPointerToView.getHeight()).thenReturn(25);
+  when(mockPointerToView.getLeft()).thenReturn(50);
+  when(mockPointerToView.getTop()).thenReturn(100);
+};
+
 describe('Init presenter', () => {
   beforeEach(() => {
-    reset(mockSliderView);
-    reset(mockPointerFromView);
-    reset(mockPointerToView);
-    reset(mockScaleView);
+    resetAllMockCalls();
   });
 
   it('Horizontal orientation, slider bar click', () => {
-    // Arrange mock slider view
-    when(mockSliderView.getBoundLeft()).thenReturn(0);
-    when(mockSliderView.getBoundTop()).thenReturn(0);
-    when(mockSliderView.getBoundRight()).thenReturn(1000);
-    when(mockSliderView.getBoundBottom()).thenReturn(100);
-    when(mockSliderView.getWidth()).thenReturn(1000);
-    when(mockSliderView.getHeight()).thenReturn(100);
-
-    // Arrange mock pointer from view
-    when(mockPointerFromView.getWidth()).thenReturn(25);
-    when(mockPointerFromView.getHeight()).thenReturn(25);
-    when(mockPointerFromView.getLeft()).thenReturn(100);
-    when(mockPointerFromView.getTop()).thenReturn(50);
-
-    // Arrange mock pointer to view
-    when(mockPointerToView.getWidth()).thenReturn(25);
-    when(mockPointerToView.getHeight()).thenReturn(25);
-    when(mockPointerToView.getLeft()).thenReturn(900);
-    when(mockPointerToView.getTop()).thenReturn(50);
-
-    const config = {
-      min: 0,
-      max: 100,
-      step: 5,
-      from: 20,
-      to: 70,
-      isVertical: false,
-      hasInterval: true,
-      hasValue: true,
-      hasScale: true,
-    };
+    // Arrange
+    arrangeHorizontalSlider();
+    const config = createConfiguration(false);
     const model = new Model(config);
     const presenter = new Presenter(model, config);
 
@@ -84,13 +117,13 @@ describe('Init presenter', () => {
 
     // Assert for pointer from view
     verify(mockPointerFromView.show()).never();
-    verify(mockPointerFromView.hide()).never()
+    verify(mockPointerFromView.hide()).never();
     verify(mockPointerFromView.showValue()).never();
     verify(mockPointerFromView.hideValue()).never();
     verify(mockPointerFromView.draw(anything())).once();
     verify(mockPointerFromView.setX(anyNumber())).twice();
     verify(mockPointerFromView.setY(anyNumber())).never();
-    verify(mockPointerFromView.setValue(anyNumber())).times(5)
+    verify(mockPointerFromView.setValue(anyNumber())).times(5);
     verify(mockPointerFromView.getWidth()).times(5);
     verify(mockPointerFromView.getHeight()).twice();
     verify(mockPointerFromView.getLeft()).times(5);
@@ -101,7 +134,7 @@ describe('Init presenter', () => {
 
     // Assert for pointer to view
     verify(mockPointerToView.show()).never();
-    verify(mockPointerToView.hide()).never()
+    verify(mockPointerToView.hide()).never();
     verify(mockPointerToView.showValue()).never();
     verify(mockPointerToView.hideValue()).never();
     verify(mockPointerToView.draw(anything())).once();
@@ -118,37 +151,9 @@ describe('Init presenter', () => {
   });
 
   it('Vertical orientation, slider bar click', () => {
-    // Arrange mock slider view
-    when(mockSliderView.getBoundLeft()).thenReturn(0);
-    when(mockSliderView.getBoundTop()).thenReturn(0);
-    when(mockSliderView.getBoundRight()).thenReturn(100);
-    when(mockSliderView.getBoundBottom()).thenReturn(1000);
-    when(mockSliderView.getWidth()).thenReturn(100);
-    when(mockSliderView.getHeight()).thenReturn(1000);
-
-    // Arrange mock pointer from view
-    when(mockPointerFromView.getWidth()).thenReturn(25);
-    when(mockPointerFromView.getHeight()).thenReturn(25);
-    when(mockPointerFromView.getLeft()).thenReturn(50);
-    when(mockPointerFromView.getTop()).thenReturn(900);
-
-    // Arrange mock pointer to view
-    when(mockPointerToView.getWidth()).thenReturn(25);
-    when(mockPointerToView.getHeight()).thenReturn(25);
-    when(mockPointerToView.getLeft()).thenReturn(50);
-    when(mockPointerToView.getTop()).thenReturn(100);
-
-    const config = {
-      min: 0,
-      max: 100,
-      step: 5,
-      from: 20,
-      to: 70,
-      isVertical: true,
-      hasInterval: true,
-      hasValue: true,
-      hasScale: true,
-    };
+    // Arrange
+    arrangeVerticalSlider();
+    const config = createConfiguration(true);
     const model = new Model(config);
     const presenter = new Presenter(model, config);
 
@@ -173,7 +178,7 @@ describe('Init presenter', () => {
 
     // Assert for pointer from view
     verify(mockPointerFromView.show()).never();
-    verify(mockPointerFromView.hide()).never()
+    verify(mockPointerFromView.hide()).never();
     verify(mockPointerFromView.showValue()).never();
     verify(mockPointerFromView.hideValue()).never();
     verify(mockPointerFromView.draw(anything())).once();
@@ -190,7 +195,7 @@ describe('Init presenter', () => {
 
     // Assert for pointer to view
     verify(mockPointerToView.show()).never();
-    verify(mockPointerToView.hide()).never()
+    verify(mockPointerToView.hide()).never();
     verify(mockPointerToView.showValue()).never();
     verify(mockPointerToView.hideValue()).never();
     verify(mockPointerToView.draw(anything())).once();
@@ -208,17 +213,7 @@ describe('Init presenter', () => {
 
   it('Subscribe to inner model', () => {
     // Arrange
-    const config = {
-      min: 0,
-      max: 100,
-      step: 5,
-      from: 20,
-      to: 70,
-      isVertical: false,
-      hasInterval: true,
-      hasValue: true,
-      hasScale: true,
-    };
+    const config = createConfiguration(false);
     const model = new Model(config);
     const presenter = new Presenter(model, config);
 
@@ -241,5 +236,316 @@ describe('Init presenter', () => {
     expect(actualStep).toEqual(config.step);
     expect(actualFrom).toEqual(config.from);
     expect(actualTo).toEqual(config.to);
+  });
+});
+
+describe('Set values', () => {
+  beforeEach(() => {
+    resetAllMockCalls();
+  });
+
+  it('Set min value', () => {
+    // Arrange
+    arrangeVerticalSlider();
+    const config = createConfiguration(true);
+    const model = new Model(config);
+    const presenter = new Presenter(model, config);
+
+    // Act
+    initPresenter(presenter);
+    resetAllMockCalls();
+    presenter.setMin(15);
+
+    // Assert for slider view
+    verify(mockSliderView.clear()).once();
+    verify(mockSliderView.drawHorizontal()).never();
+    verify(mockSliderView.drawVertical()).once();
+    verify(mockSliderView.drawHorizontalProgress(anyNumber(), anyNumber())).never();
+    verify(mockSliderView.drawVerticalProgress(anyNumber(), anyNumber())).once();
+    verify(mockSliderView.getBoundLeft()).never();
+    verify(mockSliderView.getBoundTop()).times(6);
+    verify(mockSliderView.getBoundRight()).never();
+    verify(mockSliderView.getBoundBottom()).times(3);
+    verify(mockSliderView.getWidth()).once();
+    verify(mockSliderView.getHeight()).times(17);
+    verify(mockSliderView.setClickSliderBarListener(anything())).once();
+
+    // Assert for pointer from view
+    verify(mockPointerFromView.show()).never();
+    verify(mockPointerFromView.hide()).never();
+    verify(mockPointerFromView.showValue()).never();
+    verify(mockPointerFromView.hideValue()).never();
+    verify(mockPointerFromView.draw(anything())).once();
+    verify(mockPointerFromView.setX(anyNumber())).never();
+    verify(mockPointerFromView.setY(anyNumber())).once();
+    verify(mockPointerFromView.setValue(anyNumber())).times(6);
+    verify(mockPointerFromView.getWidth()).once();
+    verify(mockPointerFromView.getHeight()).twice();
+    verify(mockPointerFromView.getLeft()).never();
+    verify(mockPointerFromView.getTop()).twice();
+    verify(mockPointerFromView.setDownEventListener(anything)).never();
+    verify(mockPointerFromView.setMoveEventListener(anything)).never();
+    verify(mockPointerFromView.setUpEventListener(anything)).never();
+
+    // Assert for pointer to view
+    verify(mockPointerToView.show()).never();
+    verify(mockPointerToView.hide()).never();
+    verify(mockPointerToView.showValue()).never();
+    verify(mockPointerToView.hideValue()).never();
+    verify(mockPointerToView.draw(anything())).once();
+    verify(mockPointerToView.setX(anyNumber())).never();
+    verify(mockPointerToView.setY(anyNumber())).once();
+    verify(mockPointerToView.setValue(anyNumber())).times(5);
+    verify(mockPointerToView.getWidth()).once();
+    verify(mockPointerToView.getHeight()).twice();
+    verify(mockPointerToView.getLeft()).never();
+    verify(mockPointerToView.getTop()).twice();
+    verify(mockPointerToView.setDownEventListener(anything)).never();
+    verify(mockPointerToView.setMoveEventListener(anything)).never();
+    verify(mockPointerToView.setUpEventListener(anything)).never();
+  });
+
+  it('Set max value', () => {
+    // Arrange
+    arrangeVerticalSlider();
+    const config = createConfiguration(true);
+    const model = new Model(config);
+    const presenter = new Presenter(model, config);
+
+    // Act
+    initPresenter(presenter);
+    resetAllMockCalls();
+    presenter.setMax(85);
+
+    // Assert for slider view
+    verify(mockSliderView.clear()).once();
+    verify(mockSliderView.drawHorizontal()).never();
+    verify(mockSliderView.drawVertical()).once();
+    verify(mockSliderView.drawHorizontalProgress(anyNumber(), anyNumber())).never();
+    verify(mockSliderView.drawVerticalProgress(anyNumber(), anyNumber())).once();
+    verify(mockSliderView.getBoundLeft()).never();
+    verify(mockSliderView.getBoundTop()).times(6);
+    verify(mockSliderView.getBoundRight()).never();
+    verify(mockSliderView.getBoundBottom()).times(3);
+    verify(mockSliderView.getWidth()).once();
+    verify(mockSliderView.getHeight()).times(17);
+    verify(mockSliderView.setClickSliderBarListener(anything())).once();
+
+    // Assert for pointer from view
+    verify(mockPointerFromView.show()).never();
+    verify(mockPointerFromView.hide()).never();
+    verify(mockPointerFromView.showValue()).never();
+    verify(mockPointerFromView.hideValue()).never();
+    verify(mockPointerFromView.draw(anything())).once();
+    verify(mockPointerFromView.setX(anyNumber())).never();
+    verify(mockPointerFromView.setY(anyNumber())).once();
+    verify(mockPointerFromView.setValue(anyNumber())).times(5);
+    verify(mockPointerFromView.getWidth()).once();
+    verify(mockPointerFromView.getHeight()).twice();
+    verify(mockPointerFromView.getLeft()).never();
+    verify(mockPointerFromView.getTop()).twice();
+    verify(mockPointerFromView.setDownEventListener(anything)).never();
+    verify(mockPointerFromView.setMoveEventListener(anything)).never();
+    verify(mockPointerFromView.setUpEventListener(anything)).never();
+
+    // Assert for pointer to view
+    verify(mockPointerToView.show()).never();
+    verify(mockPointerToView.hide()).never();
+    verify(mockPointerToView.showValue()).never();
+    verify(mockPointerToView.hideValue()).never();
+    verify(mockPointerToView.draw(anything())).once();
+    verify(mockPointerToView.setX(anyNumber())).never();
+    verify(mockPointerToView.setY(anyNumber())).once();
+    verify(mockPointerToView.setValue(anyNumber())).times(6);
+    verify(mockPointerToView.getWidth()).once();
+    verify(mockPointerToView.getHeight()).twice();
+    verify(mockPointerToView.getLeft()).never();
+    verify(mockPointerToView.getTop()).twice();
+    verify(mockPointerToView.setDownEventListener(anything)).never();
+    verify(mockPointerToView.setMoveEventListener(anything)).never();
+    verify(mockPointerToView.setUpEventListener(anything)).never();
+  });
+
+  it('Set step', () => {
+    // Arrange
+    arrangeVerticalSlider();
+    const config = createConfiguration(true);
+    const model = new Model(config);
+    const presenter = new Presenter(model, config);
+
+    // Act
+    initPresenter(presenter);
+    resetAllMockCalls();
+    presenter.setStep(1);
+
+    // Assert for slider view
+    verify(mockSliderView.clear()).once();
+    verify(mockSliderView.drawHorizontal()).never();
+    verify(mockSliderView.drawVertical()).once();
+    verify(mockSliderView.drawHorizontalProgress(anyNumber(), anyNumber())).never();
+    verify(mockSliderView.drawVerticalProgress(anyNumber(), anyNumber())).once();
+    verify(mockSliderView.getBoundLeft()).never();
+    verify(mockSliderView.getBoundTop()).times(6);
+    verify(mockSliderView.getBoundRight()).never();
+    verify(mockSliderView.getBoundBottom()).times(3);
+    verify(mockSliderView.getWidth()).once();
+    verify(mockSliderView.getHeight()).times(17);
+    verify(mockSliderView.setClickSliderBarListener(anything())).once();
+
+    // Assert for pointer from view
+    verify(mockPointerFromView.show()).never();
+    verify(mockPointerFromView.hide()).never();
+    verify(mockPointerFromView.showValue()).never();
+    verify(mockPointerFromView.hideValue()).never();
+    verify(mockPointerFromView.draw(anything())).once();
+    verify(mockPointerFromView.setX(anyNumber())).never();
+    verify(mockPointerFromView.setY(anyNumber())).once();
+    verify(mockPointerFromView.setValue(anyNumber())).times(5);
+    verify(mockPointerFromView.getWidth()).once();
+    verify(mockPointerFromView.getHeight()).twice();
+    verify(mockPointerFromView.getLeft()).never();
+    verify(mockPointerFromView.getTop()).twice();
+    verify(mockPointerFromView.setDownEventListener(anything)).never();
+    verify(mockPointerFromView.setMoveEventListener(anything)).never();
+    verify(mockPointerFromView.setUpEventListener(anything)).never();
+
+    // Assert for pointer to view
+    verify(mockPointerToView.show()).never();
+    verify(mockPointerToView.hide()).never();
+    verify(mockPointerToView.showValue()).never();
+    verify(mockPointerToView.hideValue()).never();
+    verify(mockPointerToView.draw(anything())).once();
+    verify(mockPointerToView.setX(anyNumber())).never();
+    verify(mockPointerToView.setY(anyNumber())).once();
+    verify(mockPointerToView.setValue(anyNumber())).times(5);
+    verify(mockPointerToView.getWidth()).once();
+    verify(mockPointerToView.getHeight()).twice();
+    verify(mockPointerToView.getLeft()).never();
+    verify(mockPointerToView.getTop()).twice();
+    verify(mockPointerToView.setDownEventListener(anything)).never();
+    verify(mockPointerToView.setMoveEventListener(anything)).never();
+    verify(mockPointerToView.setUpEventListener(anything)).never();
+  });
+
+  it('Set from', () => {
+    // Arrange
+    arrangeVerticalSlider();
+    const config = createConfiguration(true);
+    const model = new Model(config);
+    const presenter = new Presenter(model, config);
+
+    // Act
+    initPresenter(presenter);
+    resetAllMockCalls();
+    presenter.setValueFrom(25);
+
+    // Assert for slider view
+    verify(mockSliderView.clear()).never();
+    verify(mockSliderView.drawHorizontal()).never();
+    verify(mockSliderView.drawVertical()).never();
+    verify(mockSliderView.drawHorizontalProgress(anyNumber(), anyNumber())).never();
+    verify(mockSliderView.drawVerticalProgress(anyNumber(), anyNumber())).once();
+    verify(mockSliderView.getBoundLeft()).never();
+    verify(mockSliderView.getBoundTop()).thrice();
+    verify(mockSliderView.getBoundRight()).never();
+    verify(mockSliderView.getBoundBottom()).twice();
+    verify(mockSliderView.getWidth()).never();
+    verify(mockSliderView.getHeight()).times(9);
+    verify(mockSliderView.setClickSliderBarListener(anything())).never();
+
+    // Assert for pointer from view
+    verify(mockPointerFromView.show()).never();
+    verify(mockPointerFromView.hide()).never();
+    verify(mockPointerFromView.showValue()).never();
+    verify(mockPointerFromView.hideValue()).never();
+    verify(mockPointerFromView.draw(anything())).never();
+    verify(mockPointerFromView.setX(anyNumber())).never();
+    verify(mockPointerFromView.setY(anyNumber())).once();
+    verify(mockPointerFromView.setValue(anyNumber())).twice();
+    verify(mockPointerFromView.getWidth()).once();
+    verify(mockPointerFromView.getHeight()).twice();
+    verify(mockPointerFromView.getLeft()).never();
+    verify(mockPointerFromView.getTop()).twice();
+    verify(mockPointerFromView.setDownEventListener(anything)).never();
+    verify(mockPointerFromView.setMoveEventListener(anything)).never();
+    verify(mockPointerFromView.setUpEventListener(anything)).never();
+
+    // Assert for pointer to view
+    verify(mockPointerToView.show()).never();
+    verify(mockPointerToView.hide()).never();
+    verify(mockPointerToView.showValue()).never();
+    verify(mockPointerToView.hideValue()).never();
+    verify(mockPointerToView.draw(anything())).never();
+    verify(mockPointerToView.setX(anyNumber())).never();
+    verify(mockPointerToView.setY(anyNumber())).never();
+    verify(mockPointerToView.setValue(anyNumber())).never();
+    verify(mockPointerToView.getWidth()).never();
+    verify(mockPointerToView.getHeight()).once();
+    verify(mockPointerToView.getLeft()).never();
+    verify(mockPointerToView.getTop()).once();
+    verify(mockPointerToView.setDownEventListener(anything)).never();
+    verify(mockPointerToView.setMoveEventListener(anything)).never();
+    verify(mockPointerToView.setUpEventListener(anything)).never();
+  });
+
+  it('Set to', () => {
+    // Arrange
+    arrangeVerticalSlider();
+    const config = createConfiguration(true);
+    const model = new Model(config);
+    const presenter = new Presenter(model, config);
+
+    // Act
+    initPresenter(presenter);
+    resetAllMockCalls();
+    presenter.setValueTo(80);
+
+    // Assert for slider view
+    verify(mockSliderView.clear()).never();
+    verify(mockSliderView.drawHorizontal()).never();
+    verify(mockSliderView.drawVertical()).never();
+    verify(mockSliderView.drawHorizontalProgress(anyNumber(), anyNumber())).never();
+    verify(mockSliderView.drawVerticalProgress(anyNumber(), anyNumber())).once();
+    verify(mockSliderView.getBoundLeft()).never();
+    verify(mockSliderView.getBoundTop()).thrice();
+    verify(mockSliderView.getBoundRight()).never();
+    verify(mockSliderView.getBoundBottom()).twice();
+    verify(mockSliderView.getWidth()).never();
+    verify(mockSliderView.getHeight()).times(9);
+    verify(mockSliderView.setClickSliderBarListener(anything())).never();
+
+    // Assert for pointer from view
+    verify(mockPointerFromView.show()).never();
+    verify(mockPointerFromView.hide()).never();
+    verify(mockPointerFromView.showValue()).never();
+    verify(mockPointerFromView.hideValue()).never();
+    verify(mockPointerFromView.draw(anything())).never();
+    verify(mockPointerFromView.setX(anyNumber())).never();
+    verify(mockPointerFromView.setY(anyNumber())).never();
+    verify(mockPointerFromView.setValue(anyNumber())).never();
+    verify(mockPointerFromView.getWidth()).never();
+    verify(mockPointerFromView.getHeight()).once();
+    verify(mockPointerFromView.getLeft()).never();
+    verify(mockPointerFromView.getTop()).once();
+    verify(mockPointerFromView.setDownEventListener(anything)).never();
+    verify(mockPointerFromView.setMoveEventListener(anything)).never();
+    verify(mockPointerFromView.setUpEventListener(anything)).never();
+
+    // Assert for pointer to view
+    verify(mockPointerToView.show()).never();
+    verify(mockPointerToView.hide()).never();
+    verify(mockPointerToView.showValue()).never();
+    verify(mockPointerToView.hideValue()).never();
+    verify(mockPointerToView.draw(anything())).never();
+    verify(mockPointerToView.setX(anyNumber())).never();
+    verify(mockPointerToView.setY(anyNumber())).once();
+    verify(mockPointerToView.setValue(anyNumber())).twice();
+    verify(mockPointerToView.getWidth()).once();
+    verify(mockPointerToView.getHeight()).twice();
+    verify(mockPointerToView.getLeft()).never();
+    verify(mockPointerToView.getTop()).twice();
+    verify(mockPointerToView.setDownEventListener(anything)).never();
+    verify(mockPointerToView.setMoveEventListener(anything)).never();
+    verify(mockPointerToView.setUpEventListener(anything)).never();
   });
 });
