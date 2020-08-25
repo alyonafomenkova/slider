@@ -53,13 +53,13 @@ const config = {
 
       {
         enforce: 'post',
-        exclude: /(node_modules|\.Test\.[tj]sx?$)/,
+        exclude: /(node_modules|\.*Test\.[tj]sx?$)/,
         test: /\.[tj]s$/,
         use: {
           loader: 'istanbul-instrumenter-loader',
           options: {esModules: true}
         },
-      }
+      },
     ],
   },
   resolve: {
@@ -85,7 +85,7 @@ const config = {
       $: 'jquery',
       jQuery: 'jquery',
     })
-  ]
+  ],
 };
 
 module.exports = config;
