@@ -1,17 +1,13 @@
-import Presenter from '../../presenter/Presenter';
 import Util from '../../util/Util';
 import SliderView from '../SliderView';
 
 class SliderViewImpl implements SliderView {
   private readonly container: Element;
 
-  private readonly presenter: Presenter;
-
   private sliderBarClickListener?: (view: SliderView, x: number, y: number) => void = undefined;
 
-  constructor(container: Element, presenter: Presenter) {
+  constructor(container: Element) {
     this.container = container;
-    this.presenter = presenter;
   }
 
   public clear(): void {

@@ -1,4 +1,3 @@
-import Presenter from '../../presenter/Presenter';
 import Util from '../../util/Util';
 import ScaleItem from '../ScaleItem';
 import ScaleView from '../ScaleView';
@@ -6,13 +5,10 @@ import ScaleView from '../ScaleView';
 class ScaleViewImpl implements ScaleView {
   private readonly container: Element;
 
-  private readonly presenter: Presenter;
-
   private clickEventListener?: (view: ScaleView, value: number) => void = undefined;
 
-  constructor(container: Element, presenter: Presenter) {
+  constructor(container: Element) {
     this.container = container;
-    this.presenter = presenter;
   }
 
   public show(): void {

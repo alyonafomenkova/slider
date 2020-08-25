@@ -29,10 +29,10 @@ import defaultConfiguration from './model/defaultConfiguration';
       const element = getElement(this)[0];
       const model = new Model(config || defaultConfiguration);
       const presenter = new Presenter(model, config || defaultConfiguration);
-      const sliderView = new SliderViewImpl(element, presenter);
-      const pointerFromView = new PointerViewImpl('from', element, presenter);
-      const pointerToView = new PointerViewImpl('to', element, presenter);
-      const scaleView = new ScaleViewImpl(element, presenter);
+      const sliderView = new SliderViewImpl(element);
+      const pointerFromView = new PointerViewImpl('from', element);
+      const pointerToView = new PointerViewImpl('to', element);
+      const scaleView = new ScaleViewImpl(element);
       presenter.init(sliderView, pointerFromView, pointerToView, scaleView);
       presenters.set(element.id, presenter);
     },

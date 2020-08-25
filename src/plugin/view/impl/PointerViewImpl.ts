@@ -1,11 +1,8 @@
-import Presenter from '../../presenter/Presenter';
 import Util from '../../util/Util';
 import PointerView from '../PointerView';
 
 class PointerViewImpl implements PointerView {
   private readonly container: Element;
-
-  private readonly presenter: Presenter;
 
   private hasValue?: boolean = undefined;
 
@@ -17,9 +14,8 @@ class PointerViewImpl implements PointerView {
 
   private upEventListener?: (view: PointerView, x: number, y: number) => void = undefined;
 
-  constructor(id: string, container: Element, presenter: Presenter) {
+  constructor(id: string, container: Element) {
     this.container = container;
-    this.presenter = presenter;
   }
 
   public show(): void {
