@@ -99,8 +99,15 @@ describe('Init presenter', () => {
     // Act
     initPresenter(presenter);
 
+    // Assert for scale view
+    verify(mockScaleView.show()).never();
+    verify(mockScaleView.hide()).never();
+    verify(mockScaleView.addItems(anything(), anything())).once();
+    verify(mockScaleView.setClickListener(anything)).never();
+
     // Assert for slider view
     verify(mockSliderView.setClickSliderBarListener(anything())).once();
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     const sliderBarClickListener = capture(mockSliderView.setClickSliderBarListener).last()[0];
     sliderBarClickListener(mockSliderView, 0, 0);
     verify(mockSliderView.clear()).once();
@@ -150,7 +157,7 @@ describe('Init presenter', () => {
     verify(mockPointerToView.setUpEventListener(anything)).never();
   });
 
-  it('Vertical orientation, slider bar click', () => {
+  it('Vertical orientation, slider bar click, scale click', () => {
     // Arrange
     arrangeVerticalSlider();
     const config = createConfiguration(true);
@@ -160,21 +167,31 @@ describe('Init presenter', () => {
     // Act
     initPresenter(presenter);
 
+    // Assert for scale view
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const scaleClickListener = capture(mockScaleView.setClickListener).last()[0];
+    scaleClickListener(mockScaleView, 123);
+    verify(mockScaleView.show()).never();
+    verify(mockScaleView.hide()).never();
+    verify(mockScaleView.addItems(anything(), anything())).once();
+    verify(mockScaleView.setClickListener(anything)).never();
+
     // Assert for slider view
     verify(mockSliderView.setClickSliderBarListener(anything())).once();
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     const sliderBarClickListener = capture(mockSliderView.setClickSliderBarListener).last()[0];
     sliderBarClickListener(mockSliderView, 0, 0);
     verify(mockSliderView.clear()).once();
     verify(mockSliderView.drawHorizontal()).never();
     verify(mockSliderView.drawVertical()).once();
     verify(mockSliderView.drawHorizontalProgress(anyNumber(), anyNumber())).never();
-    verify(mockSliderView.drawVerticalProgress(anyNumber(), anyNumber())).twice();
+    verify(mockSliderView.drawVerticalProgress(anyNumber(), anyNumber())).thrice();
     verify(mockSliderView.getBoundLeft()).never();
-    verify(mockSliderView.getBoundTop()).times(8);
+    verify(mockSliderView.getBoundTop()).times(11);
     verify(mockSliderView.getBoundRight()).never();
-    verify(mockSliderView.getBoundBottom()).times(4);
+    verify(mockSliderView.getBoundBottom()).times(6);
     verify(mockSliderView.getWidth()).once();
-    verify(mockSliderView.getHeight()).times(26);
+    verify(mockSliderView.getHeight()).times(35);
 
     // Assert for pointer from view
     verify(mockPointerFromView.show()).never();
@@ -186,9 +203,9 @@ describe('Init presenter', () => {
     verify(mockPointerFromView.setY(anyNumber())).once();
     verify(mockPointerFromView.setValue(anyNumber())).thrice();
     verify(mockPointerFromView.getWidth()).once();
-    verify(mockPointerFromView.getHeight()).times(4);
+    verify(mockPointerFromView.getHeight()).times(5);
     verify(mockPointerFromView.getLeft()).never();
-    verify(mockPointerFromView.getTop()).times(4);
+    verify(mockPointerFromView.getTop()).times(5);
     verify(mockPointerFromView.setDownEventListener(anything)).never();
     verify(mockPointerFromView.setMoveEventListener(anything)).never();
     verify(mockPointerFromView.setUpEventListener(anything)).never();
@@ -200,12 +217,12 @@ describe('Init presenter', () => {
     verify(mockPointerToView.hideValue()).never();
     verify(mockPointerToView.draw(anything())).once();
     verify(mockPointerToView.setX(anyNumber())).never();
-    verify(mockPointerToView.setY(anyNumber())).twice();
-    verify(mockPointerToView.setValue(anyNumber())).times(5);
-    verify(mockPointerToView.getWidth()).twice();
-    verify(mockPointerToView.getHeight()).times(5);
+    verify(mockPointerToView.setY(anyNumber())).thrice();
+    verify(mockPointerToView.setValue(anyNumber())).times(7);
+    verify(mockPointerToView.getWidth()).thrice();
+    verify(mockPointerToView.getHeight()).times(7);
     verify(mockPointerToView.getLeft()).never();
-    verify(mockPointerToView.getTop()).times(5);
+    verify(mockPointerToView.getTop()).times(7);
     verify(mockPointerToView.setDownEventListener(anything)).never();
     verify(mockPointerToView.setMoveEventListener(anything)).never();
     verify(mockPointerToView.setUpEventListener(anything)).never();
@@ -255,6 +272,12 @@ describe('Set values', () => {
     initPresenter(presenter);
     resetAllMockCalls();
     presenter.setMin(15);
+
+    // Assert for scale view
+    verify(mockScaleView.show()).never();
+    verify(mockScaleView.hide()).never();
+    verify(mockScaleView.addItems(anything(), anything())).once();
+    verify(mockScaleView.setClickListener(anything)).never();
 
     // Assert for slider view
     verify(mockSliderView.clear()).once();
@@ -317,6 +340,12 @@ describe('Set values', () => {
     resetAllMockCalls();
     presenter.setMax(85);
 
+    // Assert for scale view
+    verify(mockScaleView.show()).never();
+    verify(mockScaleView.hide()).never();
+    verify(mockScaleView.addItems(anything(), anything())).once();
+    verify(mockScaleView.setClickListener(anything)).never();
+
     // Assert for slider view
     verify(mockSliderView.clear()).once();
     verify(mockSliderView.drawHorizontal()).never();
@@ -378,6 +407,12 @@ describe('Set values', () => {
     resetAllMockCalls();
     presenter.setStep(1);
 
+    // Assert for scale view
+    verify(mockScaleView.show()).never();
+    verify(mockScaleView.hide()).never();
+    verify(mockScaleView.addItems(anything(), anything())).once();
+    verify(mockScaleView.setClickListener(anything)).never();
+
     // Assert for slider view
     verify(mockSliderView.clear()).once();
     verify(mockSliderView.drawHorizontal()).never();
@@ -438,6 +473,12 @@ describe('Set values', () => {
     initPresenter(presenter);
     resetAllMockCalls();
     presenter.setValueFrom(25);
+
+    // Assert for scale view
+    verify(mockScaleView.show()).never();
+    verify(mockScaleView.hide()).never();
+    verify(mockScaleView.addItems(anything(), anything())).never();
+    verify(mockScaleView.setClickListener(anything)).never();
 
     // Assert for slider view
     verify(mockSliderView.clear()).never();
@@ -561,6 +602,12 @@ describe('Set values', () => {
     resetAllMockCalls();
     presenter.setScale(true);
 
+    // Assert for scale view
+    verify(mockScaleView.show()).once();
+    verify(mockScaleView.hide()).never();
+    verify(mockScaleView.addItems(anything(), anything())).never();
+    verify(mockScaleView.setClickListener(anything)).never();
+
     // Assert for slider view
     verify(mockSliderView.clear()).never();
     verify(mockSliderView.drawHorizontal()).never();
@@ -621,6 +668,12 @@ describe('Set values', () => {
     initPresenter(presenter);
     resetAllMockCalls();
     presenter.setScale(false);
+
+    // Assert for scale view
+    verify(mockScaleView.show()).never();
+    verify(mockScaleView.hide()).once();
+    verify(mockScaleView.addItems(anything(), anything())).never();
+    verify(mockScaleView.setClickListener(anything)).never();
 
     // Assert for slider view
     verify(mockSliderView.clear()).never();
@@ -683,6 +736,12 @@ describe('Set values', () => {
     resetAllMockCalls();
     presenter.setPointerValue(true);
 
+    // Assert for scale view
+    verify(mockScaleView.show()).never();
+    verify(mockScaleView.hide()).never();
+    verify(mockScaleView.addItems(anything(), anything())).never();
+    verify(mockScaleView.setClickListener(anything)).never();
+
     // Assert for slider view
     verify(mockSliderView.clear()).never();
     verify(mockSliderView.drawHorizontal()).never();
@@ -743,6 +802,12 @@ describe('Set values', () => {
     initPresenter(presenter);
     resetAllMockCalls();
     presenter.setPointerValue(false);
+
+    // Assert for scale view
+    verify(mockScaleView.show()).never();
+    verify(mockScaleView.hide()).never();
+    verify(mockScaleView.addItems(anything(), anything())).never();
+    verify(mockScaleView.setClickListener(anything)).never();
 
     // Assert for slider view
     verify(mockSliderView.clear()).never();
@@ -805,6 +870,12 @@ describe('Set values', () => {
     resetAllMockCalls();
     presenter.setHasInterval(true);
 
+    // Assert for scale view
+    verify(mockScaleView.show()).never();
+    verify(mockScaleView.hide()).never();
+    verify(mockScaleView.addItems(anything(), anything())).never();
+    verify(mockScaleView.setClickListener(anything)).never();
+
     // Assert for slider view
     verify(mockSliderView.clear()).never();
     verify(mockSliderView.drawHorizontal()).never();
@@ -866,6 +937,12 @@ describe('Set values', () => {
     resetAllMockCalls();
     presenter.setHasInterval(false);
 
+    // Assert for scale view
+    verify(mockScaleView.show()).never();
+    verify(mockScaleView.hide()).never();
+    verify(mockScaleView.addItems(anything(), anything())).never();
+    verify(mockScaleView.setClickListener(anything)).never();
+
     // Assert for slider view
     verify(mockSliderView.clear()).never();
     verify(mockSliderView.drawHorizontal()).never();
@@ -926,6 +1003,12 @@ describe('Set values', () => {
     initPresenter(presenter);
     resetAllMockCalls();
     presenter.setIsVerticalOrientation(true);
+
+    // Assert for scale view
+    verify(mockScaleView.show()).never();
+    verify(mockScaleView.hide()).never();
+    verify(mockScaleView.addItems(anything(), anything())).once();
+    verify(mockScaleView.setClickListener(anything)).never();
 
     // Assert for slider view
     verify(mockSliderView.clear()).once();
