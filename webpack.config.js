@@ -71,7 +71,7 @@ const config = {
   plugins: [
     new CopyWebpackPlugin({
       patterns: [
-        { from: 'src/assets/favicons', to: 'assets/favicons' },
+        { from: 'src/assets', to: 'assets' },
       ],
     }),
     new MiniCssExtractPlugin({
