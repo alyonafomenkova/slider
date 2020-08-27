@@ -22,7 +22,7 @@ class PointerViewImpl implements PointerView {
     if (this.pointerContainer) {
       this.pointerContainer.style.visibility = 'visible';
     } else {
-      throw new Error('Pointer container undefined');
+      throw new Error('Pointer container is not defined.');
     }
   }
 
@@ -30,7 +30,7 @@ class PointerViewImpl implements PointerView {
     if (this.pointerContainer) {
       this.pointerContainer.style.visibility = 'hidden';
     } else {
-      throw new Error('Pointer container undefined');
+      throw new Error('Pointer container is not defined.');
     }
   }
 
@@ -39,7 +39,7 @@ class PointerViewImpl implements PointerView {
       const valueContainer = this.pointerContainer.querySelector('.slider__value') as HTMLElement;
       valueContainer.style.visibility = 'visible';
     } else {
-      throw new Error('Pointer container undefined');
+      throw new Error('Pointer container is not defined.');
     }
   }
 
@@ -48,7 +48,7 @@ class PointerViewImpl implements PointerView {
       const valueContainer = this.pointerContainer.querySelector('.slider__value') as HTMLElement;
       valueContainer.style.visibility = 'hidden';
     } else {
-      throw new Error('Pointer container undefined');
+      throw new Error('Pointer container is not defined.');
     }
   }
 
@@ -72,7 +72,7 @@ class PointerViewImpl implements PointerView {
         container.innerHTML = String(value);
       }
     } else {
-      throw new Error('Pointer container is undefined.');
+      throw new Error('Pointer container is not defined.');
     }
   }
 
@@ -135,7 +135,7 @@ class PointerViewImpl implements PointerView {
       const pointer = this.pointerContainer.querySelector('.slider__pointer') as HTMLElement;
       pointer.addEventListener('mousedown', this.handleMouseDown);
     } else {
-      throw new Error('Pointer container is null');
+      throw new Error('Pointer container is not defined.');
     }
   }
 
