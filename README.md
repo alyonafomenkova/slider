@@ -9,7 +9,6 @@
 `npm run deploy` - публикация проекта
 
 ---
-
 ### Демо страница<br/>
 [slider-demo](https://alyonafomenkova.github.io/slider/)
 #### Покрытие тестами<br/>
