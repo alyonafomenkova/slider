@@ -11,9 +11,8 @@
 ---
 
 ### Демо страница<br/>
-[slider-demo](https://alyonafomenkova.github.io/slider/dist/demo.html)
+[slider-demo](https://alyonafomenkova.github.io/slider/)
 #### Покрытие тестами<br/>
-[1](https://alyonafomenkova.github.io/slider/dist/coverage/index.html)<br/>
 [coverage](https://alyonafomenkova.github.io/slider/src/assets/coverage/index.html)<br/>
 Для тестирования использовала jasmine, ts-mockito (для моков) и karma.
 ---
