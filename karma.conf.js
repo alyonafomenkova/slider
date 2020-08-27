@@ -1,5 +1,6 @@
 const testCode = 'src/**/*Test.ts';
 const webpackConfig = require('./webpack.config.js');
+const path = require('path');
 
 module.exports = function (config) {
   config.set({
@@ -11,6 +12,7 @@ module.exports = function (config) {
     coverageIstanbulReporter: {
       fixWebpackSourcePaths: true,
       reports: ['html'],
+      dir: path.join(__dirname, 'dist/coverage'),
     },
     exclude: [],
     files: [
