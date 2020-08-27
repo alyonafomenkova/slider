@@ -7,7 +7,6 @@
 `npm run start:dev` - запуск локального сервера<br/>
 `npm run test` - запуск тестов
 `npm run deploy` - публикация проекта
-
 ---
 ### Демо страница<br/>
 [slider-demo](https://alyonafomenkova.github.io/slider/)
