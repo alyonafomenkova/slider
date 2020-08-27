@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" type="image/png" href="assets/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="assets/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="apple-touch-icon" href="assets/favicons/apple-touch-icon.png" sizes="180x180">
+    <link rel="manifest" href="assets/favicons/site.webmanifest">
+    <link rel="shortcut icon" href="assets/favicon/favicon.ico">
+    <title>Demo Page</title>
+  <link href="main.css" rel="stylesheet"></head>
+  <body>
+    <main class="demo">
+      <h1 class="demo__title">Plugin demo</h1>
+      <div class="demo__component-wrapper">
+        <div class="demo__panel-wrapper">
+          <form class="settings-panel" id="panel-0">
+            <fieldset class="settings-panel__fieldset">
+              <legend class="settings-panel__fieldset-title">Orientation</legend>
+              <div class="settings-panel__fieldset-inputs-wrapper">
+                <div>
+                  <input class="settings-panel__input-vertical" type="radio" name="orientation" id="vertical_0">
+                  <label for="vertical_0">Vertical</label>
+                </div>
+                <div>
+                  <input class="settings-panel__input-horizontal" type="radio" name="orientation" id="horizontal_0" checked="checked">
+                  <label for="horizontal_0">Horizontal</label>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="settings-panel__fieldset">
+              <legend class="settings-panel__fieldset-title">Type</legend>
+              <div class="settings-panel__fieldset-inputs-wrapper">
+                <div>
+                  <input class="settings-panel__input-single" type="radio" name="type" id="single_0" checked="checked">
+                  <label for="single_0">Single</label>
+                </div>
+                <div>
+                  <input class="settings-panel__input-interval" type="radio" name="type" id="interval_0">
+                  <label for="interval_0">Interval</label>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="settings-panel__fieldset">
+              <legend class="settings-panel__fieldset-title">Additional</legend>
+              <div class="settings-panel__fieldset-inputs-wrapper">
+                <div>
+                  <input type="checkbox" name="scale" id="scale_0" checked>
+                  <label for="scale_0">Scale</label>
+                </div>
+                <div>
+                  <input type="checkbox" name="value" id="value_0" checked>
+                  <label for="value_0">Value</label>
+                </div>
+              </div>
+            </fieldset>
+            <div class="settings-panel__values">
+              <label class="settings-panel__values-label">MIN
+                <input class="settings-panel__values-input settings-panel__values-input--min" type="number" name="min">
+              </label>
+              <label class="settings-panel__values-label">MAX
+                <input class="settings-panel__values-input settings-panel__values-input--max" type="number" name="max">
+              </label>
+              <label class="settings-panel__values-label">Step
+                <input class="settings-panel__values-input settings-panel__values-input--step" type="number" name="step" min="1">
+              </label>
+              <div class="settings-panel__current-values-wrapper">
+                <label class="settings-panel__values-label">Value From
+                  <input class="settings-panel__values-input settings-panel__values-input--from" type="number" name="value1">
+                </label>
+                <label class="settings-panel__values-label settings-panel__values-label--to">Value To
+                  <input class="settings-panel__values-input settings-panel__values-input--to" type="number" name="value2">
+                </label>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="demo__slider-wrapper">
+          <div class="slider js-slider" id="slider-0"></div>
+        </div>
+      </div>
+      <div class="demo__component-wrapper">
+        <div class="demo__panel-wrapper">
+          <form class="settings-panel" id="panel-1">
+            <fieldset class="settings-panel__fieldset">
+              <legend class="settings-panel__fieldset-title">Orientation</legend>
+              <div class="settings-panel__fieldset-inputs-wrapper">
+                <div>
+                  <input class="settings-panel__input-vertical" type="radio" name="orientation" id="vertical_1" checked="checked">
+                  <label for="vertical_1">Vertical</label>
+                </div>
+                <div>
+                  <input class="settings-panel__input-horizontal" type="radio" name="orientation" id="horizontal_1">
+                  <label for="horizontal_1">Horizontal</label>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="settings-panel__fieldset">
+              <legend class="settings-panel__fieldset-title">Type</legend>
+              <div class="settings-panel__fieldset-inputs-wrapper">
+                <div>
+                  <input class="settings-panel__input-single" type="radio" name="type" id="single_1" checked="checked">
+                  <label for="single_1">Single</label>
+                </div>
+                <div>
+                  <input class="settings-panel__input-interval" type="radio" name="type" id="interval_1">
+                  <label for="interval_1">Interval</label>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="settings-panel__fieldset">
+              <legend class="settings-panel__fieldset-title">Additional</legend>
+              <div class="settings-panel__fieldset-inputs-wrapper">
+                <div>
+                  <input type="checkbox" name="scale" id="scale_1" checked>
+                  <label for="scale_1">Scale</label>
+                </div>
+                <div>
+                  <input type="checkbox" name="value" id="value_1" checked>
+                  <label for="value_1">Value</label>
+                </div>
+              </div>
+            </fieldset>
+            <div class="settings-panel__values">
+              <label class="settings-panel__values-label">MIN
+                <input class="settings-panel__values-input settings-panel__values-input--min" type="number" name="min">
+              </label>
+              <label class="settings-panel__values-label">MAX
+                <input class="settings-panel__values-input settings-panel__values-input--max" type="number" name="max">
+              </label>
+              <label class="settings-panel__values-label">Step
+                <input class="settings-panel__values-input settings-panel__values-input--step" type="number" name="step" min="0.05" step="0.05">
+              </label>
+              <div class="settings-panel__current-values-wrapper">
+                <label class="settings-panel__values-label">Value From
+                  <input class="settings-panel__values-input settings-panel__values-input--from" type="number" name="value1">
+                </label>
+                <label class="settings-panel__values-label settings-panel__values-label--to">Value To
+                  <input class="settings-panel__values-input settings-panel__values-input--to" type="number" name="value2">
+                </label>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="demo__slider-wrapper">
+          <div class="slider js-slider" id="slider-1"></div>
+        </div>
+      </div>
+      <div class="demo__component-wrapper">
+        <div class="demo__panel-wrapper">
+          <form class="settings-panel" id="panel-2">
+            <fieldset class="settings-panel__fieldset">
+              <legend class="settings-panel__fieldset-title">Orientation</legend>
+              <div class="settings-panel__fieldset-inputs-wrapper">
+                <div>
+                  <input class="settings-panel__input-vertical" type="radio" name="orientation" id="vertical_2" checked="checked">
+                  <label for="vertical_2">Vertical</label>
+                </div>
+                <div>
+                  <input class="settings-panel__input-horizontal" type="radio" name="orientation" id="horizontal_2">
+                  <label for="horizontal_2">Horizontal</label>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="settings-panel__fieldset">
+              <legend class="settings-panel__fieldset-title">Type</legend>
+              <div class="settings-panel__fieldset-inputs-wrapper">
+                <div>
+                  <input class="settings-panel__input-single" type="radio" name="type" id="single_2">
+                  <label for="single_2">Single</label>
+                </div>
+                <div>
+                  <input class="settings-panel__input-interval" type="radio" name="type" id="interval_2" checked="checked">
+                  <label for="interval_2">Interval</label>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="settings-panel__fieldset">
+              <legend class="settings-panel__fieldset-title">Additional</legend>
+              <div class="settings-panel__fieldset-inputs-wrapper">
+                <div>
+                  <input type="checkbox" name="scale" id="scale_2" checked>
+                  <label for="scale_2">Scale</label>
+                </div>
+                <div>
+                  <input type="checkbox" name="value" id="value_2" checked>
+                  <label for="value_2">Value</label>
+                </div>
+              </div>
+            </fieldset>
+            <div class="settings-panel__values">
+              <label class="settings-panel__values-label">MIN
+                <input class="settings-panel__values-input settings-panel__values-input--min" type="number" name="min">
+              </label>
+              <label class="settings-panel__values-label">MAX
+                <input class="settings-panel__values-input settings-panel__values-input--max" type="number" name="max">
+              </label>
+              <label class="settings-panel__values-label">Step
+                <input class="settings-panel__values-input settings-panel__values-input--step" type="number" name="step" min="1" step="2">
+              </label>
+              <div class="settings-panel__current-values-wrapper">
+                <label class="settings-panel__values-label">Value From
+                  <input class="settings-panel__values-input settings-panel__values-input--from" type="number" name="value1">
+                </label>
+                <label class="settings-panel__values-label settings-panel__values-label--to">Value To
+                  <input class="settings-panel__values-input settings-panel__values-input--to" type="number" name="value2">
+                </label>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="demo__slider-wrapper">
+          <div class="slider js-slider" id="slider-2"></div>
+        </div>
+      </div>
+      <div class="demo__component-wrapper">
+        <div class="demo__panel-wrapper">
+          <form class="settings-panel" id="panel-3">
+            <fieldset class="settings-panel__fieldset">
+              <legend class="settings-panel__fieldset-title">Orientation</legend>
+              <div class="settings-panel__fieldset-inputs-wrapper">
+                <div>
+                  <input class="settings-panel__input-vertical" type="radio" name="orientation" id="vertical_3">
+                  <label for="vertical_3">Vertical</label>
+                </div>
+                <div>
+                  <input class="settings-panel__input-horizontal" type="radio" name="orientation" id="horizontal_3" checked="checked">
+                  <label for="horizontal_3">Horizontal</label>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="settings-panel__fieldset">
+              <legend class="settings-panel__fieldset-title">Type</legend>
+              <div class="settings-panel__fieldset-inputs-wrapper">
+                <div>
+                  <input class="settings-panel__input-single" type="radio" name="type" id="single_3">
+                  <label for="single_3">Single</label>
+                </div>
+                <div>
+                  <input class="settings-panel__input-interval" type="radio" name="type" id="interval_3" checked="checked">
+                  <label for="interval_3">Interval</label>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset class="settings-panel__fieldset">
+              <legend class="settings-panel__fieldset-title">Additional</legend>
+              <div class="settings-panel__fieldset-inputs-wrapper">
+                <div>
+                  <input type="checkbox" name="scale" id="scale_3" checked>
+                  <label for="scale_3">Scale</label>
+                </div>
+                <div>
+                  <input type="checkbox" name="value" id="value_3" checked>
+                  <label for="value_3">Value</label>
+                </div>
+              </div>
+            </fieldset>
+            <div class="settings-panel__values">
+              <label class="settings-panel__values-label">MIN
+                <input class="settings-panel__values-input settings-panel__values-input--min" type="number" name="min">
+              </label>
+              <label class="settings-panel__values-label">MAX
+                <input class="settings-panel__values-input settings-panel__values-input--max" type="number" name="max">
+              </label>
+              <label class="settings-panel__values-label">Step
+                <input class="settings-panel__values-input settings-panel__values-input--step" type="number" name="step" min="1" step="5">
+              </label>
+              <div class="settings-panel__current-values-wrapper">
+                <label class="settings-panel__values-label">Value From
+                  <input class="settings-panel__values-input settings-panel__values-input--from" type="number" name="value1">
+                </label>
+                <label class="settings-panel__values-label settings-panel__values-label--to">Value To
+                  <input class="settings-panel__values-input settings-panel__values-input--to" type="number" name="value2">
+                </label>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="demo__slider-wrapper">
+          <div class="slider js-slider" id="slider-3"></div>
+        </div>
+      </div>
+    </main>
+  <script src="main.bundle.js"></script></body>
+</html>
