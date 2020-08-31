@@ -1,5 +1,6 @@
 # slider
 ### Для запуска проекта необходимо выполнить следующие команды:<br/>
+`git clone git@github.com:alyonafomenkova/slider.git` - клонирование репозитория<br/>
 `npm i` - установка необходимых зависимостей проекта<br/>
 `npm run build:dev` - сборка проекта<br/>
 `npm run start:dev` - запуск локального сервера<br/>
