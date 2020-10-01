@@ -13,12 +13,12 @@ body{
   box-sizing: border-box;
   position: relative;
 
-  &--vertical {
+  &_view_vertical {
     width: max-content;
     height: 450px;
   }
 
-  &--horizontal {
+  &_view_horizontal {
     flex-direction: column;
   }
 }
@@ -31,12 +31,12 @@ body{
   z-index: 1;
   cursor: pointer;
 
-  &--horizontal {
+  &_view_horizontal {
     width: 100%;
     height: 10px;
   }
 
-  &--vertical {
+  &_view_vertical {
     width: 16px;
     height: 100%;
   }
@@ -52,12 +52,12 @@ body{
   cursor: pointer;
 }
 
-.slider--horizontal .slider__progress {
+.slider_view_horizontal .slider__progress {
   height: 10px;
   top: 0;
 }
 
-.slider--vertical .slider__progress {
+.slider_view_vertical .slider__progress {
   width: 7.2px;
   left: 0;
 }
@@ -71,11 +71,11 @@ body{
   z-index: 3;
 }
 
-.slider--horizontal .slider__pointer-container {
+.slider_view_horizontal .slider__pointer-container {
   bottom: 15px;
 }
 
-.slider--vertical .slider__pointer-container {
+.slider_view_vertical .slider__pointer-container {
   flex-direction: row-reverse;
   right: 10px;
 }
@@ -113,7 +113,7 @@ body{
   }
 }
 
-.slider--vertical .slider__value {
+.slider_view_vertical .slider__value {
   margin-bottom: 0;
   margin-right: 4px;
 
@@ -135,7 +135,7 @@ body{
   background-color: #CDFCEF;
 }
 
-.slider--vertical .slider__scale {
+.slider_view_vertical .slider__scale {
   height: 100%;
   margin-top: 0;
   margin-left: 8px;
@@ -147,13 +147,13 @@ body{
   cursor: pointer;
 }
 
-.slider--horizontal .slider__scale-item {
+.slider_view_horizontal .slider__scale-item {
   flex-direction: column;
   align-items: center;
   transform: translateX(-50%);
 }
 
-.slider--vertical .slider__scale-item {
+.slider_view_vertical .slider__scale-item {
   display: flex;
   align-items: center;
   transform: translateY(50%);
@@ -164,12 +164,12 @@ body{
   background-color: rgba(31, 32, 65, 0.25);
 }
 
-.slider--horizontal .slider__scale-division {
+.slider_view_horizontal .slider__scale-division {
   width: 1px;
   height: 8px;
 }
 
-.slider--vertical .slider__scale-division {
+.slider_view_vertical .slider__scale-division {
   width: 8px;
   height: 1px;
 }

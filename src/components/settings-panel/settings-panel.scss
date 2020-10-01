@@ -6,36 +6,37 @@
   padding: 0.9rem;
   border-radius: 0.5rem;
   background-color: #FAE3FA;
-}
 
-.settings-panel__fieldset {
-  max-width: 200px;
-  width: 100%;
-  margin-bottom: 1rem;
-}
-
-.settings-panel__fieldset-title {
-  padding: 0 0.35rem;
-}
-
-.settings-panel__fieldset-inputs-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.settings-panel__values-label {
-  margin-right: 1.5rem;
-  margin-bottom: 1.5rem;
-  &:last-of-type {
-    margin-right: 0;
+  &__fieldset {
+    max-width: 200px;
+    width: 100%;
+    margin-bottom: 1rem;
   }
-}
 
-.settings-panel__values-input {
-  width: 4rem;
-}
+  &__fieldset-title {
+    padding: 0 0.35rem;
+  }
 
-.settings-panel__current-values-wrapper {
-  margin-top: 1rem;
+  &__fieldset-inputs-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  &__values-label {
+    margin-right: 1.5rem;
+    margin-bottom: 1.5rem;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+
+  &__values-input {
+    width: 4rem;
+  }
+
+  &__current-values-wrapper {
+    margin-top: 1rem;
+  }
 }

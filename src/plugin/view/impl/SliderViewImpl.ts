@@ -15,17 +15,17 @@ class SliderViewImpl implements SliderView {
   }
 
   public drawHorizontal(): void {
-    Util.createElement(this.container, 'slider__bar slider__bar--horizontal');
-    Util.addClassName(this.container, 'slider--horizontal');
-    Util.removeClassName(this.container, 'slider--vertical');
+    Util.createElement(this.container, 'slider__bar slider__bar_view_horizontal');
+    Util.addClassName(this.container, 'slider_view_horizontal');
+    Util.removeClassName(this.container, 'slider_view_vertical');
     Util.createElement(this.container, 'slider__progress');
     this.setupClickListeners();
   }
 
   public drawVertical(): void {
-    Util.createElement(this.container, 'slider__bar slider__bar--vertical');
-    Util.addClassName(this.container, 'slider--vertical');
-    Util.removeClassName(this.container, 'slider--horizontal');
+    Util.createElement(this.container, 'slider__bar slider__bar_view_vertical');
+    Util.addClassName(this.container, 'slider_view_vertical');
+    Util.removeClassName(this.container, 'slider_view_horizontal');
     Util.createElement(this.container, 'slider__progress');
     this.setupClickListeners();
   }

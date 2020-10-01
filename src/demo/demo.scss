@@ -7,25 +7,27 @@ html {
   background-color: #ffffff;
 }
 
-.demo__title {
-  text-align: center;
-}
+.demo {
+  &__title {
+    text-align: center;
+  }
 
-.demo__component-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
-  padding: 2rem;
-  margin-bottom: 3rem;
-  background-color: #F9F5FA;
-}
+  &__component-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    background-color: #F9F5FA;
+  }
 
-.demo__panel-wrapper {
-  max-width: 490px;
-  margin-bottom: 2.5rem;
-}
+  &__panel-wrapper {
+    max-width: 490px;
+    margin-bottom: 2.5rem;
+  }
 
-.demo__slider-wrapper {
-  width: 40%;
+  &__slider-wrapper {
+    width: 40%;
+  }
 }

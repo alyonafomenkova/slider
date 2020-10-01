@@ -44,11 +44,11 @@ class SettingsPanel {
   }
 
   public init(): void {
-    this.inputMin = this.panel.querySelector('.settings-panel__values-input--min') as Element;
-    this.inputMax = this.panel.querySelector('.settings-panel__values-input--max') as Element;
-    this.inputStep = this.panel.querySelector('.settings-panel__values-input--step') as Element;
-    this.inputFrom = this.panel.querySelector('.settings-panel__values-input--from') as Element;
-    this.inputTo = this.panel.querySelector('.settings-panel__values-input--to') as Element;
+    this.inputMin = this.panel.querySelector('.settings-panel__values-input_kind_min') as Element;
+    this.inputMax = this.panel.querySelector('.settings-panel__values-input_kind_max') as Element;
+    this.inputStep = this.panel.querySelector('.settings-panel__values-input_kind_step') as Element;
+    this.inputFrom = this.panel.querySelector('.settings-panel__values-input_kind_from') as Element;
+    this.inputTo = this.panel.querySelector('.settings-panel__values-input_kind_to') as Element;
     this.inputScale = this.panel.querySelector('input[name=scale]') as Element;
     this.inputPointerValue = this.panel.querySelector('input[name=value]') as Element;
     this.inputsType = this.panel.querySelectorAll('input[name=type]');
@@ -69,7 +69,7 @@ class SettingsPanel {
   }
 
   private isValueTo(value: boolean) {
-    const inputTo = this.panel.querySelector('.settings-panel__values-label--to') as HTMLInputElement;
+    const inputTo = this.panel.querySelector('.settings-panel__values-label_kind_to') as HTMLInputElement;
     if (inputTo) {
       if (value) {
         inputTo.style.display = 'inline';

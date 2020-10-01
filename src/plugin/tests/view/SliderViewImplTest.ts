@@ -27,32 +27,32 @@ describe('Test slider view implementation', () => {
 
   it('View structure for horizontal / vertical orientations', () => {
     // Act -> assert
-    expect(document.querySelector('.slider__bar--horizontal')).toBeNull();
-    expect(document.querySelector('.slider--vertical')).toBeNull();
+    expect(document.querySelector('.slider__bar_view_horizontal')).toBeNull();
+    expect(document.querySelector('.slider_view_vertical')).toBeNull();
     expect(document.querySelector('.slider__progress')).toBeNull();
 
     view.drawHorizontal();
 
-    expect(document.querySelector('.slider__bar--horizontal')).not.toBeNull();
-    expect(document.querySelector('.slider--vertical')).toBeNull();
+    expect(document.querySelector('.slider__bar_view_horizontal')).not.toBeNull();
+    expect(document.querySelector('.slider_view_vertical')).toBeNull();
     expect(document.querySelector('.slider__progress')).not.toBeNull();
 
     view.clear();
 
-    expect(document.querySelector('.slider__bar--horizontal')).toBeNull();
-    expect(document.querySelector('.slider--vertical')).toBeNull();
+    expect(document.querySelector('.slider__bar_view_horizontal')).toBeNull();
+    expect(document.querySelector('.slider_view_vertical')).toBeNull();
     expect(document.querySelector('.slider__progress')).toBeNull();
 
     view.drawVertical();
 
-    expect(document.querySelector('.slider__bar--vertical')).not.toBeNull();
-    expect(document.querySelector('.slider--horizontal')).toBeNull();
+    expect(document.querySelector('.slider__bar_view_vertical')).not.toBeNull();
+    expect(document.querySelector('.slider_view_horizontal')).toBeNull();
     expect(document.querySelector('.slider__progress')).not.toBeNull();
 
     view.clear();
 
-    expect(document.querySelector('.slider__bar--vertical')).toBeNull();
-    expect(document.querySelector('.slider--horizontal')).toBeNull();
+    expect(document.querySelector('.slider__bar_view_vertical')).toBeNull();
+    expect(document.querySelector('.slider_view_horizontal')).toBeNull();
     expect(document.querySelector('.slider__progress')).toBeNull();
   });
 
