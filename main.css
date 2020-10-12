@@ -1,8 +1,4 @@
 body {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none; }
 
 .slider {
@@ -506,7 +502,7 @@ th {
   padding: 0; }
 
 html {
-  font-family: 'Arial', sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   font-size: 16px;
   color: #000000;
   background-color: #ffffff; }
@@ -524,7 +520,7 @@ html {
   background-color: #F9F5FA; }
 
 .demo__panel-wrapper {
-  max-width: 490px;
+  max-width: 35rem;
   margin-bottom: 2.5rem; }
 
 .demo__slider-wrapper {
@@ -539,7 +535,7 @@ html {
   border-radius: 0.5rem;
   background-color: #FAE3FA; }
   .settings-panel__fieldset {
-    max-width: 200px;
+    max-width: 14.286rem;
     width: 100%;
     margin-bottom: 1rem; }
   .settings-panel__fieldset-title {
@@ -548,6 +544,8 @@ html {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between; }
+  .settings-panel__input, .settings-panel__label {
+    cursor: pointer; }
   .settings-panel__values-label {
     margin-right: 1.5rem;
     margin-bottom: 1.5rem; }

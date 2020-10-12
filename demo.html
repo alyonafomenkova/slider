@@ -3,9 +3,12 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="keywords" content="slider">
+    <meta name="description" content="Учебный проект FSD. Demo for slider.">
     <link rel="icon" type="image/png" href="assets/favicons/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="assets/favicons/favicon-16x16.png" sizes="16x16">
     <link rel="apple-touch-icon" href="assets/favicons/apple-touch-icon.png" sizes="180x180">
+    <link rel="mask-icon" href="assets/favicons/safari.svg" color="#BC9CFF">
     <link rel="manifest" href="assets/favicons/site.webmanifest">
     <link rel="shortcut icon" href="assets/favicon/favicon.ico">
     <title>Demo Page</title>
@@ -20,12 +23,12 @@
               <legend class="settings-panel__fieldset-title">Orientation</legend>
               <div class="settings-panel__fieldset-inputs-wrapper">
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input class="settings-panel__input-vertical" type="radio" name="orientation" id="vertical_0">
-                  <label for="vertical_0">Vertical</label>
+                  <input class="settings-panel__input settings-panel__input_orientation_vertical" type="radio" name="orientation" id="vertical_0">
+                  <label class="settings-panel__label settings-panel__label_orientation_vertical" for="vertical_0">Vertical</label>
                 </div>
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input class="settings-panel__input-horizontal" type="radio" name="orientation" id="horizontal_0" checked="checked">
-                  <label for="horizontal_0">Horizontal</label>
+                  <input class="settings-panel__input settings-panel__input_orientation_horizontal" type="radio" name="orientation" id="horizontal_0" checked="checked">
+                  <label class="settings-panel__label settings-panel__label_orientation_horizontal" for="horizontal_0">Horizontal</label>
                 </div>
               </div>
             </fieldset>
@@ -33,12 +36,12 @@
               <legend class="settings-panel__fieldset-title">Type</legend>
               <div class="settings-panel__fieldset-inputs-wrapper">
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input class="settings-panel__input-single" type="radio" name="type" id="single_0" checked="checked">
-                  <label for="single_0">Single</label>
+                  <input class="settings-panel__input settings-panel__input_type_single" type="radio" name="type" id="single_0" checked="checked">
+                  <label class="settings-panel__label settings-panel__label_type_single" for="single_0">Single</label>
                 </div>
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input class="settings-panel__input-interval" type="radio" name="type" id="interval_0">
-                  <label for="interval_0">Interval</label>
+                  <input class="settings-panel__input settings-panel__input_type_interval" type="radio" name="type" id="interval_0">
+                  <label class="settings-panel__label settings-panel__label_type_interval" for="interval_0">Interval</label>
                 </div>
               </div>
             </fieldset>
@@ -46,12 +49,12 @@
               <legend class="settings-panel__fieldset-title">Additional</legend>
               <div class="settings-panel__fieldset-inputs-wrapper">
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input type="checkbox" name="scale" id="scale_0" checked>
-                  <label for="scale_0">Scale</label>
+                  <input class="settings-panel__input" type="checkbox" name="scale" id="scale_0" checked>
+                  <label class="settings-panel__label" for="scale_0">Scale</label>
                 </div>
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input type="checkbox" name="value" id="value_0" checked>
-                  <label for="value_0">Value</label>
+                  <input class="settings-panel__input" type="checkbox" name="value" id="value_0" checked>
+                  <label class="settings-panel__label" for="value_0">Value</label>
                 </div>
               </div>
             </fieldset>
@@ -87,12 +90,12 @@
               <legend class="settings-panel__fieldset-title">Orientation</legend>
               <div class="settings-panel__fieldset-inputs-wrapper">
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input class="settings-panel__input-vertical" type="radio" name="orientation" id="vertical_1" checked="checked">
-                  <label for="vertical_1">Vertical</label>
+                  <input class="settings-panel__input settings-panel__input_orientation_vertical" type="radio" name="orientation" id="vertical_1" checked="checked">
+                  <label class="settings-panel__label settings-panel__label_orientation_vertical" for="vertical_1">Vertical</label>
                 </div>
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input class="settings-panel__input-horizontal" type="radio" name="orientation" id="horizontal_1">
-                  <label for="horizontal_1">Horizontal</label>
+                  <input class="settings-panel__input settings-panel__input_orientation_horizontal" type="radio" name="orientation" id="horizontal_1">
+                  <label class="settings-panel__label settings-panel__label_orientation_horizontal" for="horizontal_1">Horizontal</label>
                 </div>
               </div>
             </fieldset>
@@ -100,12 +103,12 @@
               <legend class="settings-panel__fieldset-title">Type</legend>
               <div class="settings-panel__fieldset-inputs-wrapper">
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input class="settings-panel__input-single" type="radio" name="type" id="single_1" checked="checked">
-                  <label for="single_1">Single</label>
+                  <input class="settings-panel__input settings-panel__input_type_single" type="radio" name="type" id="single_1" checked="checked">
+                  <label class="settings-panel__label settings-panel__label_type_single" for="single_1">Single</label>
                 </div>
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input class="settings-panel__input-interval" type="radio" name="type" id="interval_1">
-                  <label for="interval_1">Interval</label>
+                  <input class="settings-panel__input settings-panel__input_type_interval" type="radio" name="type" id="interval_1">
+                  <label class="settings-panel__label settings-panel__label_type_interval" for="interval_1">Interval</label>
                 </div>
               </div>
             </fieldset>
@@ -113,12 +116,12 @@
               <legend class="settings-panel__fieldset-title">Additional</legend>
               <div class="settings-panel__fieldset-inputs-wrapper">
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input type="checkbox" name="scale" id="scale_1" checked>
-                  <label for="scale_1">Scale</label>
+                  <input class="settings-panel__input" type="checkbox" name="scale" id="scale_1" checked>
+                  <label class="settings-panel__label" for="scale_1">Scale</label>
                 </div>
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input type="checkbox" name="value" id="value_1" checked>
-                  <label for="value_1">Value</label>
+                  <input class="settings-panel__input" type="checkbox" name="value" id="value_1" checked>
+                  <label class="settings-panel__label" for="value_1">Value</label>
                 </div>
               </div>
             </fieldset>
@@ -154,12 +157,12 @@
               <legend class="settings-panel__fieldset-title">Orientation</legend>
               <div class="settings-panel__fieldset-inputs-wrapper">
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input class="settings-panel__input-vertical" type="radio" name="orientation" id="vertical_2" checked="checked">
-                  <label for="vertical_2">Vertical</label>
+                  <input class="settings-panel__input settings-panel__input_orientation_vertical" type="radio" name="orientation" id="vertical_2" checked="checked">
+                  <label class="settings-panel__label settings-panel__label_orientation_vertical" for="vertical_2">Vertical</label>
                 </div>
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input class="settings-panel__input-horizontal" type="radio" name="orientation" id="horizontal_2">
-                  <label for="horizontal_2">Horizontal</label>
+                  <input class="settings-panel__input settings-panel__input_orientation_horizontal" type="radio" name="orientation" id="horizontal_2">
+                  <label class="settings-panel__label settings-panel__label_orientation_horizontal" for="horizontal_2">Horizontal</label>
                 </div>
               </div>
             </fieldset>
@@ -167,12 +170,12 @@
               <legend class="settings-panel__fieldset-title">Type</legend>
               <div class="settings-panel__fieldset-inputs-wrapper">
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input class="settings-panel__input-single" type="radio" name="type" id="single_2">
-                  <label for="single_2">Single</label>
+                  <input class="settings-panel__input settings-panel__input_type_single" type="radio" name="type" id="single_2">
+                  <label class="settings-panel__label settings-panel__label_type_single" for="single_2">Single</label>
                 </div>
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input class="settings-panel__input-interval" type="radio" name="type" id="interval_2" checked="checked">
-                  <label for="interval_2">Interval</label>
+                  <input class="settings-panel__input settings-panel__input_type_interval" type="radio" name="type" id="interval_2" checked="checked">
+                  <label class="settings-panel__label settings-panel__label_type_interval" for="interval_2">Interval</label>
                 </div>
               </div>
             </fieldset>
@@ -180,12 +183,12 @@
               <legend class="settings-panel__fieldset-title">Additional</legend>
               <div class="settings-panel__fieldset-inputs-wrapper">
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input type="checkbox" name="scale" id="scale_2" checked>
-                  <label for="scale_2">Scale</label>
+                  <input class="settings-panel__input" type="checkbox" name="scale" id="scale_2" checked>
+                  <label class="settings-panel__label" for="scale_2">Scale</label>
                 </div>
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input type="checkbox" name="value" id="value_2" checked>
-                  <label for="value_2">Value</label>
+                  <input class="settings-panel__input" type="checkbox" name="value" id="value_2" checked>
+                  <label class="settings-panel__label" for="value_2">Value</label>
                 </div>
               </div>
             </fieldset>
@@ -221,12 +224,12 @@
               <legend class="settings-panel__fieldset-title">Orientation</legend>
               <div class="settings-panel__fieldset-inputs-wrapper">
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input class="settings-panel__input-vertical" type="radio" name="orientation" id="vertical_3">
-                  <label for="vertical_3">Vertical</label>
+                  <input class="settings-panel__input settings-panel__input_orientation_vertical" type="radio" name="orientation" id="vertical_3">
+                  <label class="settings-panel__label settings-panel__label_orientation_vertical" for="vertical_3">Vertical</label>
                 </div>
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input class="settings-panel__input-horizontal" type="radio" name="orientation" id="horizontal_3" checked="checked">
-                  <label for="horizontal_3">Horizontal</label>
+                  <input class="settings-panel__input settings-panel__input_orientation_horizontal" type="radio" name="orientation" id="horizontal_3" checked="checked">
+                  <label class="settings-panel__label settings-panel__label_orientation_horizontal" for="horizontal_3">Horizontal</label>
                 </div>
               </div>
             </fieldset>
@@ -234,12 +237,12 @@
               <legend class="settings-panel__fieldset-title">Type</legend>
               <div class="settings-panel__fieldset-inputs-wrapper">
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input class="settings-panel__input-single" type="radio" name="type" id="single_3">
-                  <label for="single_3">Single</label>
+                  <input class="settings-panel__input settings-panel__input_type_single" type="radio" name="type" id="single_3">
+                  <label class="settings-panel__label settings-panel__label_type_single" for="single_3">Single</label>
                 </div>
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input class="settings-panel__input-interval" type="radio" name="type" id="interval_3" checked="checked">
-                  <label for="interval_3">Interval</label>
+                  <input class="settings-panel__input settings-panel__input_type_interval" type="radio" name="type" id="interval_3" checked="checked">
+                  <label class="settings-panel__label settings-panel__label_type_interval" for="interval_3">Interval</label>
                 </div>
               </div>
             </fieldset>
@@ -247,12 +250,12 @@
               <legend class="settings-panel__fieldset-title">Additional</legend>
               <div class="settings-panel__fieldset-inputs-wrapper">
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input type="checkbox" name="scale" id="scale_3" checked>
-                  <label for="scale_3">Scale</label>
+                  <input class="settings-panel__input" type="checkbox" name="scale" id="scale_3" checked>
+                  <label class="settings-panel__label" for="scale_3">Scale</label>
                 </div>
                 <div class="settings-panel__fieldset-input-wrapper">
-                  <input type="checkbox" name="value" id="value_3" checked>
-                  <label for="value_3">Value</label>
+                  <input class="settings-panel__input" type="checkbox" name="value" id="value_3" checked>
+                  <label class="settings-panel__label" for="value_3">Value</label>
                 </div>
               </div>
             </fieldset>
