@@ -17,7 +17,7 @@ module.exports = {
   rules: {
     'import/extensions': 'off',
     'no-plusplus': [2, { allowForLoopAfterthoughts: true }],
-    'max-len': ['error', { code: 120 }],
+    'max-len': ['error', { code: 125 }],
     'no-trailing-spaces': ['error', { skipBlankLines: true }],
     'import/no-extraneous-dependencies': ['error', {devDependencies: true}]
   },
