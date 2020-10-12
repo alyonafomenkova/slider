@@ -4,36 +4,36 @@ mixin settings-panel(settings)
       legend.settings-panel__fieldset-title Orientation
       div.settings-panel__fieldset-inputs-wrapper
         div.settings-panel__fieldset-input-wrapper
-          input.settings-panel__input-vertical(
+          input.settings-panel__input.settings-panel__input_orientation_vertical(
             type = "radio" name="orientation" id = `vertical_${settings.index}`
             checked=(settings.orientation==="vertical" ? "checked" : undefined))
-          label(for = `vertical_${settings.index}`) Vertical
+          label.settings-panel__label.settings-panel__label_orientation_vertical(for = `vertical_${settings.index}`) Vertical
         div.settings-panel__fieldset-input-wrapper
-          input.settings-panel__input-horizontal(
+          input.settings-panel__input.settings-panel__input_orientation_horizontal(
             type = "radio" name="orientation" id = `horizontal_${settings.index}`
             checked=(settings.orientation==="horizontal" ? "checked" : undefined))
-          label(for = `horizontal_${settings.index}`) Horizontal
+          label.settings-panel__label.settings-panel__label_orientation_horizontal(for = `horizontal_${settings.index}`) Horizontal
     fieldset.settings-panel__fieldset
       legend.settings-panel__fieldset-title Type
       div.settings-panel__fieldset-inputs-wrapper
         div.settings-panel__fieldset-input-wrapper
-          input.settings-panel__input-single(
+          input.settings-panel__input.settings-panel__input_type_single(
             type = "radio" name="type" id = `single_${settings.index}`
             checked=(settings.type==="single" ? "checked" : undefined))
-          label(for = `single_${settings.index}`) Single
+          label.settings-panel__label.settings-panel__label_type_single(for = `single_${settings.index}`) Single
         div.settings-panel__fieldset-input-wrapper
-          input.settings-panel__input-interval(type = "radio" name="type" id = `interval_${settings.index}`
+          input.settings-panel__input.settings-panel__input_type_interval(type = "radio" name="type" id = `interval_${settings.index}`
             checked=(settings.type==="interval" ? "checked" : undefined))
-          label(for = `interval_${settings.index}`) Interval
+          label.settings-panel__label.settings-panel__label_type_interval(for = `interval_${settings.index}`) Interval
     fieldset.settings-panel__fieldset
       legend.settings-panel__fieldset-title Additional
       div.settings-panel__fieldset-inputs-wrapper
         div.settings-panel__fieldset-input-wrapper
-          input(type = "checkbox" name="scale" id = `scale_${settings.index}` checked)
-          label(for = `scale_${settings.index}`) Scale
+          input.settings-panel__input(type = "checkbox" name="scale" id = `scale_${settings.index}` checked)
+          label.settings-panel__label(for = `scale_${settings.index}`) Scale
         div.settings-panel__fieldset-input-wrapper
-          input(type = "checkbox" name="value" id = `value_${settings.index}` checked)
-          label(for = `value_${settings.index}`) Value
+          input.settings-panel__input(type = "checkbox" name="value" id = `value_${settings.index}` checked)
+          label.settings-panel__label(for = `value_${settings.index}`) Value
     div.settings-panel__values
       label.settings-panel__values-label MIN
         input.settings-panel__values-input.settings-panel__values-input_kind_min(type="number" name="min")

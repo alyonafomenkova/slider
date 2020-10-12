@@ -140,7 +140,7 @@ class SettingsPanel {
 
   private handleType = (evt: Event): void => {
     if (this.typeListener) {
-      const isInterval = (evt.target as HTMLInputElement).classList.contains('settings-panel__input-interval');
+      const isInterval = (evt.target as HTMLInputElement).classList.contains('settings-panel__input_type_interval');
       if (isInterval) {
         this.typeListener(true);
         this.isValueTo(true);
@@ -153,7 +153,7 @@ class SettingsPanel {
 
   private handleOrientation = (evt: Event): void => {
     if (this.orientationListener) {
-      const isVertical = (evt.target as HTMLInputElement).classList.contains('settings-panel__input-vertical');
+      const isVertical = (evt.target as HTMLInputElement).classList.contains('settings-panel__input_orientation_vertical');
       this.orientationListener(isVertical);
     }
   };
