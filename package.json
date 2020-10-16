@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "tsc -w && eslint 'src/*.{js,ts,tsx}'",
+    "lint": "eslint src/**/*.{js,ts,tsx}",
     "build:dev": "webpack --mode=development",
     "start:dev": "webpack-dev-server --open",
     "test": "karma start karma.conf.js",
