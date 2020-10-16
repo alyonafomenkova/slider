@@ -25,22 +25,26 @@ class Model {
   }
 
   private static validateConfiguration(configuration: Configuration): void {
-    if (configuration.min >= configuration.max) {
+    const { min, max, step, from, to } = configuration;
+    const isCorrectFrom = from >= min && from <= max;
+    const isCorrectTo = to > min && to <= max;
+
+    if (min >= max) {
       throw new Error('Min must be less than max!');
     }
-    if (configuration.step <= 0) {
+    if (step <= 0) {
       throw new Error('Step must be more than 0!');
     }
-    if (configuration.step > configuration.max - configuration.min) {
+    if (step > max - min) {
       throw new Error('Step must be less than max - min!');
     }
-    if (configuration.from < configuration.min || configuration.from > configuration.max) {
+    if (!isCorrectFrom) {
       throw new Error('CurrentValueFrom must be less than max, but more than min!');
     }
-    if (configuration.to < configuration.min || configuration.to > configuration.max) {
+    if (!isCorrectTo) {
       throw new Error('CurrentValueTo must be less than max, but more than min!');
     }
-    if (configuration.to < configuration.from) {
+    if (to < from) {
       throw new Error('CurrentValueTo must be more than currentValueFrom!');
     }
   }
@@ -85,6 +89,7 @@ class Model {
       this.min.setValue(value);
     }
     const min = this.min.getValue();
+    const isIntervalLessThanStep = min <= max && max - min < step;
 
     if (from < min) {
       this.from.setValue(min);
@@ -94,7 +99,8 @@ class Model {
     if (to < from) {
       this.to.setValue(from);
     }
-    if (min <= max && max - min < step) {
+
+    if (isIntervalLessThanStep) {
       this.step.setValue(max - min);
     }
     if (value > max) {
@@ -111,6 +117,7 @@ class Model {
     const from = this.from.getValue();
     const to = this.to.getValue();
     const step = this.step.getValue();
+    const isIntervalLessThanStep = value > min && value - min < step;
 
     if (value > to) {
       this.max.setValue(value);
@@ -121,7 +128,7 @@ class Model {
     if (value < from) {
       this.from.setValue(value);
     }
-    if (value > min && value - min < step) {
+    if (isIntervalLessThanStep) {
       this.step.setValue(value - min);
     }
   }
