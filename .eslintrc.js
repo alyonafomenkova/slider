@@ -16,10 +16,24 @@ module.exports = {
   plugins: ['fsd', '@typescript-eslint'],
   rules: {
     'import/extensions': 'off',
-    'no-plusplus': [2, { allowForLoopAfterthoughts: true }],
-    'max-len': ['error', { code: 125 }],
-    'no-trailing-spaces': ['error', { skipBlankLines: true }],
-    'import/no-extraneous-dependencies': ['error', {devDependencies: true}]
+    'no-plusplus': [2, {
+      allowForLoopAfterthoughts: true,
+    }],
+    'max-len': ['error', {
+      code: 125,
+    }],
+    'no-trailing-spaces': ['error', {
+      skipBlankLines: true,
+    }],
+    'import/no-extraneous-dependencies': ['error', {
+      devDependencies: true,
+    }],
+    'object-curly-newline': ['error', {
+      ObjectExpression: 'always',
+      ObjectPattern: {
+        multiline: true,
+      },
+    }],
   },
   settings: {
     'import/resolver': {
