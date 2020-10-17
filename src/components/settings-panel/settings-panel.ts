@@ -81,46 +81,61 @@ class SettingsPanel {
 
   private handleMinInput = (evt: Event): void => {
     const { value } = evt.target as HTMLInputElement;
-    const num = parseFloat(value);
+    const number = parseFloat(value);
+    const isCorrectValue = !Number.isNaN(number);
 
-    if (!Number.isNaN(num) && this.minListener) {
-      this.minListener(num);
+    if (isCorrectValue) {
+      if (this.minListener) {
+        this.minListener(number);
+      }
     }
   };
 
   private handleMaxInput = (evt: Event): void => {
     const { value } = evt.target as HTMLInputElement;
-    const num = parseFloat(value);
+    const number = parseFloat(value);
+    const isCorrectValue = !Number.isNaN(number);
 
-    if (!Number.isNaN(num) && this.maxListener) {
-      this.maxListener(num);
+    if (isCorrectValue) {
+      if (this.maxListener) {
+        this.maxListener(number);
+      }
     }
   };
 
   private handleStepInput = (evt: Event): void => {
     const { value } = evt.target as HTMLInputElement;
-    const num = parseFloat(value);
+    const number = parseFloat(value);
+    const isCorrectValue = !Number.isNaN(number);
 
-    if (!Number.isNaN(num) && this.stepListener) {
-      this.stepListener(num);
+    if (isCorrectValue) {
+      if (this.stepListener) {
+        this.stepListener(number);
+      }
     }
   };
 
   private handleFromInput = (evt: Event): void => {
     const { value } = evt.target as HTMLInputElement;
-    const num = parseFloat(value);
+    const number = parseFloat(value);
+    const isCorrectValue = !Number.isNaN(number);
 
-    if (!Number.isNaN(num) && this.fromValueListener) {
-      this.fromValueListener(num);
+    if (isCorrectValue) {
+      if (this.fromValueListener) {
+        this.fromValueListener(number);
+      }
     }
   };
 
   private handleInputTo = (evt: Event): void => {
     const { value } = evt.target as HTMLInputElement;
-    const num = parseFloat(value);
+    const number = parseFloat(value);
+    const isCorrectValue = !Number.isNaN(number);
 
-    if (!Number.isNaN(num) && this.toValueListener) {
-      this.toValueListener(num);
+    if (isCorrectValue) {
+      if (this.toValueListener) {
+        this.toValueListener(number);
+      }
     }
   };
 
