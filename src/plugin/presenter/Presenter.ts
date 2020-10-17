@@ -76,20 +76,20 @@ class Presenter {
       throw new Error('Either pointerFromView or pointerToView is not defined');
     }
     const isInterval = this.model.isInterval();
-    const posMin = sliderView.getBoundLeft();
-    const posFrom = this.pointerFromView.getLeft() + this.pointerFromView.getWidth() / 2;
+    const positionMin = sliderView.getBoundLeft();
+    const positionFrom = this.pointerFromView.getLeft() + this.pointerFromView.getWidth() / 2;
     let start;
     let end;
 
     if (isInterval) {
-      const posTo = this.pointerToView.getLeft() + this.pointerToView.getWidth() / 2;
-      start = posFrom - posMin;
-      end = posTo;
+      const positionTo = this.pointerToView.getLeft() + this.pointerToView.getWidth() / 2;
+      start = positionFrom - positionMin;
+      end = positionTo;
     } else {
       start = 0;
-      end = posFrom;
+      end = positionFrom;
     }
-    const width = Math.abs(end - start - posMin);
+    const width = Math.abs(end - start - positionMin);
     const startInPercent = (start / sliderView.getWidth()) * 100;
     const widthInPercent = (width / sliderView.getWidth()) * 100;
     sliderView.drawHorizontalProgress(startInPercent, widthInPercent);
@@ -100,18 +100,18 @@ class Presenter {
       throw new Error('Either pointerFromView or pointerToView is not defined');
     }
     const isInterval = this.model.isInterval();
-    const posMax = sliderView.getBoundBottom();
-    const posFrom = posMax - this.pointerFromView.getTop() - this.pointerFromView.getHeight() / 2;
+    const positionMax = sliderView.getBoundBottom();
+    const positionFrom = positionMax - this.pointerFromView.getTop() - this.pointerFromView.getHeight() / 2;
     let start;
     let end;
 
     if (isInterval) {
-      const posTo = posMax - this.pointerToView.getTop() - this.pointerToView.getHeight() / 2;
-      start = posFrom;
-      end = posTo;
+      const positionTo = positionMax - this.pointerToView.getTop() - this.pointerToView.getHeight() / 2;
+      start = positionFrom;
+      end = positionTo;
     } else {
       start = 0;
-      end = posFrom;
+      end = positionFrom;
     }
     const height = Math.abs(start - end);
     const startInPercent = (start / sliderView.getHeight()) * 100;
@@ -184,10 +184,10 @@ class Presenter {
     let pointerView;
 
     if (isInterval) {
-      const diffBetweenValueAndFrom = Math.abs(value - from);
-      const diffBetweenValueAndTo = Math.abs(value - to);
+      const differenceBetweenValueAndFrom = Math.abs(value - from);
+      const differenceBetweenValueAndTo = Math.abs(value - to);
 
-      if (diffBetweenValueAndFrom <= diffBetweenValueAndTo) {
+      if (differenceBetweenValueAndFrom <= differenceBetweenValueAndTo) {
         pointerView = this.pointerFromView;
       } else {
         pointerView = this.pointerToView;
@@ -227,25 +227,25 @@ class Presenter {
 
   private sliderBarClickListener = (view: SliderView, x: number, y: number): void => {
     if (this.pointerFromView) {
-      let posFrom;
+      let positionFrom;
       let pointerView;
 
       if (this.pointerToView && this.model.isInterval()) {
-        let posTo;
-        let diffBetweenValueAndFrom;
-        let diffBetweenValueAndTo;
+        let positionTo;
+        let differenceBetweenValueAndFrom;
+        let differenceBetweenValueAndTo;
         if (this.isVertical.getValue()) {
-          posFrom = this.pointerFromView.getTop() - this.pointerFromView.getHeight() / 2;
-          posTo = this.pointerToView.getTop() - this.pointerToView.getHeight() / 2;
-          diffBetweenValueAndFrom = Math.abs(y - posFrom);
-          diffBetweenValueAndTo = Math.abs(y - posTo);
+          positionFrom = this.pointerFromView.getTop() - this.pointerFromView.getHeight() / 2;
+          positionTo = this.pointerToView.getTop() - this.pointerToView.getHeight() / 2;
+          differenceBetweenValueAndFrom = Math.abs(y - positionFrom);
+          differenceBetweenValueAndTo = Math.abs(y - positionTo);
         } else {
-          posFrom = this.pointerFromView.getLeft() + this.pointerFromView.getWidth() / 2;
-          posTo = this.pointerToView.getLeft() + this.pointerToView.getWidth() / 2;
-          diffBetweenValueAndFrom = Math.abs(x - posFrom);
-          diffBetweenValueAndTo = Math.abs(x - posTo);
+          positionFrom = this.pointerFromView.getLeft() + this.pointerFromView.getWidth() / 2;
+          positionTo = this.pointerToView.getLeft() + this.pointerToView.getWidth() / 2;
+          differenceBetweenValueAndFrom = Math.abs(x - positionFrom);
+          differenceBetweenValueAndTo = Math.abs(x - positionTo);
         }
-        if (diffBetweenValueAndFrom <= diffBetweenValueAndTo) {
+        if (differenceBetweenValueAndFrom <= differenceBetweenValueAndTo) {
           pointerView = this.pointerFromView;
         } else {
           pointerView = this.pointerToView;
@@ -285,20 +285,20 @@ class Presenter {
       let value;
 
       if (this.isVertical.getValue()) {
-        const posY = view.getTop() + pointerHalfHeight - this.sliderView.getBoundTop();
+        const positionY = view.getTop() + pointerHalfHeight - this.sliderView.getBoundTop();
         const stepHeight = this.sliderView.getHeight() / stepsTotal;
 
-        if (Math.floor(posY) === 0) {
+        if (Math.floor(positionY) === 0) {
           value = max;
         } else {
-          value = Math.round((this.sliderView.getHeight() - posY) / stepHeight) * step + min;
+          value = Math.round((this.sliderView.getHeight() - positionY) / stepHeight) * step + min;
         }
       } else {
-        const posX = view.getLeft() + pointerHalfWidth - this.sliderView.getBoundLeft();
+        const positionX = view.getLeft() + pointerHalfWidth - this.sliderView.getBoundLeft();
         const stepWidth = this.sliderView.getWidth() / stepsTotal;
 
-        if (Math.floor(posX) < Math.floor(this.sliderView.getWidth())) {
-          value = Math.round(posX / stepWidth) * step + min;
+        if (Math.floor(positionX) < Math.floor(this.sliderView.getWidth())) {
+          value = Math.round(positionX / stepWidth) * step + min;
         } else {
           value = max;
         }
@@ -472,19 +472,19 @@ class Presenter {
     if (this.sliderView) {
       const min = this.model.getMin();
       const max = this.model.getMax();
-      let posMin;
-      let posMax;
+      let positionMin;
+      let positionMax;
       let centerOfPointer;
 
       if (this.isVertical.getValue()) {
-        posMin = this.sliderView.getBoundTop();
-        posMax = this.sliderView.getBoundBottom();
-        centerOfPointer = (((value - min) * (posMin - posMax)) / (max - min)) + posMax;
+        positionMin = this.sliderView.getBoundTop();
+        positionMax = this.sliderView.getBoundBottom();
+        centerOfPointer = (((value - min) * (positionMin - positionMax)) / (max - min)) + positionMax;
         this.setPointerY(view, centerOfPointer);
       } else {
-        posMin = this.sliderView.getBoundLeft();
-        posMax = this.sliderView.getBoundRight();
-        centerOfPointer = (((value - min) * (posMax - posMin)) / (max - min)) + posMin;
+        positionMin = this.sliderView.getBoundLeft();
+        positionMax = this.sliderView.getBoundRight();
+        centerOfPointer = (((value - min) * (positionMax - positionMin)) / (max - min)) + positionMin;
         this.setPointerX(view, centerOfPointer);
       }
       if (centerOfPointer) {
@@ -499,7 +499,7 @@ class Presenter {
       throw new Error('Either pointerFromView or pointerToView is not defined');
     }
     if (this.sliderView) {
-      let posX = x - this.sliderView.getBoundLeft();
+      let positionX = x - this.sliderView.getBoundLeft();
       const xMin = 0;
       const xMax = this.sliderView.getWidth();
       const min = this.model.getMin();
@@ -510,29 +510,29 @@ class Presenter {
       const stepsTotal = (max - min) / step;
       const stepWidth = this.sliderView.getWidth() / stepsTotal;
       const isInterval = this.model.isInterval();
-      posX = Math.round(posX / stepX) * stepX;
+      positionX = Math.round(positionX / stepX) * stepX;
 
       if (isInterval) {
         if (view === this.pointerFromView) {
           const pointerToX = ((this.model.getTo() - min) / step) * stepWidth;
 
-          if (posX > pointerToX - stepWidth) {
-            posX = pointerToX - stepWidth;
+          if (positionX > pointerToX - stepWidth) {
+            positionX = pointerToX - stepWidth;
           }
         } else {
           const pointerFromX = ((this.model.getFrom() - min) / step) * stepWidth;
 
-          if (posX < pointerFromX + stepWidth) {
-            posX = pointerFromX + stepWidth;
+          if (positionX < pointerFromX + stepWidth) {
+            positionX = pointerFromX + stepWidth;
           }
         }
       }
-      if (posX > xMax) {
-        posX = xMax;
-      } else if (posX < xMin) {
-        posX = xMin;
+      if (positionX > xMax) {
+        positionX = xMax;
+      } else if (positionX < xMin) {
+        positionX = xMin;
       }
-      const percent = (posX / this.sliderView.getWidth()) * 100;
+      const percent = (positionX / this.sliderView.getWidth()) * 100;
       view.setX(percent);
     }
   }
@@ -542,7 +542,7 @@ class Presenter {
       throw new Error('Either pointerFromView or pointerToView is not defined');
     }
     if (this.sliderView) {
-      let posY = y - this.sliderView.getBoundTop();
+      let positionY = y - this.sliderView.getBoundTop();
       const yMin = 0;
       const yMax = this.sliderView.getHeight();
       const min = this.model.getMin();
@@ -553,28 +553,28 @@ class Presenter {
       const stepHeight = this.sliderView.getHeight() / stepCount;
       const offset = this.sliderView.getHeight() - Math.floor(stepCount) * stepHeight;
       const isInterval = this.model.isInterval();
-      posY = Math.round((posY - offset) / stepY) * stepY + offset;
+      positionY = Math.round((positionY - offset) / stepY) * stepY + offset;
 
       if (isInterval) {
         if (view === this.pointerFromView) {
           const pointerToY = Math.abs(((this.model.getTo() - max) / step) * stepHeight);
-          if (posY < pointerToY + stepHeight) {
-            posY = pointerToY + stepHeight;
+          if (positionY < pointerToY + stepHeight) {
+            positionY = pointerToY + stepHeight;
           }
         } else {
           const pointerFromY = Math.abs(((this.model.getFrom() - max) / step)) * stepHeight;
 
-          if (posY > pointerFromY - stepHeight) {
-            posY = pointerFromY - stepHeight;
+          if (positionY > pointerFromY - stepHeight) {
+            positionY = pointerFromY - stepHeight;
           }
         }
       }
-      if (posY > yMax) {
-        posY = yMax;
-      } else if (posY < yMin) {
-        posY = yMin;
+      if (positionY > yMax) {
+        positionY = yMax;
+      } else if (positionY < yMin) {
+        positionY = yMin;
       }
-      const percent = (posY / this.sliderView.getHeight()) * 100;
+      const percent = (positionY / this.sliderView.getHeight()) * 100;
       view.setY(percent);
     }
   }
