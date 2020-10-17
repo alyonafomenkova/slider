@@ -1,6 +1,5 @@
 import PointerView from '../../view/PointerView';
 import PointerViewImpl from '../../view/impl/PointerViewImpl';
-import ScaleView from '../../view/ScaleView';
 
 const containerClass = 'container';
 const setupContainer = (): HTMLElement => {
@@ -146,19 +145,5 @@ describe('Test pointer view implementation', () => {
     expect(view.getHeight()).toEqual(0);
     expect(view.getLeft()).toEqual(0);
     expect(view.getTop()).toEqual(0);
-    // view.draw(false);
-    // view.showValue();
-    // view.setValue(5);
-    // view.setX(50);
-    // view.setY(55);
-
-    // const pointer = document.querySelector('.slider__pointer-container') as HTMLElement;
-    // const value = document.querySelector('.slider__value') as HTMLElement;
-    //
-    // if (value) {
-    //   expect(value.innerHTML).not.toBeNull();
-    //   expect(pointer.style.left).toEqual('50%');
-    //   expect(pointer.style.top).toEqual('55%');
-    // }
   });
 });
