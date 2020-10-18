@@ -72,9 +72,9 @@ class Presenter {
   }
 
   private updateHorizontalProgress(sliderView: SliderView): void {
-    if (!this.pointerFromView || !this.pointerToView) {
-      throw new Error('Either pointerFromView or pointerToView is not defined');
-    }
+    if (!this.pointerFromView) throw new Error('Pointer from view is not defined.');
+    if (!this.pointerToView) throw new Error('Pointer to view is not defined.');
+
     const isInterval = this.model.isInterval();
     const positionMin = sliderView.getBoundLeft();
     const positionFrom = this.pointerFromView.getLeft() + this.pointerFromView.getWidth() / 2;
@@ -96,9 +96,9 @@ class Presenter {
   }
 
   private updateVerticalProgress(sliderView: SliderView): void {
-    if (!this.pointerFromView || !this.pointerToView) {
-      throw new Error('Either pointerFromView or pointerToView is not defined');
-    }
+    if (!this.pointerFromView) throw new Error('Pointer from view is not defined.');
+    if (!this.pointerToView) throw new Error('Pointer to view is not defined.');
+
     const isInterval = this.model.isInterval();
     const positionMax = sliderView.getBoundBottom();
     const positionFrom = positionMax - this.pointerFromView.getTop() - this.pointerFromView.getHeight() / 2;
@@ -151,33 +151,34 @@ class Presenter {
   }
 
   private setupScale(view: ScaleView): void {
-    if (this.sliderView) {
-      const items: Array<ScaleItem> = [];
-      const min = this.model.getMin();
-      const max = this.model.getMax();
-      const sliderWidth = this.sliderView.getWidth();
-      const sliderHeight = this.sliderView.getHeight();
-      const step = this.model.getStep();
-      const count = Math.floor((max - min) / step);
-      const isVertical = this.isVertical.getValue();
-      const stepWidth = isVertical ? (sliderHeight / count) : (sliderWidth / count);
-      const itemStep = this.getItemsStep(stepWidth);
+    if (!this.sliderView) throw new Error('Slider view is not defined.');
 
-      for (let i = 0; i <= count; i += itemStep) {
-        const value = min + step * i;
-        const rounded = Util.roundWithEpsilon(value);
-        const percent = ((value - min) * 100) / (max - min);
-        items.push(new ScaleItem(rounded, percent));
-      }
-      view.addItems(items, isVertical);
-      view.setClickListener(this.scaleClickListener);
+    const items: Array<ScaleItem> = [];
+    const min = this.model.getMin();
+    const max = this.model.getMax();
+    const sliderWidth = this.sliderView.getWidth();
+    const sliderHeight = this.sliderView.getHeight();
+    const step = this.model.getStep();
+    const count = Math.floor((max - min) / step);
+    const isVertical = this.isVertical.getValue();
+    const stepWidth = isVertical ? (sliderHeight / count) : (sliderWidth / count);
+    const itemStep = this.getItemsStep(stepWidth);
+
+    for (let i = 0; i <= count; i += itemStep) {
+      const value = min + step * i;
+      const rounded = Util.roundWithEpsilon(value);
+      const percent = ((value - min) * 100) / (max - min);
+      items.push(new ScaleItem(rounded, percent));
     }
+    view.addItems(items, isVertical);
+    view.setClickListener(this.scaleClickListener);
   }
 
   private scaleClickListener = (view: ScaleView, value: number): void => {
-    if (!this.pointerFromView || !this.pointerToView) {
-      throw new Error('Either pointerFromView or pointerToView is not defined');
-    }
+    if (!this.sliderView) throw new Error('Slider view is not defined.');
+    if (!this.pointerFromView) throw new Error('Pointer from view is not defined.');
+    if (!this.pointerToView) throw new Error('Pointer to view is not defined.');
+
     const isInterval = this.model.isInterval();
     const from = this.model.getFrom();
     const to = this.model.getTo();
@@ -195,7 +196,8 @@ class Presenter {
     } else {
       pointerView = this.pointerFromView;
     }
-    if (this.sliderView && pointerView) {
+
+    if (pointerView) {
       this.setupPositionByValue(pointerView, value);
       this.calculateValue(pointerView);
       this.updateProgress(this.sliderView);
@@ -230,7 +232,9 @@ class Presenter {
       let positionFrom;
       let pointerView;
 
-      if (this.pointerToView && this.model.isInterval()) {
+      if (this.model.isInterval()) {
+        if (!this.pointerToView) throw new Error('Pointer to view is not defined.');
+
         let positionTo;
         let differenceBetweenValueAndFrom;
         let differenceBetweenValueAndTo;
@@ -265,57 +269,53 @@ class Presenter {
     }
     this.calculateValue(view);
 
-    if (!this.sliderView) {
-      throw new Error('sliderView is undefined');
-    }
+    if (!this.sliderView) throw new Error('Slider view is not defined.');
     this.updateProgress(this.sliderView);
   }
 
   private calculateValue(view: PointerView): void {
-    if (this.sliderView) {
-      const pointerHalfWidth = view.getWidth() / 2;
-      const pointerHalfHeight = view.getHeight() / 2;
-      const min = this.model.getMin();
-      const max = this.model.getMax();
-      const step = this.model.getStep();
-      const from = this.model.getFrom();
-      const to = this.model.getTo();
-      const isInterval = this.model.isInterval();
-      const stepsTotal = (max - min) / step;
-      let value;
+    if (!this.sliderView) throw new Error('Slider view is not defined.');
 
-      if (this.isVertical.getValue()) {
-        const positionY = view.getTop() + pointerHalfHeight - this.sliderView.getBoundTop();
-        const stepHeight = this.sliderView.getHeight() / stepsTotal;
+    const pointerHalfWidth = view.getWidth() / 2;
+    const pointerHalfHeight = view.getHeight() / 2;
+    const min = this.model.getMin();
+    const max = this.model.getMax();
+    const step = this.model.getStep();
+    const from = this.model.getFrom();
+    const to = this.model.getTo();
+    const isInterval = this.model.isInterval();
+    const stepsTotal = (max - min) / step;
+    let value;
 
-        if (Math.floor(positionY) === 0) {
-          value = max;
-        } else {
-          value = Math.round((this.sliderView.getHeight() - positionY) / stepHeight) * step + min;
-        }
+    if (this.isVertical.getValue()) {
+      const positionY = view.getTop() + pointerHalfHeight - this.sliderView.getBoundTop();
+      const stepHeight = this.sliderView.getHeight() / stepsTotal;
+
+      if (Math.floor(positionY) === 0) {
+        value = max;
       } else {
-        const positionX = view.getLeft() + pointerHalfWidth - this.sliderView.getBoundLeft();
-        const stepWidth = this.sliderView.getWidth() / stepsTotal;
-
-        if (Math.floor(positionX) < Math.floor(this.sliderView.getWidth())) {
-          value = Math.round(positionX / stepWidth) * step + min;
-        } else {
-          value = max;
-        }
-      }
-      const rounded = Util.roundWithEpsilon(value);
-
-      if (view === this.pointerFromView) {
-        if (isInterval) {
-          this.model.setFrom(rounded > to ? to : rounded);
-        } else {
-          this.model.setFrom(rounded);
-        }
-      } else {
-        this.model.setTo(rounded < from ? from : rounded);
+        value = Math.round((this.sliderView.getHeight() - positionY) / stepHeight) * step + min;
       }
     } else {
-      throw new Error('Slider view is undefined');
+      const positionX = view.getLeft() + pointerHalfWidth - this.sliderView.getBoundLeft();
+      const stepWidth = this.sliderView.getWidth() / stepsTotal;
+
+      if (Math.floor(positionX) < Math.floor(this.sliderView.getWidth())) {
+        value = Math.round(positionX / stepWidth) * step + min;
+      } else {
+        value = max;
+      }
+    }
+    const rounded = Util.roundWithEpsilon(value);
+
+    if (view === this.pointerFromView) {
+      if (isInterval) {
+        this.model.setFrom(rounded > to ? to : rounded);
+      } else {
+        this.model.setFrom(rounded);
+      }
+    } else {
+      this.model.setTo(rounded < from ? from : rounded);
     }
   }
 
@@ -323,53 +323,50 @@ class Presenter {
     const max = this.model.getMax();
     const step = this.model.getStep();
 
-    if (this.pointerFromView && this.pointerToView) {
-      if (this.sliderView && this.scaleView) {
-        this.model.setMin(value >= max - step ? max - step : value);
-        this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
-      }
-    }
+    if (!this.sliderView) throw new Error('Slider view is not defined.');
+    if (!this.pointerFromView) throw new Error('Pointer from view is not defined.');
+    if (!this.pointerToView) throw new Error('Pointer to view is not defined.');
+    if (!this.scaleView) throw new Error('Scale view is not defined.');
+
+    this.model.setMin(value >= max - step ? max - step : value);
+    this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
   }
 
   public setMax(value: number): void {
-    if (this.pointerFromView && this.pointerToView) {
-      if (this.sliderView && this.scaleView) {
-        const min = this.model.getMin();
-        const step = this.model.getStep();
-        this.model.setMax(value <= min + step ? min + step : value);
-        this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
-      }
-    }
+    if (!this.sliderView) throw new Error('Slider view is not defined.');
+    if (!this.pointerFromView) throw new Error('Pointer from view is not defined.');
+    if (!this.pointerToView) throw new Error('Pointer to view is not defined.');
+    if (!this.scaleView) throw new Error('Scale view is not defined.');
+
+    const min = this.model.getMin();
+    const step = this.model.getStep();
+    this.model.setMax(value <= min + step ? min + step : value);
+    this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
   }
 
   public setStep(value: number): void {
-    if (this.pointerFromView && this.pointerToView) {
-      if (this.sliderView && this.scaleView) {
-        this.model.setStep(value);
-        this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
-      }
-    }
+    if (!this.sliderView) throw new Error('Slider view is not defined.');
+    if (!this.pointerFromView) throw new Error('Pointer from view is not defined.');
+    if (!this.pointerToView) throw new Error('Pointer to view is not defined.');
+    if (!this.scaleView) throw new Error('Scale view is not defined.');
+
+    this.model.setStep(value);
+    this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
   }
 
   public setValueFrom(value: number): void {
-    if (!this.pointerFromView) {
-      throw new Error('Pointer view from not defined');
-    }
-    if (!this.sliderView) {
-      throw new Error('Slider view is not defined');
-    }
+    if (!this.sliderView) throw new Error('Slider view is not defined.');
+    if (!this.pointerFromView) throw new Error('Pointer from view is not defined.');
+
     this.setupPositionByValue(this.pointerFromView, value);
     this.calculateValue(this.pointerFromView);
     this.updateProgress(this.sliderView);
   }
 
   public setValueTo(value: number): void {
-    if (!this.pointerToView) {
-      throw new Error('Pointer view to not defined');
-    }
-    if (!this.sliderView) {
-      throw new Error('Slider view is not defined');
-    }
+    if (!this.sliderView) throw new Error('Slider view is not defined.');
+    if (!this.pointerToView) throw new Error('Pointer to view is not defined.');
+
     if (this.model.isInterval()) {
       this.setupPositionByValue(this.pointerToView, value);
       this.calculateValue(this.pointerToView);
@@ -390,62 +387,65 @@ class Presenter {
 
   public setPointerValue(value: boolean): void {
     this.hasValue.setValue(value);
-    if (this.pointerFromView && this.pointerToView) {
-      if (value) {
-        this.pointerFromView.showValue();
+    if (!this.pointerFromView) throw new Error('Pointer from view is not defined.');
+    if (!this.pointerToView) throw new Error('Pointer to view is not defined.');
 
-        if (this.model.isInterval()) {
-          this.pointerToView.showValue();
-        } else {
-          this.pointerToView.hideValue();
-        }
+    if (value) {
+      this.pointerFromView.showValue();
+
+      if (this.model.isInterval()) {
+        this.pointerToView.showValue();
       } else {
-        this.pointerFromView.hideValue();
         this.pointerToView.hideValue();
       }
+    } else {
+      this.pointerFromView.hideValue();
+      this.pointerToView.hideValue();
     }
   }
 
   public setHasInterval(value: boolean): void {
     this.model.setInterval(value);
-    if (this.sliderView && this.pointerToView) {
-      if (value) {
-        const from = this.model.getFrom();
-        const to = this.model.getTo();
-        const step = this.model.getStep();
-        const max = this.model.getMax();
+    if (!this.sliderView) throw new Error('Slider view is not defined.');
+    if (!this.pointerToView) throw new Error('Pointer to view is not defined.');
 
-        if (from === max) {
-          this.model.setFrom(max - step);
-          this.model.setTo(max);
-          this.setValueFrom(max - step);
-          this.setValueTo(max);
-        } else if (from >= to) {
-          this.model.setTo(from + step);
-          this.setValueTo(from + step);
-        }
-        this.pointerToView.show();
+    if (value) {
+      const from = this.model.getFrom();
+      const to = this.model.getTo();
+      const step = this.model.getStep();
+      const max = this.model.getMax();
 
-        if (this.hasValue.getValue()) {
-          this.pointerToView.showValue();
-        } else {
-          this.pointerToView.hideValue();
-        }
+      if (from === max) {
+        this.model.setFrom(max - step);
+        this.model.setTo(max);
+        this.setValueFrom(max - step);
+        this.setValueTo(max);
+      } else if (from >= to) {
+        this.model.setTo(from + step);
+        this.setValueTo(from + step);
+      }
+      this.pointerToView.show();
+
+      if (this.hasValue.getValue()) {
+        this.pointerToView.showValue();
       } else {
-        this.pointerToView.hide();
         this.pointerToView.hideValue();
       }
-      this.updateProgress(this.sliderView);
+    } else {
+      this.pointerToView.hide();
+      this.pointerToView.hideValue();
     }
+    this.updateProgress(this.sliderView);
   }
 
   public setIsVerticalOrientation(value: boolean): void {
     this.isVertical.setValue(value);
-    if (this.pointerFromView && this.pointerToView) {
-      if (this.sliderView && this.scaleView) {
-        this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
-      }
-    }
+    if (!this.sliderView) throw new Error('Slider view is not defined.');
+    if (!this.pointerFromView) throw new Error('Pointer from view is not defined.');
+    if (!this.pointerToView) throw new Error('Pointer to view is not defined.');
+    if (!this.scaleView) throw new Error('Scale view is not defined.');
+
+    this.init(this.sliderView, this.pointerFromView, this.pointerToView, this.scaleView);
   }
 
   setValueFromListener(listener: (value: number) => void): void {
@@ -495,88 +495,86 @@ class Presenter {
   }
 
   private setPointerX(view: PointerView, x: number) {
-    if (!this.pointerFromView || !this.pointerToView) {
-      throw new Error('Either pointerFromView or pointerToView is not defined');
-    }
-    if (this.sliderView) {
-      let positionX = x - this.sliderView.getBoundLeft();
-      const xMin = 0;
-      const xMax = this.sliderView.getWidth();
-      const min = this.model.getMin();
-      const max = this.model.getMax();
-      const step = this.model.getStep();
-      const stepCount = (max - min) / step;
-      const stepX = this.sliderView.getWidth() / stepCount;
-      const stepsTotal = (max - min) / step;
-      const stepWidth = this.sliderView.getWidth() / stepsTotal;
-      const isInterval = this.model.isInterval();
-      positionX = Math.round(positionX / stepX) * stepX;
+    if (!this.sliderView) throw new Error('Slider view is not defined.');
+    if (!this.pointerFromView) throw new Error('Pointer from view is not defined.');
+    if (!this.pointerToView) throw new Error('Pointer to view is not defined.');
 
-      if (isInterval) {
-        if (view === this.pointerFromView) {
-          const pointerToX = ((this.model.getTo() - min) / step) * stepWidth;
+    let positionX = x - this.sliderView.getBoundLeft();
+    const xMin = 0;
+    const xMax = this.sliderView.getWidth();
+    const min = this.model.getMin();
+    const max = this.model.getMax();
+    const step = this.model.getStep();
+    const stepCount = (max - min) / step;
+    const stepX = this.sliderView.getWidth() / stepCount;
+    const stepsTotal = (max - min) / step;
+    const stepWidth = this.sliderView.getWidth() / stepsTotal;
+    const isInterval = this.model.isInterval();
+    positionX = Math.round(positionX / stepX) * stepX;
 
-          if (positionX > pointerToX - stepWidth) {
-            positionX = pointerToX - stepWidth;
-          }
-        } else {
-          const pointerFromX = ((this.model.getFrom() - min) / step) * stepWidth;
+    if (isInterval) {
+      if (view === this.pointerFromView) {
+        const pointerToX = ((this.model.getTo() - min) / step) * stepWidth;
 
-          if (positionX < pointerFromX + stepWidth) {
-            positionX = pointerFromX + stepWidth;
-          }
+        if (positionX > pointerToX - stepWidth) {
+          positionX = pointerToX - stepWidth;
+        }
+      } else {
+        const pointerFromX = ((this.model.getFrom() - min) / step) * stepWidth;
+
+        if (positionX < pointerFromX + stepWidth) {
+          positionX = pointerFromX + stepWidth;
         }
       }
-      if (positionX > xMax) {
-        positionX = xMax;
-      } else if (positionX < xMin) {
-        positionX = xMin;
-      }
-      const percent = (positionX / this.sliderView.getWidth()) * 100;
-      view.setX(percent);
     }
+    if (positionX > xMax) {
+      positionX = xMax;
+    } else if (positionX < xMin) {
+      positionX = xMin;
+    }
+    const percent = (positionX / this.sliderView.getWidth()) * 100;
+    view.setX(percent);
   }
 
   private setPointerY(view: PointerView, y: number) {
-    if (!this.pointerFromView || !this.pointerToView) {
-      throw new Error('Either pointerFromView or pointerToView is not defined');
-    }
-    if (this.sliderView) {
-      let positionY = y - this.sliderView.getBoundTop();
-      const yMin = 0;
-      const yMax = this.sliderView.getHeight();
-      const min = this.model.getMin();
-      const max = this.model.getMax();
-      const step = this.model.getStep();
-      const stepCount = (max - min) / step;
-      const stepY = this.sliderView.getHeight() / stepCount;
-      const stepHeight = this.sliderView.getHeight() / stepCount;
-      const offset = this.sliderView.getHeight() - Math.floor(stepCount) * stepHeight;
-      const isInterval = this.model.isInterval();
-      positionY = Math.round((positionY - offset) / stepY) * stepY + offset;
+    if (!this.sliderView) throw new Error('Slider view is not defined.');
+    if (!this.pointerFromView) throw new Error('Pointer from view is not defined.');
+    if (!this.pointerToView) throw new Error('Pointer to view is not defined.');
 
-      if (isInterval) {
-        if (view === this.pointerFromView) {
-          const pointerToY = Math.abs(((this.model.getTo() - max) / step) * stepHeight);
-          if (positionY < pointerToY + stepHeight) {
-            positionY = pointerToY + stepHeight;
-          }
-        } else {
-          const pointerFromY = Math.abs(((this.model.getFrom() - max) / step)) * stepHeight;
+    let positionY = y - this.sliderView.getBoundTop();
+    const yMin = 0;
+    const yMax = this.sliderView.getHeight();
+    const min = this.model.getMin();
+    const max = this.model.getMax();
+    const step = this.model.getStep();
+    const stepCount = (max - min) / step;
+    const stepY = this.sliderView.getHeight() / stepCount;
+    const stepHeight = this.sliderView.getHeight() / stepCount;
+    const offset = this.sliderView.getHeight() - Math.floor(stepCount) * stepHeight;
+    const isInterval = this.model.isInterval();
+    positionY = Math.round((positionY - offset) / stepY) * stepY + offset;
 
-          if (positionY > pointerFromY - stepHeight) {
-            positionY = pointerFromY - stepHeight;
-          }
+    if (isInterval) {
+      if (view === this.pointerFromView) {
+        const pointerToY = Math.abs(((this.model.getTo() - max) / step) * stepHeight);
+        if (positionY < pointerToY + stepHeight) {
+          positionY = pointerToY + stepHeight;
+        }
+      } else {
+        const pointerFromY = Math.abs(((this.model.getFrom() - max) / step)) * stepHeight;
+
+        if (positionY > pointerFromY - stepHeight) {
+          positionY = pointerFromY - stepHeight;
         }
       }
-      if (positionY > yMax) {
-        positionY = yMax;
-      } else if (positionY < yMin) {
-        positionY = yMin;
-      }
-      const percent = (positionY / this.sliderView.getHeight()) * 100;
-      view.setY(percent);
     }
+    if (positionY > yMax) {
+      positionY = yMax;
+    } else if (positionY < yMin) {
+      positionY = yMin;
+    }
+    const percent = (positionY / this.sliderView.getHeight()) * 100;
+    view.setY(percent);
   }
 }
 
