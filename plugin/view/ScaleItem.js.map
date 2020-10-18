@@ -1,1 +1,0 @@
-{"version":3,"file":"ScaleItem.js","sourceRoot":"","sources":["../../../src/plugin/view/ScaleItem.ts"],"names":[],"mappings":"AAAA,MAAM,SAAS;IAKb,YAAY,KAAa,EAAE,eAAuB;QAChD,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC;QACnB,IAAI,CAAC,eAAe,GAAG,eAAe,CAAC;IACzC,CAAC;CACF;AAED,eAAe,SAAS,CAAC"}

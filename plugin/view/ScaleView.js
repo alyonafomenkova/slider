@@ -1,1 +1,0 @@
-//# sourceMappingURL=ScaleView.js.map

@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>100/100</span>
+                <span class='fraction'>105/105</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>100/100</span>
+                <span class='fraction'>105/105</span>
             </div>
         
             
@@ -269,7 +269,14 @@
 <a name='L210'></a><a href='#L210'>210</a>
 <a name='L211'></a><a href='#L211'>211</a>
 <a name='L212'></a><a href='#L212'>212</a>
-<a name='L213'></a><a href='#L213'>213</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -295,6 +302,10 @@
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">32x</span>
+<span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">32x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -356,6 +367,7 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -364,6 +376,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">2x</span>
@@ -378,6 +391,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -508,22 +522,26 @@ class Model {
   }
 &nbsp;
   private static validateConfiguration(configuration: Configuration): void {
-    if (configuration.min &gt;= configuration.max) {
+    const { min, max, step, from, to } = configuration;
+    const isCorrectFrom = from &gt;= min &amp;&amp; from &lt;= max;
+    const isCorrectTo = to &gt; min &amp;&amp; to &lt;= max;
+&nbsp;
+    if (min &gt;= max) {
       throw new Error('Min must be less than max!');
     }
-    if (configuration.step &lt;= 0) {
+    if (step &lt;= 0) {
       throw new Error('Step must be more than 0!');
     }
-    if (configuration.step &gt; configuration.max - configuration.min) {
+    if (step &gt; max - min) {
       throw new Error('Step must be less than max - min!');
     }
-    if (configuration.from &lt; configuration.min || configuration.from &gt; configuration.max) {
+    if (!isCorrectFrom) {
       throw new Error('CurrentValueFrom must be less than max, but more than min!');
     }
-    if (configuration.to &lt; configuration.min || configuration.to &gt; configuration.max) {
+    if (!isCorrectTo) {
       throw new Error('CurrentValueTo must be less than max, but more than min!');
     }
-    if (configuration.to &lt; configuration.from) {
+    if (to &lt; from) {
       throw new Error('CurrentValueTo must be more than currentValueFrom!');
     }
   }
@@ -568,6 +586,7 @@ class Model {
       this.min.setValue(value);
     }
     const min = this.min.getValue();
+    const isIntervalLessThanStep = min &lt;= max &amp;&amp; max - min &lt; step;
 &nbsp;
     if (from &lt; min) {
       this.from.setValue(min);
@@ -577,7 +596,8 @@ class Model {
     if (to &lt; from) {
       this.to.setValue(from);
     }
-    if (min &lt;= max &amp;&amp; max - min &lt; step) {
+&nbsp;
+    if (isIntervalLessThanStep) {
       this.step.setValue(max - min);
     }
     if (value &gt; max) {
@@ -594,6 +614,7 @@ class Model {
     const from = this.from.getValue();
     const to = this.to.getValue();
     const step = this.step.getValue();
+    const isIntervalLessThanStep = value &gt; min &amp;&amp; value - min &lt; step;
 &nbsp;
     if (value &gt; to) {
       this.max.setValue(value);
@@ -604,7 +625,7 @@ class Model {
     if (value &lt; from) {
       this.from.setValue(value);
     }
-    if (value &gt; min &amp;&amp; value - min &lt; step) {
+    if (isIntervalLessThanStep) {
       this.step.setValue(value - min);
     }
   }
@@ -700,7 +721,7 @@ export default Model;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Oct 12 2020 15:27:27 GMT+0300 (GMT+03:00)
+                at Sun Oct 18 2020 13:51:12 GMT+0300 (GMT+03:00)
             </div>
         </div>
         <script src="../prettify.js"></script>
