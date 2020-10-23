@@ -7,15 +7,17 @@ import PointerViewImpl from './view/impl/PointerViewImpl';
 import ScaleViewImpl from './view/impl/ScaleViewImpl';
 import Configuration from './model/Configuration';
 import defaultConfiguration from './model/defaultConfiguration';
+import MainViewImpl from './view/impl/MainViewImpl';
+import Presenter2 from './presenter/Presenter2';
 
 (function ($) {
-  const presenters = new Map<string, Presenter>();
+  const presenters = new Map<string, Presenter2>();
 
   const getElement = (element: any): JQuery<HTMLElement> => (element as JQuery<HTMLElement>);
 
   const getId = (element: any): string => getElement(element)[0].id;
 
-  const getPresenter = (element: any): Presenter => {
+  const getPresenter = (element: any): Presenter2 => {
     const id = getId(element);
     const presenter = presenters.get(id);
     if (!presenter) {
@@ -28,12 +30,13 @@ import defaultConfiguration from './model/defaultConfiguration';
     init(config: Configuration): void {
       const element = getElement(this)[0];
       const model = new Model(config || defaultConfiguration);
-      const presenter = new Presenter(model, config || defaultConfiguration);
       const sliderView = new SliderViewImpl(element);
       const pointerFromView = new PointerViewImpl('from', element);
       const pointerToView = new PointerViewImpl('to', element);
       const scaleView = new ScaleViewImpl(element);
-      presenter.init(sliderView, pointerFromView, pointerToView, scaleView);
+      const mainView = new MainViewImpl(sliderView, scaleView, pointerFromView, pointerToView);
+      const presenter = new Presenter2(model, mainView, config || defaultConfiguration);
+      presenter.init();
       presenters.set(element.id, presenter);
     },
     setStep(value: number) { getPresenter(this).setStep(value); },

@@ -238,6 +238,7 @@ class Presenter {
         let positionTo;
         let differenceBetweenValueAndFrom;
         let differenceBetweenValueAndTo;
+
         if (this.isVertical.getValue()) {
           positionFrom = this.pointerFromView.getTop() - this.pointerFromView.getHeight() / 2;
           positionTo = this.pointerToView.getTop() - this.pointerToView.getHeight() / 2;
