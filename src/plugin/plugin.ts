@@ -1,6 +1,5 @@
 import './jquery-interfaces.ts';
 import './styles/slider.scss';
-import Presenter from './presenter/Presenter';
 import Model from './model/Model';
 import SliderViewImpl from './view/impl/SliderViewImpl';
 import PointerViewImpl from './view/impl/PointerViewImpl';

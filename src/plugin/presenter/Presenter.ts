@@ -39,11 +39,11 @@ class Presenter {
     view.setMoveEventListener(this.pointerMoveEventListener);
     view.setUpEventListener(this.pointerUpEventListener);
 
-    this.model.attachValueFrom((value: number): void => {
-      if (this.pointerFromView) {
-        this.pointerFromView.setValue(value);
-      }
-    });
+    // this.model.attachValueFrom((value: number): void => {
+    //   if (this.pointerFromView) {
+    //     this.pointerFromView.setValue(value);
+    //   }
+    // });
     this.setupPositionByValue(view, this.model.getFrom());
     this.calculateValue(view);
   }
@@ -54,11 +54,11 @@ class Presenter {
     view.setMoveEventListener(this.pointerMoveEventListener);
     view.setUpEventListener(this.pointerUpEventListener);
 
-    this.model.attachValueTo((value: number): void => {
-      if (this.pointerToView) {
-        this.pointerToView.setValue(value);
-      }
-    });
+    // this.model.attachValueTo((value: number): void => {
+    //   if (this.pointerToView) {
+    //     this.pointerToView.setValue(value);
+    //   }
+    // });
     this.setupPositionByValue(view, this.model.getTo());
     this.calculateValue(view);
 
@@ -148,6 +148,17 @@ class Presenter {
     this.initPointerTo(pointerToView);
     this.updateProgress(sliderView);
     sliderView.setClickSliderBarListener(this.sliderBarClickListener);
+
+    this.model.attachValueFrom((value: number): void => {
+      if (this.pointerFromView) {
+        this.pointerFromView.setValue(value);
+      }
+    });
+    this.model.attachValueTo((value: number): void => {
+      if (this.pointerToView) {
+        this.pointerToView.setValue(value);
+      }
+    });
   }
 
   private setupScale(view: ScaleView): void {

@@ -24,6 +24,8 @@ class Presenter2 {
 
   init(): void {
     this.view.clear();
+    this.view.setValueFromListener((value: number) => { this.model.setFrom(value); });
+    this.view.setValueToListener((value: number) => { this.model.setTo(value); });
 
     if (this.isVertical.getValue()) {
       this.view.drawVertical();
@@ -39,6 +41,15 @@ class Presenter2 {
     this.view.initPointerTo();
     this.view.updateProgress();
     this.view.handleSliderBarClick();
+    this.model.attachMin((value: number): void => { this.view.setMin(value); });
+    this.model.attachMax((value: number): void => { this.view.setMax(value); });
+    this.model.attachStep((value: number): void => { this.view.setStep(value); });
+    this.model.attachValueFrom((value: number): void => { this.view.setValueFrom(value); });
+    this.model.attachValueTo((value: number): void => { this.view.setValueTo(value); });
+    this.model.attachInterval((value: boolean): void => { this.view.setIsInterval(value); });
+    this.isVertical.attach((value: boolean): void => { this.view.setIsVertical(value); });
+    this.hasValue.attach((value: boolean): void => { this.view.setHasValue(value); });
+    this.hasScale.attach((value: boolean): void => { this.view.setHasScale(value); });
   }
 
   public setMin(value: number): void {
