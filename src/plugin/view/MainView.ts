@@ -1,8 +1,8 @@
 interface MainView {
   clear(): void;
   setupScale(): void;
-  initPointerFrom(): void;
-  initPointerTo(): void;
+  initPointerFrom(value: number): void;
+  initPointerTo(value: number): void;
   handleSliderBarClick(): void;
   updateProgress(): void;
   drawVertical(): void;

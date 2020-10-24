@@ -71,8 +71,6 @@ class PointerViewImpl implements PointerView {
       if (container) {
         container.innerHTML = String(value);
       }
-    } else {
-      throw new Error('Pointer container is not defined.');
     }
   }
 

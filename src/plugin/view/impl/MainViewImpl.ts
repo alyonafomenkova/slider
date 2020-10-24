@@ -72,20 +72,24 @@ class MainViewImpl implements MainView {
     this.scaleView.setClickListener(this.scaleClickListener);
   }
 
-  public initPointerFrom(): void {
+  public initPointerFrom(value: number): void {
+    this.valueFrom = value;
     this.pointerFromView.draw(this.hasValue);
     this.pointerFromView.setDownEventListener(this.pointerDownEventListener);
     this.pointerFromView.setMoveEventListener(this.pointerMoveEventListener);
     this.pointerFromView.setUpEventListener(this.pointerUpEventListener);
+    console.log(`setup position FROM = ${this.valueFrom}`);
     this.setupPositionFromByValue(this.valueFrom);
     this.calculateValueFrom();
   }
 
-  public initPointerTo(): void {
+  public initPointerTo(value: number): void {
+    this.valueTo = value;
     this.pointerToView.draw(this.hasValue);
     this.pointerToView.setDownEventListener(this.pointerDownEventListener);
     this.pointerToView.setMoveEventListener(this.pointerMoveEventListener);
     this.pointerToView.setUpEventListener(this.pointerUpEventListener);
+    console.log(`setup position TO = ${this.valueTo}`);
     this.setupPositionToByValue(this.valueTo);
     this.calculateValueTo();
 
@@ -449,7 +453,7 @@ class MainViewImpl implements MainView {
       if (this.isInterval) {
         this.valueFromListener(rounded > this.valueTo ? this.valueTo : rounded);
       } else {
-        this.valueToListener(rounded);
+        this.valueFromListener(rounded);
       }
     } else {
       this.valueToListener(rounded < this.valueFrom ? this.valueFrom : rounded);

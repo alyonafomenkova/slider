@@ -24,6 +24,15 @@ class Presenter2 {
 
   init(): void {
     this.view.clear();
+    this.view.setMin(this.model.getMin());
+    this.view.setMax(this.model.getMax());
+    this.view.setStep(this.model.getStep());
+    this.view.setIsVertical(this.isVertical.getValue());
+    this.view.setHasScale(this.hasScale.getValue());
+    this.view.setHasValue(this.hasValue.getValue());
+    this.view.setIsInterval(this.model.isInterval());
+    this.view.setValueFrom(this.model.getFrom());
+    this.view.setValueTo(this.model.getTo());
     this.view.setValueFromListener((value: number) => { this.model.setFrom(value); });
     this.view.setValueToListener((value: number) => { this.model.setTo(value); });
 
@@ -37,10 +46,13 @@ class Presenter2 {
     if (!this.hasScale.getValue()) {
       this.view.hideScale();
     }
-    this.view.initPointerFrom();
-    this.view.initPointerTo();
+    const from = this.model.getFrom();
+    const to = this.model.getTo();
+    this.view.initPointerFrom(from);
+    this.view.initPointerTo(to);
     this.view.updateProgress();
     this.view.handleSliderBarClick();
+
     this.model.attachMin((value: number): void => { this.view.setMin(value); });
     this.model.attachMax((value: number): void => { this.view.setMax(value); });
     this.model.attachStep((value: number): void => { this.view.setStep(value); });
