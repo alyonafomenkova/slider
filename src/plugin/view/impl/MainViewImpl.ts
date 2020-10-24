@@ -78,7 +78,6 @@ class MainViewImpl implements MainView {
     this.pointerFromView.setDownEventListener(this.pointerDownEventListener);
     this.pointerFromView.setMoveEventListener(this.pointerMoveEventListener);
     this.pointerFromView.setUpEventListener(this.pointerUpEventListener);
-    console.log(`setup position FROM = ${this.valueFrom}`);
     this.setupPositionFromByValue(this.valueFrom);
     this.calculateValueFrom();
   }
@@ -89,7 +88,6 @@ class MainViewImpl implements MainView {
     this.pointerToView.setDownEventListener(this.pointerDownEventListener);
     this.pointerToView.setMoveEventListener(this.pointerMoveEventListener);
     this.pointerToView.setUpEventListener(this.pointerUpEventListener);
-    console.log(`setup position TO = ${this.valueTo}`);
     this.setupPositionToByValue(this.valueTo);
     this.calculateValueTo();
 
