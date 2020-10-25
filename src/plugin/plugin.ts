@@ -1,12 +1,12 @@
 import './jquery-interfaces.ts';
 import './styles/slider.scss';
 import Model from './model/Model';
-import SliderViewImpl from './view/impl/SliderViewImpl';
-import PointerViewImpl from './view/impl/PointerViewImpl';
-import ScaleViewImpl from './view/impl/ScaleViewImpl';
+import SliderViewImpl from './view/SliderView/SliderViewImpl';
+import PointerViewImpl from './view/PointerView/PointerViewImpl';
+import ScaleViewImpl from './view/ScaleView/ScaleViewImpl';
 import Configuration from './model/Configuration';
 import defaultConfiguration from './model/defaultConfiguration';
-import MainViewImpl from './view/impl/MainViewImpl';
+import MainViewImpl from './view/MainView/MainViewImpl';
 import Presenter2 from './presenter/Presenter2';
 
 (function ($) {

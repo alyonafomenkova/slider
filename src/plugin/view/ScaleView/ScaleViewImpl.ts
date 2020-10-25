@@ -1,6 +1,6 @@
 import Util from '../../util/Util';
-import ScaleItem from '../ScaleItem';
-import ScaleView from '../ScaleView';
+import ScaleItem from './ScaleItem';
+import ScaleView from './ScaleView';
 
 class ScaleViewImpl implements ScaleView {
   private readonly container: Element;

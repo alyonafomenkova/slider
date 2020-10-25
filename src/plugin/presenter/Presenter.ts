@@ -1,10 +1,10 @@
 import Configuration from '../model/Configuration';
 import Model from '../model/Model';
 import Subject from '../model/Subject';
-import PointerView from '../view/PointerView';
-import ScaleItem from '../view/ScaleItem';
-import ScaleView from '../view/ScaleView';
-import SliderView from '../view/SliderView';
+import PointerView from '../view/PointerView/PointerView';
+import ScaleItem from '../view/ScaleView/ScaleItem';
+import ScaleView from '../view/ScaleView/ScaleView';
+import SliderView from '../view/SliderView/SliderView';
 import Util from '../util/Util';
 
 class Presenter {

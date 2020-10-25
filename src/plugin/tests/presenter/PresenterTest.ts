@@ -3,9 +3,9 @@ import {
 } from 'ts-mockito';
 import Presenter from '../../presenter/Presenter';
 import Model from '../../model/Model';
-import SliderView from '../../view/SliderView';
-import PointerView from '../../view/PointerView';
-import ScaleView from '../../view/ScaleView';
+import SliderView from '../../view/SliderView/SliderView';
+import PointerView from '../../view/PointerView/PointerView';
+import ScaleView from '../../view/ScaleView/ScaleView';
 
 // Mocks
 const mockSliderView = mock<SliderView>();

@@ -1,6 +1,6 @@
-import ScaleViewImpl from '../../view/impl/ScaleViewImpl';
-import ScaleItem from '../../view/ScaleItem';
-import ScaleView from '../../view/ScaleView';
+import ScaleViewImpl from '../../view/ScaleView/ScaleViewImpl';
+import ScaleItem from '../../view/ScaleView/ScaleItem';
+import ScaleView from '../../view/ScaleView/ScaleView';
 
 const containerClass = 'container';
 const setupContainer = (): Element => {

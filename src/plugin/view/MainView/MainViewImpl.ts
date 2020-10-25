@@ -1,8 +1,8 @@
-import ScaleView from '../ScaleView';
-import MainView from '../MainView';
-import SliderView from '../SliderView';
-import PointerView from '../PointerView';
-import ScaleItem from '../ScaleItem';
+import MainView from './MainView';
+import ScaleItem from '../ScaleView/ScaleItem';
+import ScaleView from '../ScaleView/ScaleView';
+import SliderView from '../SliderView/SliderView';
+import PointerView from '../PointerView/PointerView';
 import Util from '../../util/Util';
 
 class MainViewImpl implements MainView {

@@ -1,7 +1,7 @@
 import Configuration from '../model/Configuration';
 import Model from '../model/Model';
 import Subject from '../model/Subject';
-import MainView from '../view/MainView';
+import MainView from '../view/MainView/MainView';
 
 class Presenter2 {
   private readonly model: Model;

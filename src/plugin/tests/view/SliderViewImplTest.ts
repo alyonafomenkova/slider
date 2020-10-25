@@ -1,5 +1,5 @@
-import SliderView from '../../view/SliderView';
-import SliderViewImpl from '../../view/impl/SliderViewImpl';
+import SliderView from '../../view/SliderView/SliderView';
+import SliderViewImpl from '../../view/SliderView/SliderViewImpl';
 
 const containerClass = 'container';
 const setupContainer = (): HTMLElement => {

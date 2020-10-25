@@ -1,5 +1,5 @@
-import PointerView from '../../view/PointerView';
-import PointerViewImpl from '../../view/impl/PointerViewImpl';
+import PointerView from '../../view/PointerView/PointerView';
+import PointerViewImpl from '../../view/PointerView/PointerViewImpl';
 
 const containerClass = 'container';
 const setupContainer = (): HTMLElement => {
