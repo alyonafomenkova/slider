@@ -20,7 +20,7 @@ module.exports = {
       allowForLoopAfterthoughts: true,
     }],
     'max-len': ['error', {
-      code: 125,
+      code: 130,
     }],
     'no-trailing-spaces': ['error', {
       skipBlankLines: true,
