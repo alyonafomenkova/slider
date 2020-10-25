@@ -21,13 +21,6 @@ interface MainView {
   calculateValueTo(): void;
   setValueFrom(value: number): void;
   setValueTo(value: number): void;
-  setMin(value: number): void;
-  setMax(value: number): void;
-  setStep(value: number): void;
-  setIsInterval(isInterval: boolean): void;
-  setIsVertical(isVertical: boolean): void;
-  setHasScale(hasScale: boolean): void;
-  setHasValue(hasValue: boolean): void;
   setValueFromListener(listener: (value: number) => void): void;
   setValueToListener(listener: (value: number) => void): void;
 }

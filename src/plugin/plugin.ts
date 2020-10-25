@@ -8,6 +8,7 @@ import Configuration from './model/Configuration';
 import defaultConfiguration from './model/defaultConfiguration';
 import MainViewImpl from './view/MainView/MainViewImpl';
 import Presenter2 from './presenter/Presenter2';
+import ViewModel from './view/MainView/ViewModel';
 
 (function ($) {
   const presenters = new Map<string, Presenter2>();
@@ -29,12 +30,13 @@ import Presenter2 from './presenter/Presenter2';
     init(config: Configuration): void {
       const element = getElement(this)[0];
       const model = new Model(config || defaultConfiguration);
+      const viewModel = new ViewModel();
       const sliderView = new SliderViewImpl(element);
       const pointerFromView = new PointerViewImpl('from', element);
       const pointerToView = new PointerViewImpl('to', element);
       const scaleView = new ScaleViewImpl(element);
-      const mainView = new MainViewImpl(sliderView, scaleView, pointerFromView, pointerToView);
-      const presenter = new Presenter2(model, mainView, config || defaultConfiguration);
+      const mainView = new MainViewImpl(viewModel, sliderView, scaleView, pointerFromView, pointerToView);
+      const presenter = new Presenter2(model, mainView, viewModel, config || defaultConfiguration);
       presenter.init();
       presenters.set(element.id, presenter);
     },
