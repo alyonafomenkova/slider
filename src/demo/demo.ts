@@ -16,14 +16,14 @@ const configuration0 = {
 };
 
 const configuration1 = {
-  min: -0.5,
-  max: 0.75,
-  step: 0.05,
+  min: 0,
+  max: 20,
+  step: 2,
   from: 0,
-  to: 0.7,
+  to: 10,
   isVertical: true,
   hasInterval: false,
-  hasValue: true,
+  hasValue: false,
   hasScale: true,
 };
 
