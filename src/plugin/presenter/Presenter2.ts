@@ -48,7 +48,7 @@ class Presenter2 {
     this.hasScale.attach((value: boolean): void => { this.view.setHasScale(value); });
   }
 
-  init(): void {
+  public init(): void {
     this.view.clear();
     this.setupView();
 
@@ -168,23 +168,23 @@ class Presenter2 {
     this.init();
   }
 
-  setValueFromListener(listener: (value: number) => void): void {
+  public setValueFromListener(listener: (value: number) => void): void {
     this.model.attachValueFrom(listener);
   }
 
-  setMinListener(listener: (value: number) => void): void {
+  public setMinListener(listener: (value: number) => void): void {
     this.model.attachMin(listener);
   }
 
-  setMaxListener(listener: (value: number) => void): void {
+  public setMaxListener(listener: (value: number) => void): void {
     this.model.attachMax(listener);
   }
 
-  setValueToListener(listener: (value: number) => void): void {
+  public setValueToListener(listener: (value: number) => void): void {
     this.model.attachValueTo(listener);
   }
 
-  setStepListener(listener: (value: number) => void): void {
+  public setStepListener(listener: (value: number) => void): void {
     this.model.attachStep(listener);
   }
 }

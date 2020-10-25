@@ -140,7 +140,6 @@ describe('Test pointer view implementation', () => {
     expect(() => { view.hide(); }).toThrow(new Error('Pointer container is not defined.'));
     expect(() => { view.showValue(); }).toThrow(new Error('Pointer container is not defined.'));
     expect(() => { view.hideValue(); }).toThrow(new Error('Pointer container is not defined.'));
-    expect(() => { view.setValue(5); }).toThrow(new Error('Pointer container is not defined.'));
     expect(view.getWidth()).toEqual(0);
     expect(view.getHeight()).toEqual(0);
     expect(view.getLeft()).toEqual(0);
