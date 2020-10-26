@@ -30,12 +30,6 @@ class MainViewImpl implements MainView {
     pointerFromView: PointerView,
     pointerToView: PointerView,
   ) {
-    if (!viewModel) throw new Error('View model is not defined');
-    if (!sliderView) throw new Error('Slider view is not defined');
-    if (!scaleView) throw new Error('Scale view is not defined');
-    if (!pointerFromView) throw new Error('Pointer from view is not defined');
-    if (!pointerToView) throw new Error('Pointer to view is not defined');
-
     this.viewModel = viewModel;
     this.sliderView = sliderView;
     this.scaleView = scaleView;
