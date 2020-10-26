@@ -4,7 +4,7 @@ import Subject from '../model/Subject';
 import MainView from '../view/MainView/MainView';
 import ViewModel from '../view/MainView/ViewModel';
 
-class Presenter2 {
+class Presenter {
   private readonly model: Model;
 
   private readonly view: MainView;
@@ -193,4 +193,4 @@ class Presenter2 {
   }
 }
 
-export default Presenter2;
+export default Presenter;

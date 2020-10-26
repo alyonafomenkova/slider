@@ -17,75 +17,75 @@ class ViewModel {
 
   private hasValue = false;
 
-  setMin(value: number): void {
+  public setMin(value: number): void {
     this.min = value;
   }
 
-  getMin(): number {
+  public getMin(): number {
     return this.min;
   }
 
-  setMax(value: number): void {
+  public setMax(value: number): void {
     this.max = value;
   }
 
-  getMax(): number {
+  public getMax(): number {
     return this.max;
   }
 
-  setStep(value: number): void {
+  public setStep(value: number): void {
     this.step = value;
   }
 
-  getStep(): number {
+  public getStep(): number {
     return this.step;
   }
 
-  setValueFrom(value: number): void {
+  public setValueFrom(value: number): void {
     this.valueFrom = value;
   }
 
-  getValueFrom(): number {
+  public getValueFrom(): number {
     return this.valueFrom;
   }
 
-  setValueTo(value: number): void {
+  public setValueTo(value: number): void {
     this.valueTo = value;
   }
 
-  getValueTo(): number {
+  public getValueTo(): number {
     return this.valueTo;
   }
 
-  setIsInterval(value: boolean): void {
+  public setIsInterval(value: boolean): void {
     this.isInterval = value;
   }
 
-  getIsInterval(): boolean {
+  public getIsInterval(): boolean {
     return this.isInterval;
   }
 
-  setIsVertical(isVertical: boolean): void {
+  public setIsVertical(isVertical: boolean): void {
     this.isVertical = isVertical;
   }
 
-  getIsVertical(): boolean {
+  public getIsVertical(): boolean {
     return this.isVertical;
   }
 
-  setHasScale(hasScale: boolean): void {
+  public setHasScale(hasScale: boolean): void {
     this.hasScale = hasScale;
   }
 
-  getHasScale(): boolean {
+  public getHasScale(): boolean {
     return this.hasScale;
   }
 
-  setHasValue(hasValue: boolean): void {
+  public setHasValue(hasValue: boolean): void {
     this.hasValue = hasValue;
   }
 
-  getHasValue(): boolean {
+  public getHasValue(): boolean {
     return this.hasValue;
   }
 }

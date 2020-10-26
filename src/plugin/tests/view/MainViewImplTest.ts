@@ -1,5 +1,5 @@
 import {
-  anything, instance, mock, resetCalls, verify, when,
+  anything, capture, instance, mock, resetCalls, verify, when,
 } from 'ts-mockito';
 import SliderView from '../../view/SliderView/SliderView';
 import PointerView from '../../view/PointerView/PointerView';
@@ -82,6 +82,10 @@ describe('Test main view implementation', () => {
 
   it('Clear, draw horizontal slider, slider bar click.', () => {
     // Arrange
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const listener = () => {};
+    view.setValueFromListener(listener);
+    view.setValueToListener(listener);
     arrangeHorizontalSlider();
 
     // Act
@@ -90,18 +94,23 @@ describe('Test main view implementation', () => {
     view.handleSliderBarClick();
     view.updateProgress();
 
-    // Assert for scale view
+    // Assert
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const sliderBarClickListener = capture(mockSliderView.setClickSliderBarListener).last()[0];
+    sliderBarClickListener(mockSliderView, 10, 100);
     verify(mockSliderView.clear()).once();
     verify(mockSliderView.drawHorizontal()).once();
-    verify(mockSliderView.setClickSliderBarListener(anything())).once();
-    verify(mockSliderView.getBoundLeft()).once();
-    verify(mockPointerFromView.getLeft()).once();
-    verify(mockPointerFromView.getWidth()).once();
+    verify(mockSliderView.getBoundLeft()).times(4);
+    verify(mockPointerFromView.getLeft()).times(3);
+    verify(mockPointerFromView.getWidth()).times(3);
   });
 
   it('Draw vertical slider with scale.', () => {
     // Arrange
     arrangeVerticalSlider();
+    viewModel.setMax(5);
+    viewModel.setMin(5);
+    viewModel.setStep(1);
 
     // Act
     view.drawVertical();
@@ -109,7 +118,10 @@ describe('Test main view implementation', () => {
     view.showScale();
     view.hideScale();
 
-    // Assert for scale view
+    // Assert
+    expect(viewModel.getMax()).toEqual(5);
+    expect(viewModel.getMin()).toEqual(5);
+    expect(viewModel.getStep()).toEqual(1);
     verify(mockSliderView.drawVertical()).once();
     verify(mockSliderView.getWidth()).called();
     verify(mockSliderView.getHeight()).called();
@@ -135,7 +147,7 @@ describe('Test main view implementation', () => {
     view.showPointerFromValue();
     view.updateProgress();
 
-    // Assert for scale view
+    // Assert
     expect(viewModel.getValueFrom()).toEqual(5);
     expect(viewModel.getIsVertical()).toEqual(false);
     verify(mockSliderView.drawHorizontal()).once();
@@ -167,7 +179,7 @@ describe('Test main view implementation', () => {
     view.showPointerFromValue();
     view.updateProgress();
 
-    // Assert for scale view
+    // Assert
     expect(viewModel.getValueFrom()).toEqual(5);
     expect(viewModel.getIsVertical()).toEqual(false);
     expect(viewModel.getIsInterval()).toEqual(true);
@@ -201,7 +213,7 @@ describe('Test main view implementation', () => {
     view.hidePointerTo();
     view.hidePointerToValue();
 
-    // Assert for scale view
+    // Assert
     expect(viewModel.getIsVertical()).toEqual(false);
     expect(viewModel.getIsInterval()).toEqual(false);
     expect(viewModel.getHasValue()).toEqual(false);
@@ -234,7 +246,7 @@ describe('Test main view implementation', () => {
     view.showPointerToValue();
     view.updateProgress();
 
-    // Assert for scale view
+    // Assert
     expect(viewModel.getIsVertical()).toEqual(true);
     expect(viewModel.getIsInterval()).toEqual(true);
     expect(viewModel.getHasValue()).toEqual(true);
@@ -264,7 +276,7 @@ describe('Test main view implementation', () => {
     view.drawVertical();
     view.updateProgress();
 
-    // Assert for scale view
+    // Assert
     expect(viewModel.getIsVertical()).toEqual(true);
     expect(viewModel.getIsInterval()).toEqual(false);
     verify(mockSliderView.drawVertical()).once();
