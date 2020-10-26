@@ -7,17 +7,17 @@ import ScaleViewImpl from './view/ScaleView/ScaleViewImpl';
 import Configuration from './model/Configuration';
 import defaultConfiguration from './model/defaultConfiguration';
 import MainViewImpl from './view/MainView/MainViewImpl';
-import Presenter2 from './presenter/Presenter2';
+import Presenter from './presenter/Presenter';
 import ViewModel from './view/MainView/ViewModel';
 
 (function ($) {
-  const presenters = new Map<string, Presenter2>();
+  const presenters = new Map<string, Presenter>();
 
   const getElement = (element: any): JQuery<HTMLElement> => (element as JQuery<HTMLElement>);
 
   const getId = (element: any): string => getElement(element)[0].id;
 
-  const getPresenter = (element: any): Presenter2 => {
+  const getPresenter = (element: any): Presenter => {
     const id = getId(element);
     const presenter = presenters.get(id);
     if (!presenter) {
@@ -36,7 +36,7 @@ import ViewModel from './view/MainView/ViewModel';
       const pointerToView = new PointerViewImpl('to', element);
       const scaleView = new ScaleViewImpl(element);
       const mainView = new MainViewImpl(viewModel, sliderView, scaleView, pointerFromView, pointerToView);
-      const presenter = new Presenter2(model, mainView, viewModel, config || defaultConfiguration);
+      const presenter = new Presenter(model, mainView, viewModel, config || defaultConfiguration);
       presenter.init();
       presenters.set(element.id, presenter);
     },
