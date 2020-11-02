@@ -23,7 +23,7 @@ const configuration1 = {
   to: 10,
   isVertical: true,
   hasInterval: false,
-  hasValue: false,
+  hasValue: true,
   hasScale: true,
 };
 
