@@ -39,7 +39,7 @@ class ScaleViewImpl implements ScaleView {
     Util.createElement(this.container, 'slider__scale', template);
     const elements = this.container.getElementsByClassName('slider__scale-item');
 
-    for (let i = 0; i < elements.length; i++) {
+    for (let i = 0; i < elements.length; i += 1) {
       const percent = items[i].positionPercent;
       if (isVertical) {
         (elements[i] as HTMLElement).style.bottom = `${percent}%`;

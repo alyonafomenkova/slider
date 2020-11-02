@@ -16,9 +16,6 @@ module.exports = {
   plugins: ['fsd', '@typescript-eslint'],
   rules: {
     'import/extensions': 'off',
-    'no-plusplus': [2, {
-      allowForLoopAfterthoughts: true,
-    }],
     'max-len': ['error', {
       code: 130,
     }],
