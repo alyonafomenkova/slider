@@ -14,14 +14,16 @@ class ScaleViewImpl implements ScaleView {
   public show(): void {
     const scaleContainer = this.container.querySelector('.slider__scale') as HTMLElement;
     if (scaleContainer) {
-      scaleContainer.style.visibility = 'visible';
+      scaleContainer.classList.remove('slider__scale_hidden');
+      scaleContainer.classList.add('slider__scale_visible');
     }
   }
 
   public hide(): void {
     const scaleContainer = this.container.querySelector('.slider__scale') as HTMLElement;
     if (scaleContainer) {
-      scaleContainer.style.visibility = 'hidden';
+      scaleContainer.classList.remove('slider__scale_visible');
+      scaleContainer.classList.add('slider__scale_hidden');
     }
   }
 

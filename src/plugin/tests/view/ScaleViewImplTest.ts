@@ -47,15 +47,13 @@ describe('Test scale view implementation', () => {
     view.addScaleItems(items, true);
     const scale = document.querySelector('.slider__scale') as HTMLElement;
 
-    expect(scale.style.visibility).toEqual('');
-
     view.hide();
 
-    expect(scale.style.visibility).toEqual('hidden');
+    expect(scale.classList).toContain('slider__scale_hidden');
 
     view.show();
 
-    expect(scale.style.visibility).toEqual('visible');
+    expect(scale.classList).toContain('slider__scale_visible');
   });
 
   it('Click listener', () => {

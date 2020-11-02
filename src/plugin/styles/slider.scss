@@ -21,6 +21,7 @@ body {
     .slider__pointer-container {
       flex-direction: row-reverse;
       right: 10px;
+      transform: translate(0, -50%);
     }
 
     .slider__value {
@@ -63,6 +64,7 @@ body {
 
     .slider__pointer-container {
       bottom: 15px;
+      transform: translate(-50%, 0);
     }
 
     .slider__scale-item {
@@ -94,6 +96,14 @@ body {
     align-items: center;
     position: absolute;
     z-index: 3;
+
+    &_visible {
+      visibility: visible;
+    }
+
+    &_hidden {
+      visibility: hidden;
+    }
   }
 
   &__pointer {
@@ -147,6 +157,14 @@ body {
       transform: translate(-50%, 0) rotate(45deg);
       z-index: -1;
     }
+
+    &_visible {
+      visibility: visible;
+    }
+
+    &_hidden {
+      visibility: hidden;
+    }
   }
 
   &__scale {
@@ -158,6 +176,14 @@ body {
     justify-content: center;
     position: relative;
     background-color: #CDFCEF;
+
+    &_visible {
+      visibility: visible;
+    }
+
+    &_hidden {
+      visibility: hidden;
+    }
   }
 
   &__scale-item {

@@ -52,19 +52,19 @@ describe('Test pointer view implementation', () => {
 
     view.hide();
 
-    expect(pointer.style.visibility).toEqual('hidden');
+    expect(pointer.classList).toContain('slider__pointer-container_hidden');
 
     view.show();
 
-    expect(pointer.style.visibility).toEqual('visible');
+    expect(pointer.classList).toContain('slider__pointer-container_visible');
 
     view.showValue();
 
-    expect((pointer.querySelector('.slider__value') as HTMLElement).style.visibility).toEqual('visible');
+    expect((pointer.querySelector('.slider__value') as HTMLElement).classList).toContain('slider__value_visible');
 
     view.hideValue();
 
-    expect((pointer.querySelector('.slider__value') as HTMLElement).style.visibility).toEqual('hidden');
+    expect((pointer.querySelector('.slider__value') as HTMLElement).classList).toContain('slider__value_hidden');
   });
 
   it('Set value, setX, setY.', () => {

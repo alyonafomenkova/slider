@@ -72,9 +72,11 @@ class SettingsPanel {
     const inputTo = this.panel.querySelector('.settings-panel__values-label_kind_to') as HTMLInputElement;
     if (inputTo) {
       if (value) {
-        inputTo.style.display = 'inline';
+        inputTo.classList.add('settings-panel__values-label_visible');
+        inputTo.classList.remove('settings-panel__values-label_hidden');
       } else {
-        inputTo.style.display = 'none';
+        inputTo.classList.add('settings-panel__values-label_hidden');
+        inputTo.classList.remove('settings-panel__values-label_visible');
       }
     }
   }

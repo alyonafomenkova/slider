@@ -20,7 +20,8 @@ class PointerViewImpl implements PointerView {
 
   public show(): void {
     if (this.pointerContainer) {
-      this.pointerContainer.style.visibility = 'visible';
+      this.pointerContainer.classList.remove('slider__pointer-container_hidden');
+      this.pointerContainer.classList.add('slider__pointer-container_visible');
     } else {
       throw new Error('Pointer container is not defined.');
     }
@@ -28,7 +29,8 @@ class PointerViewImpl implements PointerView {
 
   public hide(): void {
     if (this.pointerContainer) {
-      this.pointerContainer.style.visibility = 'hidden';
+      this.pointerContainer.classList.remove('slider__pointer-container_visible');
+      this.pointerContainer.classList.add('slider__pointer-container_hidden');
     } else {
       throw new Error('Pointer container is not defined.');
     }
@@ -37,7 +39,8 @@ class PointerViewImpl implements PointerView {
   public showValue(): void {
     if (this.pointerContainer) {
       const valueContainer = this.pointerContainer.querySelector('.slider__value') as HTMLElement;
-      valueContainer.style.visibility = 'visible';
+      valueContainer.classList.remove('slider__value_hidden');
+      valueContainer.classList.add('slider__value_visible');
     } else {
       throw new Error('Pointer container is not defined.');
     }
@@ -46,7 +49,8 @@ class PointerViewImpl implements PointerView {
   public hideValue(): void {
     if (this.pointerContainer) {
       const valueContainer = this.pointerContainer.querySelector('.slider__value') as HTMLElement;
-      valueContainer.style.visibility = 'hidden';
+      valueContainer.classList.remove('slider__value_visible');
+      valueContainer.classList.add('slider__value_hidden');
     } else {
       throw new Error('Pointer container is not defined.');
     }
@@ -76,14 +80,12 @@ class PointerViewImpl implements PointerView {
 
   public setX(value: number): void {
     if (this.pointerContainer) {
-      this.pointerContainer.style.transform = 'translate(-50%, 0)';
       this.pointerContainer.style.left = `${value}%`;
     }
   }
 
   public setY(value: number): void {
     if (this.pointerContainer) {
-      this.pointerContainer.style.transform = 'translate(0, -50%)';
       this.pointerContainer.style.top = `${value}%`;
     }
   }
