@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.06% </span>
+                <span class="strong">97.22% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>33/34</span>
+                <span class='fraction'>35/36</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.06% </span>
+                <span class="strong">97.22% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>33/34</span>
+                <span class='fraction'>35/36</span>
             </div>
         
             
@@ -140,7 +140,9 @@
 <a name='L81'></a><a href='#L81'>81</a>
 <a name='L82'></a><a href='#L82'>82</a>
 <a name='L83'></a><a href='#L83'>83</a>
-<a name='L84'></a><a href='#L84'>84</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -157,10 +159,12 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -239,21 +243,23 @@ class ScaleViewImpl implements ScaleView {
   public show(): void {
     const scaleContainer = this.container.querySelector('.slider__scale') as HTMLElement;
     <span class="missing-if-branch" title="else path not taken" >E</span>if (scaleContainer) {
-      scaleContainer.style.visibility = 'visible';
+      scaleContainer.classList.remove('slider__scale_hidden');
+      scaleContainer.classList.add('slider__scale_visible');
     }
   }
 &nbsp;
   public hide(): void {
     const scaleContainer = this.container.querySelector('.slider__scale') as HTMLElement;
     <span class="missing-if-branch" title="else path not taken" >E</span>if (scaleContainer) {
-      scaleContainer.style.visibility = 'hidden';
+      scaleContainer.classList.remove('slider__scale_visible');
+      scaleContainer.classList.add('slider__scale_hidden');
     }
   }
 &nbsp;
-  public addItems(items: Array&lt;ScaleItem&gt;, isVertical: boolean): void {
+  public addScaleItems(scaleItems: Array&lt;ScaleItem&gt;, isVertical: boolean): void {
     let template = '';
 &nbsp;
-    items.forEach((item) =&gt; {
+    scaleItems.forEach((item) =&gt; {
       template += `
       &lt;div class="slider__scale-item"&gt;
         &lt;div class="slider__scale-division"&gt;&lt;/div&gt;
@@ -262,14 +268,14 @@ class ScaleViewImpl implements ScaleView {
     });
 &nbsp;
     Util.createElement(this.container, 'slider__scale', template);
-    const elements = this.container.getElementsByClassName('slider__scale-item');
+    const scaleElements = this.container.getElementsByClassName('slider__scale-item');
 &nbsp;
-    for (let i = 0; i &lt; elements.length; i++) {
-      const percent = items[i].positionPercent;
+    for (let i = 0; i &lt; scaleElements.length; i += 1) {
+      const percent = scaleItems[i].positionPercent;
       if (isVertical) {
-        (elements[i] as HTMLElement).style.bottom = `${percent}%`;
+        (scaleElements[i] as HTMLElement).style.bottom = `${percent}%`;
       } else {
-        (elements[i] as HTMLElement).style.left = `${percent}%`;
+        (scaleElements[i] as HTMLElement).style.left = `${percent}%`;
       }
     }
     this.setupClickListeners();
@@ -281,10 +287,10 @@ class ScaleViewImpl implements ScaleView {
 &nbsp;
   private setupClickListeners(): void {
     <span class="missing-if-branch" title="else path not taken" >E</span>if (this.container) {
-      const items = this.container.querySelectorAll('.slider__scale-item');
-      items.forEach((it) =&gt; {
-        const item = it as HTMLElement;
-        item.addEventListener('click', this.handleScaleItemClick);
+      const scaleElements = this.container.querySelectorAll('.slider__scale-item');
+      scaleElements.forEach((it) =&gt; {
+        const scaleElement = it as HTMLElement;
+        scaleElement.addEventListener('click', this.handleScaleItemClick);
       });
     } else {
 <span class="cstat-no" title="statement not covered" >      throw new Error('Container is undefined.');</span>
@@ -293,9 +299,9 @@ class ScaleViewImpl implements ScaleView {
 &nbsp;
   private handleScaleItemClick = (evt: MouseEvent): void =&gt; {
     <span class="missing-if-branch" title="else path not taken" >E</span>if (this.clickEventListener) {
-      const item = (evt.target as HTMLElement).closest('.slider__scale-item');
-      <span class="missing-if-branch" title="else path not taken" >E</span>if (item) {
-        const valueContainer = item.querySelector('.slider__scale-value');
+      const scaleElement = (evt.target as HTMLElement).closest('.slider__scale-item');
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (scaleElement) {
+        const valueContainer = scaleElement.querySelector('.slider__scale-value');
         <span class="missing-if-branch" title="else path not taken" >E</span>if (valueContainer) {
           const value = Number((valueContainer as HTMLElement).innerText);
           this.clickEventListener(this, value);
@@ -313,7 +319,7 @@ export default ScaleViewImpl;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Oct 26 2020 22:02:44 GMT+0300 (GMT+03:00)
+                at Mon Nov 02 2020 19:45:43 GMT+0300 (GMT+03:00)
             </div>
         </div>
         <script src="../../prettify.js"></script>

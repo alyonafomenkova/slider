@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.55% </span>
+                <span class="strong">98.59% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>68/69</span>
+                <span class='fraction'>70/71</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.55% </span>
+                <span class="strong">98.59% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>68/69</span>
+                <span class='fraction'>70/71</span>
             </div>
         
             
@@ -220,7 +220,9 @@
 <a name='L161'></a><a href='#L161'>161</a>
 <a name='L162'></a><a href='#L162'>162</a>
 <a name='L163'></a><a href='#L163'>163</a>
-<a name='L164'></a><a href='#L164'>164</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -243,6 +245,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -250,6 +253,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -260,6 +264,7 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -267,6 +272,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -299,12 +305,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -405,7 +409,8 @@ class PointerViewImpl implements PointerView {
 &nbsp;
   public show(): void {
     if (this.pointerContainer) {
-      this.pointerContainer.style.visibility = 'visible';
+      this.pointerContainer.classList.remove('slider__pointer-container_hidden');
+      this.pointerContainer.classList.add('slider__pointer-container_visible');
     } else {
       throw new Error('Pointer container is not defined.');
     }
@@ -413,7 +418,8 @@ class PointerViewImpl implements PointerView {
 &nbsp;
   public hide(): void {
     if (this.pointerContainer) {
-      this.pointerContainer.style.visibility = 'hidden';
+      this.pointerContainer.classList.remove('slider__pointer-container_visible');
+      this.pointerContainer.classList.add('slider__pointer-container_hidden');
     } else {
       throw new Error('Pointer container is not defined.');
     }
@@ -422,7 +428,8 @@ class PointerViewImpl implements PointerView {
   public showValue(): void {
     if (this.pointerContainer) {
       const valueContainer = this.pointerContainer.querySelector('.slider__value') as HTMLElement;
-      valueContainer.style.visibility = 'visible';
+      valueContainer.classList.remove('slider__value_hidden');
+      valueContainer.classList.add('slider__value_visible');
     } else {
       throw new Error('Pointer container is not defined.');
     }
@@ -431,7 +438,8 @@ class PointerViewImpl implements PointerView {
   public hideValue(): void {
     if (this.pointerContainer) {
       const valueContainer = this.pointerContainer.querySelector('.slider__value') as HTMLElement;
-      valueContainer.style.visibility = 'hidden';
+      valueContainer.classList.remove('slider__value_visible');
+      valueContainer.classList.add('slider__value_hidden');
     } else {
       throw new Error('Pointer container is not defined.');
     }
@@ -461,14 +469,12 @@ class PointerViewImpl implements PointerView {
 &nbsp;
   public setX(value: number): void {
     <span class="missing-if-branch" title="else path not taken" >E</span>if (this.pointerContainer) {
-      this.pointerContainer.style.transform = 'translate(-50%, 0)';
       this.pointerContainer.style.left = `${value}%`;
     }
   }
 &nbsp;
   public setY(value: number): void {
     <span class="missing-if-branch" title="else path not taken" >E</span>if (this.pointerContainer) {
-      this.pointerContainer.style.transform = 'translate(0, -50%)';
       this.pointerContainer.style.top = `${value}%`;
     }
   }
@@ -553,7 +559,7 @@ export default PointerViewImpl;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Oct 26 2020 22:02:44 GMT+0300 (GMT+03:00)
+                at Mon Nov 02 2020 19:45:43 GMT+0300 (GMT+03:00)
             </div>
         </div>
         <script src="../../prettify.js"></script>
