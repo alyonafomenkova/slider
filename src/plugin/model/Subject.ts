@@ -1,18 +1,18 @@
 class Subject<T> {
   private observers: ((value: T) => void) [] = [];
 
-  private value: T;
+  private lastValue: T;
 
   constructor(value: T) {
-    this.value = value;
+    this.lastValue = value;
   }
 
   public getValue(): T {
-    return this.value;
+    return this.lastValue;
   }
 
   public setValue(value: T): void {
-    this.value = value;
+    this.lastValue = value;
     this.observers.forEach((observer) => {
       observer(value);
     });
@@ -24,7 +24,7 @@ class Subject<T> {
       console.log('Observer already attached.');
     } else {
       this.observers.push(observer);
-      observer(this.value);
+      observer(this.lastValue);
     }
   }
 

@@ -42,20 +42,20 @@ class MainViewImpl implements MainView {
   }
 
   public setupScale(): void {
-    const items: Array<ScaleItem> = [];
+    const scaleItems: Array<ScaleItem> = [];
     const sliderWidth = this.sliderView.getWidth();
     const sliderHeight = this.sliderView.getHeight();
-    const count = Math.floor((this.viewModel.getMax() - this.viewModel.getMin()) / this.viewModel.getStep());
-    const stepWidth = this.viewModel.getIsVertical() ? (sliderHeight / count) : (sliderWidth / count);
-    const itemStep = this.getItemsStep(stepWidth);
+    const scaleItemsCount = Math.floor((this.viewModel.getMax() - this.viewModel.getMin()) / this.viewModel.getStep());
+    const stepWidth = this.viewModel.getIsVertical() ? (sliderHeight / scaleItemsCount) : (sliderWidth / scaleItemsCount);
+    const scaleItemStep = this.getScaleItemsStep(stepWidth);
 
-    for (let i = 0; i <= count; i += itemStep) {
+    for (let i = 0; i <= scaleItemsCount; i += scaleItemStep) {
       const value = this.viewModel.getMin() + this.viewModel.getStep() * i;
       const rounded = Util.roundWithEpsilon(value);
       const percent = ((value - this.viewModel.getMin()) * 100) / (this.viewModel.getMax() - this.viewModel.getMin());
-      items.push(new ScaleItem(rounded, percent));
+      scaleItems.push(new ScaleItem(rounded, percent));
     }
-    this.scaleView.addItems(items, this.viewModel.getIsVertical());
+    this.scaleView.addScaleItems(scaleItems, this.viewModel.getIsVertical());
     this.scaleView.setClickListener(this.scaleClickListener);
   }
 
@@ -173,7 +173,7 @@ class MainViewImpl implements MainView {
     this.valueToListener = listener;
   }
 
-  private getItemsStep(stepWidth: number): number {
+  private getScaleItemsStep(stepWidth: number): number {
     let step = 1;
     let width = stepWidth;
 

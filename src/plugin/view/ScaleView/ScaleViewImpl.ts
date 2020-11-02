@@ -25,10 +25,10 @@ class ScaleViewImpl implements ScaleView {
     }
   }
 
-  public addItems(items: Array<ScaleItem>, isVertical: boolean): void {
+  public addScaleItems(scaleItems: Array<ScaleItem>, isVertical: boolean): void {
     let template = '';
 
-    items.forEach((item) => {
+    scaleItems.forEach((item) => {
       template += `
       <div class="slider__scale-item">
         <div class="slider__scale-division"></div>
@@ -37,14 +37,14 @@ class ScaleViewImpl implements ScaleView {
     });
 
     Util.createElement(this.container, 'slider__scale', template);
-    const elements = this.container.getElementsByClassName('slider__scale-item');
+    const scaleElements = this.container.getElementsByClassName('slider__scale-item');
 
-    for (let i = 0; i < elements.length; i += 1) {
-      const percent = items[i].positionPercent;
+    for (let i = 0; i < scaleElements.length; i += 1) {
+      const percent = scaleItems[i].positionPercent;
       if (isVertical) {
-        (elements[i] as HTMLElement).style.bottom = `${percent}%`;
+        (scaleElements[i] as HTMLElement).style.bottom = `${percent}%`;
       } else {
-        (elements[i] as HTMLElement).style.left = `${percent}%`;
+        (scaleElements[i] as HTMLElement).style.left = `${percent}%`;
       }
     }
     this.setupClickListeners();
@@ -56,10 +56,10 @@ class ScaleViewImpl implements ScaleView {
 
   private setupClickListeners(): void {
     if (this.container) {
-      const items = this.container.querySelectorAll('.slider__scale-item');
-      items.forEach((it) => {
-        const item = it as HTMLElement;
-        item.addEventListener('click', this.handleScaleItemClick);
+      const scaleElements = this.container.querySelectorAll('.slider__scale-item');
+      scaleElements.forEach((it) => {
+        const scaleElement = it as HTMLElement;
+        scaleElement.addEventListener('click', this.handleScaleItemClick);
       });
     } else {
       throw new Error('Container is undefined.');
@@ -68,9 +68,9 @@ class ScaleViewImpl implements ScaleView {
 
   private handleScaleItemClick = (evt: MouseEvent): void => {
     if (this.clickEventListener) {
-      const item = (evt.target as HTMLElement).closest('.slider__scale-item');
-      if (item) {
-        const valueContainer = item.querySelector('.slider__scale-value');
+      const scaleElement = (evt.target as HTMLElement).closest('.slider__scale-item');
+      if (scaleElement) {
+        const valueContainer = scaleElement.querySelector('.slider__scale-value');
         if (valueContainer) {
           const value = Number((valueContainer as HTMLElement).innerText);
           this.clickEventListener(this, value);

@@ -34,7 +34,7 @@ describe('Test scale view implementation', () => {
     // Act -> assert
     expect(document.querySelector('.slider__scale')).toBeNull();
 
-    view.addItems(items, false);
+    view.addScaleItems(items, false);
 
     expect(document.querySelector('.slider__scale')).not.toBeNull();
     expect(document.querySelectorAll('.slider__scale-item').length).toEqual(items.length);
@@ -44,7 +44,7 @@ describe('Test scale view implementation', () => {
 
   it('Show / hide', () => {
     // Act -> assert
-    view.addItems(items, true);
+    view.addScaleItems(items, true);
     const scale = document.querySelector('.slider__scale') as HTMLElement;
 
     expect(scale.style.visibility).toEqual('');
@@ -61,7 +61,7 @@ describe('Test scale view implementation', () => {
   it('Click listener', () => {
     // Act -> assert
     let lastValue = -1;
-    view.addItems(items, true);
+    view.addScaleItems(items, true);
     view.setClickListener((v: ScaleView, value: number) => {
       lastValue = value;
     });

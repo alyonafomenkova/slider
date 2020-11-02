@@ -185,7 +185,7 @@ describe('Test main view implementation', () => {
     verify(mockSliderView.drawVertical()).once();
     verify(mockSliderView.getWidth()).called();
     verify(mockSliderView.getHeight()).called();
-    verify(mockScaleView.addItems(anything(), false)).called();
+    verify(mockScaleView.addScaleItems(anything(), false)).called();
     verify(mockScaleView.setClickListener(anything())).called();
     verify(mockScaleView.show()).once();
     verify(mockScaleView.hide()).once();
@@ -220,7 +220,7 @@ describe('Test main view implementation', () => {
     verify(mockSliderView.drawVertical()).once();
     verify(mockSliderView.getWidth()).called();
     verify(mockSliderView.getHeight()).called();
-    verify(mockScaleView.addItems(anything(), false)).never();
+    verify(mockScaleView.addScaleItems(anything(), false)).never();
     verify(mockScaleView.setClickListener(anything())).called();
     verify(mockScaleView.show()).once();
     verify(mockScaleView.hide()).once();
