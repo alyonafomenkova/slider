@@ -1,8 +1,7 @@
 {
   "name": "slider",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "jquery slider plugin",
   "scripts": {
     "lint": "eslint src/**/*.{js,ts,tsx}",
     "build:dev": "webpack --mode=development",
@@ -14,8 +13,8 @@
     "type": "git",
     "url": "git+https://github.com/alyonafomenkova/slider.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["slider", "plugin", "range-slider"],
+  "author": "Alena Fomenkova",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/alyonafomenkova/slider/issues"
