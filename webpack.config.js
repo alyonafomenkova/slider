@@ -1,21 +1,20 @@
 const path = require('path');
+const { merge } = require('webpack-merge');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const PATHS = {
+  source: path.join(__dirname, 'src'),
+  dist: path.join(__dirname, 'dist'),
+};
+const devMode = process.env.NODE_ENV !== 'production';
 
-const config = {
-  mode: 'development',
+const common = {
   entry: ['./src/plugin/plugin.ts', './src/demo/demo.ts'],
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: PATHS.dist,
     filename: '[name].bundle.js'
-  },
-  devServer: {
-    index: 'demo.html',
-    contentBase: path.join(__dirname, './dist'),
-    compress: true,
-    hot: true,
   },
   module: {
     rules: [
@@ -25,13 +24,12 @@ const config = {
       },
 
       {
-        test: /\.scss$/,
+        test: /\.(sa|sc|c)ss$/,
         use: [
-          'style-loader',
-          MiniCssExtractPlugin.loader,
+          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
           'css-loader',
-          'sass-loader'
-        ]
+          'sass-loader',
+        ],
       },
 
       {
@@ -49,16 +47,6 @@ const config = {
           name: 'assets/images/[name].[ext]'
         },
         exclude: [/fonts/],
-      },
-
-      {
-        enforce: 'post',
-        exclude: /(node_modules|\.*Test\.[tj]sx?$)/,
-        test: /\.[tj]s$/,
-        use: {
-          loader: 'istanbul-instrumenter-loader',
-          options: {esModules: true}
-        },
       },
     ],
   },
@@ -88,4 +76,26 @@ const config = {
   ],
 };
 
-module.exports = config;
+const devConfig = {
+  mode: 'development',
+  devServer: {
+    index: 'demo.html',
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    hot: true,
+    port: 8000,
+    open: 'chrome',
+  }
+};
+
+module.exports = function (env) {
+  if (env === 'production') {
+    return common;
+  }
+  if (env === 'development') {
+    return merge([
+      common,
+      devConfig,
+    ]);
+  }
+};

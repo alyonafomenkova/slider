@@ -1,5 +1,5 @@
 const testCode = 'src/**/*Test.ts';
-const webpackConfig = require('./webpack.config.js');
+const webpackConfig = require('./webpack.tests.js');
 const path = require('path');
 
 module.exports = function (config) {

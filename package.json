@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "jquery slider plugin",
   "scripts": {
+    "clear": "rimraf ./dist",
+    "dev": "webpack-dev-server --mode-development --env development --open",
+    "prod": "npm run clear && cross-env NODE_ENV=production webpack --mode-production --env production",
     "lint": "eslint src/**/*.{js,ts,tsx}",
-    "build:dev": "webpack --mode=development",
-    "start:dev": "webpack-dev-server --open",
     "test": "karma start karma.conf.js",
     "deploy": "gh-pages -d dist"
   },
@@ -49,6 +50,7 @@
   },
   "dependencies": {
     "copy-webpack-plugin": "^6.0.3",
+    "cross-env": "^7.0.2",
     "css-loader": "^3.6.0",
     "html-webpack-plugin": "^4.3.0",
     "jquery": "^3.5.1",
