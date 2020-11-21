@@ -1,16 +1,22 @@
 # slider
-### Для запуска проекта необходимо выполнить следующие команды:<br/>
-`git clone git@github.com:alyonafomenkova/slider.git` - клонирование репозитория<br/>
-`npm i` - установка необходимых зависимостей проекта<br/>
-`npm run build:dev` - сборка проекта<br/>
-`npm run start:dev` - запуск локального сервера<br/>
-`npm run test` - запуск тестов<br/>
-`npm run deploy` - публикация проекта
+### Установка:<br/>
+Для запуска проекта должны быть установлены [Node.js](https://nodejs.org/en/) (начиная с v12.14.0) и [Git](https://git-scm.com/download)<br/>
+1. Клонируйте репозиторий: `git clone git@github.com:alyonafomenkova/slider.git`<br/>
+2. Перейдите в папку проекта: `cd slider`<br/>
+3. Установите необходимые зависимости проекта: `npm install`<br/>
+---
+### Основные команды: <br/>
+`npm run clear` - удаление папки *dist*<br/>
+`npm run dev` - сборка в *development-режиме*, запуск локального сервера, открытие вкладки с адресом локального сервера в браузере<br/>
+`npm run prod` - очищение папки *dist*, сборка в *production-режиме*, сохранение результата в папке *dist*<br/>
+`npm run lint` - проверка синтаксиса ts и js-файлов с помощью [Eslint](https://eslint.org/)<br/>
+`npm run test` - запуск тестов с помощью тест-раннера [Karma](https://karma-runner.github.io/latest/index.html)<br/>
+`npm run deploy` - загрузка результата сборки (папка *dist*) в ветку *gh-pages*<br/>
 
 ### Демо страница<br/>
 [slider-demo](https://alyonafomenkova.github.io/slider/demo.html)
 ### Тестирование<br/>
-Для тестирования использовала jasmine, ts-mockito (для моков) и karma.<br/>
+Для тестирования использовала [jasmine](https://jasmine.github.io/), [ts-mockito](https://www.npmjs.com/package/ts-mockito) (для моков) и тест-раннер [Karma](https://karma-runner.github.io/latest/index.html).<br/>
 Покрытие тестами: [coverage](https://alyonafomenkova.github.io/slider/coverage/index.html)<br/>
 
 ### Инициализация слайдера<br/>
