@@ -156,6 +156,7 @@ class Model {
     const min = this.min.getValue();
     const max = this.max.getValue();
     const to = this.to.getValue();
+    const step = this.step.getValue();
     const hasInterval = this.hasInterval.getValue();
 
     if (value > max) {
@@ -169,7 +170,7 @@ class Model {
       if (value < min) {
         this.from.setValue(min);
       } else if (value === to) {
-        throw new Error('From must be < to!');
+        this.from.setValue(to - step);
       } else if (value > to) {
         this.from.setValue(to);
       } else {
@@ -186,6 +187,7 @@ class Model {
     const min = this.min.getValue();
     const max = this.max.getValue();
     const from = this.from.getValue();
+    const step = this.step.getValue();
     const hasInterval = this.hasInterval.getValue();
 
     if (value > max) {
@@ -200,7 +202,7 @@ class Model {
       if (value > max) {
         this.to.setValue(max);
       } else if (value === from) {
-        throw new Error('From must be < to!');
+        this.to.setValue(from + step);
       } else if (value < from) {
         this.to.setValue(from);
       } else {

@@ -490,10 +490,11 @@ describe('Set from value', () => {
 
   it('To value exist and  from = to', () => {
     model.setInterval(true);
+    model.setFrom(70);
 
     expect(isInterval).toEqual(true);
     expect(to).toEqual(70);
-    expect(() => { model.setFrom(70); }).toThrow(new Error('From must be < to!'));
+    expect(from).toEqual(60);
   });
 
   it('To value does not exist and  from < max', () => {
@@ -594,9 +595,10 @@ describe('Set to value', () => {
 
   it('Set  to === from', () => {
     model.setInterval(true);
+    model.setTo(20);
 
     expect(isInterval).toEqual(true);
-    expect(() => { model.setTo(20); }).toThrow(new Error('From must be < to!'));
+    expect(to).toEqual(30);
   });
 });
 
