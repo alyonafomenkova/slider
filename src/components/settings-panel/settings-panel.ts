@@ -1,4 +1,5 @@
 import './settings-panel.scss';
+import Configuration from '../../plugin/model/Configuration';
 
 class SettingsPanel {
   private panel: Element;
@@ -43,7 +44,7 @@ class SettingsPanel {
     this.panel = panel;
   }
 
-  public init(): void {
+  public init(config?: Configuration): void {
     this.inputMin = this.panel.querySelector('.settings-panel__values-input_kind_min') as Element;
     this.inputMax = this.panel.querySelector('.settings-panel__values-input_kind_max') as Element;
     this.inputStep = this.panel.querySelector('.settings-panel__values-input_kind_step') as Element;
@@ -66,17 +67,32 @@ class SettingsPanel {
     this.inputsOrientation.forEach((input) => {
       input.addEventListener('change', this.handleOrientation);
     });
+
+    const isVisibleValueTo = config && config.hasInterval;
+    if (isVisibleValueTo) {
+      this.showValueTo();
+    } else this.hideValueTo();
+  }
+
+  private showValueTo() {
+    const valueToContainer = this.panel.querySelector('.settings-panel__values-label_kind_to') as HTMLElement;
+    valueToContainer.classList.add('settings-panel__values-label_visible');
+    valueToContainer.classList.remove('settings-panel__values-label_hidden');
+  }
+
+  private hideValueTo() {
+    const valueToContainer = this.panel.querySelector('.settings-panel__values-label_kind_to') as HTMLElement;
+    valueToContainer.classList.add('settings-panel__values-label_hidden');
+    valueToContainer.classList.remove('settings-panel__values-label_visible');
   }
 
   private isValueTo(value: boolean) {
     const inputTo = this.panel.querySelector('.settings-panel__values-label_kind_to') as HTMLInputElement;
     if (inputTo) {
       if (value) {
-        inputTo.classList.add('settings-panel__values-label_visible');
-        inputTo.classList.remove('settings-panel__values-label_hidden');
+        this.showValueTo();
       } else {
-        inputTo.classList.add('settings-panel__values-label_hidden');
-        inputTo.classList.remove('settings-panel__values-label_visible');
+        this.hideValueTo();
       }
     }
   }

@@ -47,7 +47,7 @@ const createPanelWithSlider = (panelId: string, sliderId: string, config?: Confi
   const slider = $(sliderId).runForSlider('init', config);
   const panel = new SettingsPanel(container);
 
-  panel.init();
+  panel.init(config);
   panel.setFromValueListener((value: number) => { slider.runForSlider('setFrom', value); });
   panel.setToValueListener((value: number) => { slider.runForSlider('setTo', value); });
   panel.setMinListener((value: number) => { slider.runForSlider('setMin', value); });
