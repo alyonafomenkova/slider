@@ -406,11 +406,29 @@ describe('Set step value', () => {
   });
 
   it('Step = 0', () => {
-    expect(() => { model.setStep(0); }).toThrow(new Error('Step must be > 0!'));
+    model.setStep(0);
+
+    expect(min).toEqual(0);
+    expect(max).toEqual(100);
+    expect(step).toEqual(1);
   });
 
   it('Step < 0', () => {
-    expect(() => { model.setStep(-5); }).toThrow(new Error('Step must be > 0!'));
+    model.setStep(-5);
+
+    expect(min).toEqual(0);
+    expect(max).toEqual(100);
+    expect(step).toEqual(1);
+  });
+
+  it('Step < 0, float min and max', () => {
+    model.setMin(-0.001);
+    model.setMax(0.09);
+    model.setStep(-0.002);
+
+    expect(min).toEqual(-0.001);
+    expect(max).toEqual(0.09);
+    expect(step).toEqual(0.0089);
   });
 });
 
