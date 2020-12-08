@@ -1,4 +1,4 @@
-mixin settings-panel({ index, orientation, type, minStep, step } = settings)
+mixin settings-panel({ index, orientation, type } = settings)
   form.settings-panel(id=`panel-${index}`)
     fieldset.settings-panel__fieldset
       legend.settings-panel__fieldset-title Orientation
@@ -40,7 +40,7 @@ mixin settings-panel({ index, orientation, type, minStep, step } = settings)
       label.settings-panel__values-label MAX
         input.settings-panel__values-input.settings-panel__values-input_kind_max(type="number" name="max")
       label.settings-panel__values-label Step
-        input.settings-panel__values-input.settings-panel__values-input_kind_step(type="number" name="step" min=minStep step=step)
+        input.settings-panel__values-input.settings-panel__values-input_kind_step(type="number" name="step")
       div.settings-panel__current-values-wrapper
         label.settings-panel__values-label Value From
           input.settings-panel__values-input.settings-panel__values-input_kind_from(type="number" name="value1")
