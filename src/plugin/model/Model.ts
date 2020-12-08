@@ -138,12 +138,14 @@ class Model {
   }
 
   public setStep(value: number): void {
+    const min = Math.abs(this.min.getValue());
+    const max = Math.abs(this.max.getValue());
     if (value <= 0) {
-      throw new Error('Step must be > 0!');
+      const isInteger = Number.isInteger(max - min);
+      this.step.setValue(isInteger ? 1 : (max - min) / 10);
+    } else {
+      this.step.setValue(max - min > value ? value : max - min);
     }
-    const min = this.min.getValue();
-    const max = this.max.getValue();
-    this.step.setValue(max - min > value ? value : max - min);
   }
 
   public getFrom(): number {
