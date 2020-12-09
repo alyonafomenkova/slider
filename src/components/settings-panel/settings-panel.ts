@@ -208,12 +208,6 @@ class SettingsPanel {
     if (!this.inputMax) {
       throw new Error('Input max is not defined');
     }
-    if (this.inputFrom) {
-      (this.inputFrom as HTMLInputElement).max = value.toString();
-    }
-    if (this.inputTo) {
-      (this.inputTo as HTMLInputElement).max = value.toString();
-    }
     (this.inputMax as HTMLInputElement).value = value.toString();
   }
 
