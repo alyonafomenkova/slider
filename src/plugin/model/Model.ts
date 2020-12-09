@@ -1,27 +1,27 @@
 import Configuration from './Configuration';
-import Subject from './Subject';
+import Observer from './Observer';
 
 class Model {
-  private min: Subject<number>;
+  private min: Observer<number>;
 
-  private max: Subject<number>;
+  private max: Observer<number>;
 
-  private step: Subject<number>;
+  private step: Observer<number>;
 
-  private from: Subject<number>;
+  private from: Observer<number>;
 
-  private to: Subject<number>;
+  private to: Observer<number>;
 
-  private hasInterval: Subject<boolean>;
+  private hasInterval: Observer<boolean>;
 
   constructor(configuration: Configuration) {
     Model.validateConfiguration(configuration);
-    this.min = new Subject(configuration.min);
-    this.max = new Subject(configuration.max);
-    this.step = new Subject(configuration.step);
-    this.from = new Subject(configuration.from);
-    this.to = new Subject(configuration.to);
-    this.hasInterval = new Subject(configuration.hasInterval);
+    this.min = new Observer(configuration.min);
+    this.max = new Observer(configuration.max);
+    this.step = new Observer(configuration.step);
+    this.from = new Observer(configuration.from);
+    this.to = new Observer(configuration.to);
+    this.hasInterval = new Observer(configuration.hasInterval);
   }
 
   private static validateConfiguration(configuration: Configuration): void {

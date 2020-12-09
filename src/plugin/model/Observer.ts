@@ -1,4 +1,4 @@
-class Subject<T> {
+class Observer<T> {
   private observers: ((value: T) => void) [] = [];
 
   private lastValue: T;
@@ -40,4 +40,4 @@ class Subject<T> {
   }
 }
 
-export default Subject;
+export default Observer;

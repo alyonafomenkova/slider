@@ -1,6 +1,6 @@
 import Configuration from '../model/Configuration';
 import Model from '../model/Model';
-import Subject from '../model/Subject';
+import Observer from '../model/Observer';
 import MainView from '../view/MainView/MainView';
 import ViewModel from '../view/MainView/ViewModel';
 
@@ -11,19 +11,19 @@ class Presenter {
 
   private readonly viewModel: ViewModel;
 
-  private isVertical: Subject<boolean>;
+  private isVertical: Observer<boolean>;
 
-  private hasValue: Subject<boolean>;
+  private hasValue: Observer<boolean>;
 
-  private hasScale: Subject<boolean>;
+  private hasScale: Observer<boolean>;
 
   constructor(model: Model, view: MainView, viewModel: ViewModel, configuration: Configuration) {
     this.model = model;
     this.view = view;
     this.viewModel = viewModel;
-    this.isVertical = new Subject(configuration.isVertical);
-    this.hasValue = new Subject(configuration.hasValue);
-    this.hasScale = new Subject(configuration.hasScale);
+    this.isVertical = new Observer(configuration.isVertical);
+    this.hasValue = new Observer(configuration.hasValue);
+    this.hasScale = new Observer(configuration.hasScale);
   }
 
   private setupView() {
