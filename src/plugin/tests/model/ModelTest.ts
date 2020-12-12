@@ -279,7 +279,7 @@ describe('Set min value', () => {
     expect(min).toEqual(77);
     expect(max).toEqual(100);
     expect(from).toEqual(77);
-    expect(to).toEqual(77);
+    expect(to).toEqual(87);
     expect(step).toEqual(10);
   });
 
@@ -289,7 +289,7 @@ describe('Set min value', () => {
     expect(min).toEqual(97);
     expect(max).toEqual(100);
     expect(from).toEqual(97);
-    expect(to).toEqual(97);
+    expect(to).toEqual(107);
     expect(step).toEqual(3);
   });
 
@@ -299,7 +299,7 @@ describe('Set min value', () => {
     expect(min).toEqual(100);
     expect(max).toEqual(100);
     expect(from).toEqual(100);
-    expect(to).toEqual(100);
+    expect(to).toEqual(107);
     expect(step).toEqual(0);
   });
 });
