@@ -5,12 +5,12 @@ mixin settings-panel({ index, orientation, type } = settings)
       div.settings-panel__fieldset-inputs-wrapper
         div.settings-panel__fieldset-input-wrapper
           input.settings-panel__input.settings-panel__input_orientation_vertical(
-            type="radio" name="orientation" id=`vertical_${index}`
+            type="radio" name="orientation" id=`vertical_${index}` autocomplete="off"
             checked=(orientation==="vertical" && "checked"))
           label.settings-panel__label.settings-panel__label_orientation_vertical(for=`vertical_${index}`) Vertical
         div.settings-panel__fieldset-input-wrapper
           input.settings-panel__input.settings-panel__input_orientation_horizontal(
-            type="radio" name="orientation" id=`horizontal_${index}`
+            type="radio" name="orientation" id=`horizontal_${index}` autocomplete="off"
             checked=(orientation==="horizontal" && "checked"))
           label.settings-panel__label.settings-panel__label_orientation_horizontal(for=`horizontal_${index}`) Horizontal
     fieldset.settings-panel__fieldset
@@ -18,31 +18,31 @@ mixin settings-panel({ index, orientation, type } = settings)
       div.settings-panel__fieldset-inputs-wrapper
         div.settings-panel__fieldset-input-wrapper
           input.settings-panel__input.settings-panel__input_type_single(
-            type="radio" name="type" id=`single_${index}`
+            type="radio" name="type" id=`single_${index}` autocomplete="off"
             checked=(type==="single" && "checked"))
           label.settings-panel__label.settings-panel__label_type_single(for=`single_${index}`) Single
         div.settings-panel__fieldset-input-wrapper
           input.settings-panel__input.settings-panel__input_type_interval(type="radio" name="type" id=`interval_${index}`
-            checked=(type==="interval" && "checked"))
+            autocomplete="off" checked=(type==="interval" && "checked"))
           label.settings-panel__label.settings-panel__label_type_interval(for=`interval_${index}`) Interval
     fieldset.settings-panel__fieldset
       legend.settings-panel__fieldset-title Additional
       div.settings-panel__fieldset-inputs-wrapper
         div.settings-panel__fieldset-input-wrapper
-          input.settings-panel__input(type="checkbox" name="scale" id=`scale_${index}` checked)
+          input.settings-panel__input(type="checkbox" name="scale" id=`scale_${index}` autocomplete="off" checked)
           label.settings-panel__label(for=`scale_${index}`) Scale
         div.settings-panel__fieldset-input-wrapper
-          input.settings-panel__input(type="checkbox" name="value" id=`value_${index}` checked)
+          input.settings-panel__input(type="checkbox" name="value" id=`value_${index}` autocomplete="off" checked)
           label.settings-panel__label(for=`value_${index}`) Value
     div.settings-panel__values
       label.settings-panel__values-label MIN
-        input.settings-panel__values-input.settings-panel__values-input_kind_min(type="number" name="min")
+        input.settings-panel__values-input.settings-panel__values-input_kind_min(type="number" name="min" autocomplete="off")
       label.settings-panel__values-label MAX
-        input.settings-panel__values-input.settings-panel__values-input_kind_max(type="number" name="max")
+        input.settings-panel__values-input.settings-panel__values-input_kind_max(type="number" name="max" autocomplete="off")
       label.settings-panel__values-label Step
-        input.settings-panel__values-input.settings-panel__values-input_kind_step(type="number" name="step")
+        input.settings-panel__values-input.settings-panel__values-input_kind_step(type="number" name="step" autocomplete="off")
       div.settings-panel__current-values-wrapper
         label.settings-panel__values-label Value From
-          input.settings-panel__values-input.settings-panel__values-input_kind_from(type="number" name="value1")
+          input.settings-panel__values-input.settings-panel__values-input_kind_from(type="number" name="value1" autocomplete="off")
         label.settings-panel__values-label.settings-panel__values-label_kind_to Value To
-          input.settings-panel__values-input.settings-panel__values-input_kind_to(type="number" name="value2")
+          input.settings-panel__values-input.settings-panel__values-input_kind_to(type="number" name="value2" autocomplete="off")
