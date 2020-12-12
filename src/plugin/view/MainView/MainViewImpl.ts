@@ -1,10 +1,10 @@
-import MainView from './MainView';
-import ViewModel from './ViewModel';
+import Util from '../../util/Util';
 import ScaleItem from '../ScaleView/ScaleItem';
 import ScaleView from '../ScaleView/ScaleView';
 import SliderView from '../SliderView/SliderView';
 import PointerView from '../PointerView/PointerView';
-import Util from '../../util/Util';
+import MainView from './MainView';
+import ViewModel from './ViewModel';
 
 class MainViewImpl implements MainView {
   private readonly MAX_SCALE_ITEMS_STEP = 26;

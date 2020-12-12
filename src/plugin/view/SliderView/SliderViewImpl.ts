@@ -1,5 +1,5 @@
-import SliderView from './SliderView';
 import Util from '../../util/Util';
+import SliderView from './SliderView';
 
 class SliderViewImpl implements SliderView {
   private readonly container: Element;

@@ -1,7 +1,7 @@
-import './demo.scss';
 import SettingsPanel from '../components/settings-panel/settings-panel';
-import '../plugin/plugin.ts';
 import Configuration from '../plugin/model/Configuration';
+import '../plugin/plugin.ts';
+import './demo.scss';
 
 const configuration0 = {
   min: -5,

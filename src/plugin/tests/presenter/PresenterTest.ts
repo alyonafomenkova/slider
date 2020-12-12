@@ -1,10 +1,11 @@
 import {
   instance, mock, resetCalls, verify,
 } from 'ts-mockito';
-import Presenter from '../../presenter/Presenter';
-import Model from '../../model/Model';
+
 import MainView from '../../view/MainView/MainView';
 import ViewModel from '../../view/MainView/ViewModel';
+import Presenter from '../../presenter/Presenter';
+import Model from '../../model/Model';
 
 // Mocks
 const mockMainView = mock<MainView>();

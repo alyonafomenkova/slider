@@ -1,8 +1,8 @@
+import MainView from '../view/MainView/MainView';
+import ViewModel from '../view/MainView/ViewModel';
 import Configuration from '../model/Configuration';
 import Model from '../model/Model';
 import Observer from '../model/Observer';
-import MainView from '../view/MainView/MainView';
-import ViewModel from '../view/MainView/ViewModel';
 
 class Presenter {
   private readonly model: Model;

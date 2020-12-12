@@ -1,6 +1,7 @@
 import {
   anything, capture, instance, mock, resetCalls, verify, when,
 } from 'ts-mockito';
+
 import SliderView from '../../view/SliderView/SliderView';
 import PointerView from '../../view/PointerView/PointerView';
 import ScaleView from '../../view/ScaleView/ScaleView';

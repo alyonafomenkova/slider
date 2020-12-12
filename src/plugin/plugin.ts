@@ -1,14 +1,14 @@
-import './jquery-interfaces.ts';
-import './styles/slider.scss';
-import Model from './model/Model';
 import SliderViewImpl from './view/SliderView/SliderViewImpl';
 import PointerViewImpl from './view/PointerView/PointerViewImpl';
 import ScaleViewImpl from './view/ScaleView/ScaleViewImpl';
+import MainViewImpl from './view/MainView/MainViewImpl';
+import ViewModel from './view/MainView/ViewModel';
+import Model from './model/Model';
 import Configuration from './model/Configuration';
 import defaultConfiguration from './model/defaultConfiguration';
-import MainViewImpl from './view/MainView/MainViewImpl';
 import Presenter from './presenter/Presenter';
-import ViewModel from './view/MainView/ViewModel';
+import './jquery-interfaces.ts';
+import './styles/slider.scss';
 
 (function ($) {
   const presenters = new Map<string, Presenter>();

@@ -1,5 +1,5 @@
-import './settings-panel.scss';
 import Configuration from '../../plugin/model/Configuration';
+import './settings-panel.scss';
 
 class SettingsPanel {
   private panel: Element;

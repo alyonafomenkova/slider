@@ -1,5 +1,5 @@
-import PointerView from './PointerView';
 import Util from '../../util/Util';
+import PointerView from './PointerView';
 
 class PointerViewImpl implements PointerView {
   private readonly container: Element;
