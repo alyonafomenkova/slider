@@ -26,32 +26,6 @@ class Presenter {
     this.hasScale = new Observer(configuration.hasScale);
   }
 
-  private setupView() {
-    this.viewModel.setMin(this.model.getMin());
-    this.viewModel.setMax(this.model.getMax());
-    this.viewModel.setStep(this.model.getStep());
-    this.viewModel.setIsVertical(this.isVertical.getValue());
-    this.viewModel.setHasScale(this.hasScale.getValue());
-    this.viewModel.setHasValue(this.hasValue.getValue());
-    this.viewModel.setIsInterval(this.model.isInterval());
-    this.view.setValueFrom(this.model.getFrom());
-    this.view.setValueTo(this.model.getTo());
-    this.view.setValueFromListener((value: number) => { this.model.setFrom(value); });
-    this.view.setValueToListener((value: number) => { this.model.setTo(value); });
-  }
-
-  private observeValues() {
-    this.model.attachMin((value: number): void => { this.viewModel.setMin(value); });
-    this.model.attachMax((value: number): void => { this.viewModel.setMax(value); });
-    this.model.attachStep((value: number): void => { this.viewModel.setStep(value); });
-    this.model.attachValueFrom((value: number): void => { this.view.setValueFrom(value); });
-    this.model.attachValueTo((value: number): void => { this.view.setValueTo(value); });
-    this.model.attachInterval((value: boolean): void => { this.viewModel.setIsInterval(value); });
-    this.isVertical.attach((value: boolean): void => { this.viewModel.setIsVertical(value); });
-    this.hasValue.attach((value: boolean): void => { this.viewModel.setHasValue(value); });
-    this.hasScale.attach((value: boolean): void => { this.viewModel.setHasScale(value); });
-  }
-
   public init(): void {
     this.view.clear();
     this.setupView();
@@ -190,6 +164,32 @@ class Presenter {
 
   public setStepListener(listener: (value: number) => void): void {
     this.model.attachStep(listener);
+  }
+
+  private setupView() {
+    this.viewModel.setMin(this.model.getMin());
+    this.viewModel.setMax(this.model.getMax());
+    this.viewModel.setStep(this.model.getStep());
+    this.viewModel.setIsVertical(this.isVertical.getValue());
+    this.viewModel.setHasScale(this.hasScale.getValue());
+    this.viewModel.setHasValue(this.hasValue.getValue());
+    this.viewModel.setIsInterval(this.model.isInterval());
+    this.view.setValueFrom(this.model.getFrom());
+    this.view.setValueTo(this.model.getTo());
+    this.view.setValueFromListener((value: number) => { this.model.setFrom(value); });
+    this.view.setValueToListener((value: number) => { this.model.setTo(value); });
+  }
+
+  private observeValues() {
+    this.model.attachMin((value: number): void => { this.viewModel.setMin(value); });
+    this.model.attachMax((value: number): void => { this.viewModel.setMax(value); });
+    this.model.attachStep((value: number): void => { this.viewModel.setStep(value); });
+    this.model.attachValueFrom((value: number): void => { this.view.setValueFrom(value); });
+    this.model.attachValueTo((value: number): void => { this.view.setValueTo(value); });
+    this.model.attachInterval((value: boolean): void => { this.viewModel.setIsInterval(value); });
+    this.isVertical.attach((value: boolean): void => { this.viewModel.setIsVertical(value); });
+    this.hasValue.attach((value: boolean): void => { this.viewModel.setHasValue(value); });
+    this.hasScale.attach((value: boolean): void => { this.viewModel.setHasScale(value); });
   }
 }
 

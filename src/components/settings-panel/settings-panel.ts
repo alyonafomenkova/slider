@@ -74,6 +74,88 @@ class SettingsPanel {
     } else this.hideValueTo();
   }
 
+  public setMinValue(value: number): void {
+    if (!this.inputMin) {
+      throw new Error('Input min is not defined');
+    }
+    if (this.inputFrom) {
+      (this.inputFrom as HTMLInputElement).min = value.toString();
+    }
+    if (this.inputTo) {
+      (this.inputTo as HTMLInputElement).min = value.toString();
+    }
+    (this.inputMin as HTMLInputElement).value = value.toString();
+  }
+
+  public setMaxValue(value: number): void {
+    if (!this.inputMax) {
+      throw new Error('Input max is not defined');
+    }
+    (this.inputMax as HTMLInputElement).value = value.toString();
+  }
+
+  public setFromValue(value: number): void {
+    if (!this.inputFrom) {
+      throw new Error('Input from is not defined');
+    }
+    (this.inputFrom as HTMLInputElement).value = value.toString();
+  }
+
+  public setToValue(value: number): void {
+    if (!this.inputTo) {
+      throw new Error('Input to is not defined');
+    }
+    (this.inputTo as HTMLInputElement).value = value.toString();
+  }
+
+  public setMinListener(listener: (value: number) => void): void {
+    this.minListener = listener;
+  }
+
+  public setMaxListener(listener: (value: number) => void): void {
+    this.maxListener = listener;
+  }
+
+  public setFromValueListener(listener: (value: number) => void): void {
+    this.fromValueListener = listener;
+  }
+
+  public setToValueListener(listener: (value: number) => void): void {
+    this.toValueListener = listener;
+  }
+
+  public setStepListener(listener: (value: number) => void): void {
+    this.stepListener = listener;
+  }
+
+  public setStep(value: number): void {
+    if (this.inputStep) {
+      (this.inputStep as HTMLInputElement).value = value.toString();
+    }
+    if (this.inputFrom) {
+      (this.inputFrom as HTMLInputElement).step = value.toString();
+    }
+    if (this.inputTo) {
+      (this.inputTo as HTMLInputElement).step = value.toString();
+    }
+  }
+
+  public setScaleListener(listener: (value: boolean) => void): void {
+    this.scaleListener = listener;
+  }
+
+  public setPointerValueListener(listener: (value: boolean) => void): void {
+    this.pointerValueListener = listener;
+  }
+
+  public setTypeListener(listener: (value: boolean) => void): void {
+    this.typeListener = listener;
+  }
+
+  public setOrientationListener(listener: (value: boolean) => void): void {
+    this.orientationListener = listener;
+  }
+
   private showValueTo() {
     const valueToContainer = this.panel.querySelector('.settings-panel__values-label_kind_to') as HTMLElement;
     valueToContainer.classList.add('settings-panel__values-label_visible');
@@ -190,88 +272,6 @@ class SettingsPanel {
       this.orientationListener(isVertical);
     }
   };
-
-  public setMinValue(value: number): void {
-    if (!this.inputMin) {
-      throw new Error('Input min is not defined');
-    }
-    if (this.inputFrom) {
-      (this.inputFrom as HTMLInputElement).min = value.toString();
-    }
-    if (this.inputTo) {
-      (this.inputTo as HTMLInputElement).min = value.toString();
-    }
-    (this.inputMin as HTMLInputElement).value = value.toString();
-  }
-
-  public setMaxValue(value: number): void {
-    if (!this.inputMax) {
-      throw new Error('Input max is not defined');
-    }
-    (this.inputMax as HTMLInputElement).value = value.toString();
-  }
-
-  public setFromValue(value: number): void {
-    if (!this.inputFrom) {
-      throw new Error('Input from is not defined');
-    }
-    (this.inputFrom as HTMLInputElement).value = value.toString();
-  }
-
-  public setToValue(value: number): void {
-    if (!this.inputTo) {
-      throw new Error('Input to is not defined');
-    }
-    (this.inputTo as HTMLInputElement).value = value.toString();
-  }
-
-  public setMinListener(listener: (value: number) => void): void {
-    this.minListener = listener;
-  }
-
-  public setMaxListener(listener: (value: number) => void): void {
-    this.maxListener = listener;
-  }
-
-  public setFromValueListener(listener: (value: number) => void): void {
-    this.fromValueListener = listener;
-  }
-
-  public setToValueListener(listener: (value: number) => void): void {
-    this.toValueListener = listener;
-  }
-
-  public setStepListener(listener: (value: number) => void): void {
-    this.stepListener = listener;
-  }
-
-  public setStep(value: number): void {
-    if (this.inputStep) {
-      (this.inputStep as HTMLInputElement).value = value.toString();
-    }
-    if (this.inputFrom) {
-      (this.inputFrom as HTMLInputElement).step = value.toString();
-    }
-    if (this.inputTo) {
-      (this.inputTo as HTMLInputElement).step = value.toString();
-    }
-  }
-
-  public setScaleListener(listener: (value: boolean) => void): void {
-    this.scaleListener = listener;
-  }
-
-  public setPointerValueListener(listener: (value: boolean) => void): void {
-    this.pointerValueListener = listener;
-  }
-
-  public setTypeListener(listener: (value: boolean) => void): void {
-    this.typeListener = listener;
-  }
-
-  public setOrientationListener(listener: (value: boolean) => void): void {
-    this.orientationListener = listener;
-  }
 }
 
 export default SettingsPanel;

@@ -24,31 +24,6 @@ class Model {
     this.hasInterval = new Observer(configuration.hasInterval);
   }
 
-  private static validateConfiguration(configuration: Configuration): void {
-    const { min, max, step, from, to } = configuration;
-    const isCorrectFrom = from >= min && from <= max;
-    const isCorrectTo = to > min && to <= max;
-
-    if (min >= max) {
-      throw new Error('Min must be less than max!');
-    }
-    if (step <= 0) {
-      throw new Error('Step must be more than 0!');
-    }
-    if (step > max - min) {
-      throw new Error('Step must be less than max - min!');
-    }
-    if (!isCorrectFrom) {
-      throw new Error('CurrentValueFrom must be less than max, but more than min!');
-    }
-    if (!isCorrectTo) {
-      throw new Error('CurrentValueTo must be less than max, but more than min!');
-    }
-    if (to < from) {
-      throw new Error('CurrentValueTo must be more than currentValueFrom!');
-    }
-  }
-
   public attachMin(observer: (value: number) => void): void {
     this.min.attach(observer);
   }
@@ -217,6 +192,31 @@ class Model {
 
   public setInterval(value: boolean): void {
     this.hasInterval.setValue(value);
+  }
+
+  private static validateConfiguration(configuration: Configuration): void {
+    const { min, max, step, from, to } = configuration;
+    const isCorrectFrom = from >= min && from <= max;
+    const isCorrectTo = to > min && to <= max;
+
+    if (min >= max) {
+      throw new Error('Min must be less than max!');
+    }
+    if (step <= 0) {
+      throw new Error('Step must be more than 0!');
+    }
+    if (step > max - min) {
+      throw new Error('Step must be less than max - min!');
+    }
+    if (!isCorrectFrom) {
+      throw new Error('CurrentValueFrom must be less than max, but more than min!');
+    }
+    if (!isCorrectTo) {
+      throw new Error('CurrentValueTo must be less than max, but more than min!');
+    }
+    if (to < from) {
+      throw new Error('CurrentValueTo must be more than currentValueFrom!');
+    }
   }
 }
 
