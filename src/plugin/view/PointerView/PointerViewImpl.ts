@@ -4,8 +4,6 @@ import PointerView from './PointerView';
 class PointerViewImpl implements PointerView {
   private readonly container: Element;
 
-  private hasValue?: boolean = undefined;
-
   private pointerContainer?: HTMLElement = undefined;
 
   private downEventListener?: (view: PointerView, x: number, y: number) => void = undefined;
@@ -60,7 +58,6 @@ class PointerViewImpl implements PointerView {
     const template = '<div class="slider__pointer"></div>';
     this.pointerContainer = Util.createElement(this.container, 'slider__pointer-container', template);
     this.setupMouseListeners();
-    this.hasValue = hasValue;
     Util.createElement(this.pointerContainer, 'slider__value');
 
     if (!hasValue) {
