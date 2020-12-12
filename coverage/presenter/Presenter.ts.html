@@ -284,32 +284,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">28x</span>
-<span class="cline-any cline-yes">28x</span>
-<span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">24x</span>
-<span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-yes">20x</span>
@@ -448,12 +422,38 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Configuration from '../model/Configuration';
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">25x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import MainView from '../view/MainView/MainView';
+import ViewModel from '../view/MainView/ViewModel';
+import Configuration from '../model/Configuration';
 import Model from '../model/Model';
 import Observer from '../model/Observer';
-import MainView from '../view/MainView/MainView';
-import ViewModel from '../view/MainView/ViewModel';
 &nbsp;
 class Presenter {
   private readonly model: Model;
@@ -475,32 +475,6 @@ class Presenter {
     this.isVertical = new Observer(configuration.isVertical);
     this.hasValue = new Observer(configuration.hasValue);
     this.hasScale = new Observer(configuration.hasScale);
-  }
-&nbsp;
-  private setupView() {
-    this.viewModel.setMin(this.model.getMin());
-    this.viewModel.setMax(this.model.getMax());
-    this.viewModel.setStep(this.model.getStep());
-    this.viewModel.setIsVertical(this.isVertical.getValue());
-    this.viewModel.setHasScale(this.hasScale.getValue());
-    this.viewModel.setHasValue(this.hasValue.getValue());
-    this.viewModel.setIsInterval(this.model.isInterval());
-    this.view.setValueFrom(this.model.getFrom());
-    this.view.setValueTo(this.model.getTo());
-    this.view.setValueFromListener(<span class="fstat-no" title="function not covered" >(v</span>alue: number) =&gt; { <span class="cstat-no" title="statement not covered" >this.model.setFrom(value); </span>});
-    this.view.setValueToListener(<span class="fstat-no" title="function not covered" >(v</span>alue: number) =&gt; { <span class="cstat-no" title="statement not covered" >this.model.setTo(value); </span>});
-  }
-&nbsp;
-  private observeValues() {
-    this.model.attachMin((value: number): void =&gt; { this.viewModel.setMin(value); });
-    this.model.attachMax((value: number): void =&gt; { this.viewModel.setMax(value); });
-    this.model.attachStep((value: number): void =&gt; { this.viewModel.setStep(value); });
-    this.model.attachValueFrom((value: number): void =&gt; { this.view.setValueFrom(value); });
-    this.model.attachValueTo((value: number): void =&gt; { this.view.setValueTo(value); });
-    this.model.attachInterval((value: boolean): void =&gt; { this.viewModel.setIsInterval(value); });
-    this.isVertical.attach((value: boolean): void =&gt; { this.viewModel.setIsVertical(value); });
-    this.hasValue.attach((value: boolean): void =&gt; { this.viewModel.setHasValue(value); });
-    this.hasScale.attach((value: boolean): void =&gt; { this.viewModel.setHasScale(value); });
   }
 &nbsp;
   public init(): void {
@@ -642,6 +616,32 @@ class Presenter {
   public setStepListener(listener: (value: number) =&gt; void): void {
     this.model.attachStep(listener);
   }
+&nbsp;
+  private setupView() {
+    this.viewModel.setMin(this.model.getMin());
+    this.viewModel.setMax(this.model.getMax());
+    this.viewModel.setStep(this.model.getStep());
+    this.viewModel.setIsVertical(this.isVertical.getValue());
+    this.viewModel.setHasScale(this.hasScale.getValue());
+    this.viewModel.setHasValue(this.hasValue.getValue());
+    this.viewModel.setIsInterval(this.model.isInterval());
+    this.view.setValueFrom(this.model.getFrom());
+    this.view.setValueTo(this.model.getTo());
+    this.view.setValueFromListener(<span class="fstat-no" title="function not covered" >(v</span>alue: number) =&gt; { <span class="cstat-no" title="statement not covered" >this.model.setFrom(value); </span>});
+    this.view.setValueToListener(<span class="fstat-no" title="function not covered" >(v</span>alue: number) =&gt; { <span class="cstat-no" title="statement not covered" >this.model.setTo(value); </span>});
+  }
+&nbsp;
+  private observeValues() {
+    this.model.attachMin((value: number): void =&gt; { this.viewModel.setMin(value); });
+    this.model.attachMax((value: number): void =&gt; { this.viewModel.setMax(value); });
+    this.model.attachStep((value: number): void =&gt; { this.viewModel.setStep(value); });
+    this.model.attachValueFrom((value: number): void =&gt; { this.view.setValueFrom(value); });
+    this.model.attachValueTo((value: number): void =&gt; { this.view.setValueTo(value); });
+    this.model.attachInterval((value: boolean): void =&gt; { this.viewModel.setIsInterval(value); });
+    this.isVertical.attach((value: boolean): void =&gt; { this.viewModel.setIsVertical(value); });
+    this.hasValue.attach((value: boolean): void =&gt; { this.viewModel.setHasValue(value); });
+    this.hasScale.attach((value: boolean): void =&gt; { this.viewModel.setHasScale(value); });
+  }
 }
 &nbsp;
 export default Presenter;
@@ -652,7 +652,7 @@ export default Presenter;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Dec 09 2020 13:01:08 GMT+0300 (GMT+03:00)
+                at Sat Dec 12 2020 18:56:59 GMT+0300 (GMT+03:00)
             </div>
         </div>
         <script src="../prettify.js"></script>

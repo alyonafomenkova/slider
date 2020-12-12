@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.3% </span>
+                <span class="strong">89.41% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>210/230</span>
+                <span class='fraction'>211/236</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.36% </span>
+                <span class="strong">72.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>58/78</span>
+                <span class='fraction'>58/80</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.51% </span>
+                <span class="strong">90.56% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>210/227</span>
+                <span class='fraction'>211/233</span>
             </div>
         
             
@@ -511,7 +511,16 @@
 <a name='L452'></a><a href='#L452'>452</a>
 <a name='L453'></a><a href='#L453'>453</a>
 <a name='L454'></a><a href='#L454'>454</a>
-<a name='L455'></a><a href='#L455'>455</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L455'></a><a href='#L455'>455</a>
+<a name='L456'></a><a href='#L456'>456</a>
+<a name='L457'></a><a href='#L457'>457</a>
+<a name='L458'></a><a href='#L458'>458</a>
+<a name='L459'></a><a href='#L459'>459</a>
+<a name='L460'></a><a href='#L460'>460</a>
+<a name='L461'></a><a href='#L461'>461</a>
+<a name='L462'></a><a href='#L462'>462</a>
+<a name='L463'></a><a href='#L463'>463</a>
+<a name='L464'></a><a href='#L464'>464</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -531,6 +540,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -699,9 +710,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -709,6 +723,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -965,13 +983,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import MainView from './MainView';
-import ViewModel from './ViewModel';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Util from '../../util/Util';
 import ScaleItem from '../ScaleView/ScaleItem';
 import ScaleView from '../ScaleView/ScaleView';
 import SliderView from '../SliderView/SliderView';
 import PointerView from '../PointerView/PointerView';
-import Util from '../../util/Util';
+import MainView from './MainView';
+import ViewModel from './ViewModel';
 &nbsp;
 class MainViewImpl implements MainView {
   private readonly MAX_SCALE_ITEMS_STEP = 26;
@@ -989,6 +1007,8 @@ class MainViewImpl implements MainView {
   private valueFromListener?: (value: number) =&gt; void = undefined;
 &nbsp;
   private valueToListener?: (value: number) =&gt; void = undefined;
+&nbsp;
+  private cursorOffset = 0;
 &nbsp;
   constructor(
     viewModel: ViewModel,
@@ -1152,6 +1172,13 @@ class MainViewImpl implements MainView {
   }
 &nbsp;
   private pointerDownEventListener = <span class="fstat-no" title="function not covered" >(v</span>iew: PointerView, x: number, y: number): void =&gt; {
+<span class="cstat-no" title="statement not covered" >    if (this.viewModel.getIsVertical()) {</span>
+      const viewY = <span class="cstat-no" title="statement not covered" >view.getTop() + view.getHeight() / 2;</span>
+<span class="cstat-no" title="statement not covered" >      this.cursorOffset = viewY - y;</span>
+    } else {
+      const viewX = <span class="cstat-no" title="statement not covered" >view.getLeft() + view.getWidth() / 2;</span>
+<span class="cstat-no" title="statement not covered" >      this.cursorOffset = viewX - x;</span>
+    }
 <span class="cstat-no" title="statement not covered" >    this.setPointerPosition(view, x, y);</span>
   };
 &nbsp;
@@ -1165,9 +1192,9 @@ class MainViewImpl implements MainView {
 &nbsp;
   private setPointerPosition(view: PointerView, x: number, y: number) {
     if (this.viewModel.getIsVertical()) {
-      this.setPointerY(view, y);
+      this.setPointerY(view, y + this.cursorOffset);
     } else {
-      this.setPointerX(view, x);
+      this.setPointerX(view, x + this.cursorOffset);
     }
     if (view === this.pointerFromView) {
       this.calculateValueFrom();
@@ -1426,7 +1453,7 @@ export default MainViewImpl;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Dec 09 2020 13:01:08 GMT+0300 (GMT+03:00)
+                at Sat Dec 12 2020 18:56:59 GMT+0300 (GMT+03:00)
             </div>
         </div>
         <script src="../../prettify.js"></script>
