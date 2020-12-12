@@ -23,6 +23,8 @@ class MainViewImpl implements MainView {
 
   private valueToListener?: (value: number) => void = undefined;
 
+  private cursorOffset = 0;
+
   constructor(
     viewModel: ViewModel,
     sliderView: SliderView,
@@ -185,6 +187,13 @@ class MainViewImpl implements MainView {
   }
 
   private pointerDownEventListener = (view: PointerView, x: number, y: number): void => {
+    if (this.viewModel.getIsVertical()) {
+      const viewY = view.getTop() + view.getHeight() / 2;
+      this.cursorOffset = viewY - y;
+    } else {
+      const viewX = view.getLeft() + view.getWidth() / 2;
+      this.cursorOffset = viewX - x;
+    }
     this.setPointerPosition(view, x, y);
   };
 
@@ -198,9 +207,9 @@ class MainViewImpl implements MainView {
 
   private setPointerPosition(view: PointerView, x: number, y: number) {
     if (this.viewModel.getIsVertical()) {
-      this.setPointerY(view, y);
+      this.setPointerY(view, y + this.cursorOffset);
     } else {
-      this.setPointerX(view, x);
+      this.setPointerX(view, x + this.cursorOffset);
     }
     if (view === this.pointerFromView) {
       this.calculateValueFrom();
