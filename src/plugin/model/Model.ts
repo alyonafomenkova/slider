@@ -55,7 +55,7 @@ class Model {
   public setMin(value: number): void {
     const max = this.max.getValue();
     let from = this.from.getValue();
-    const to = this.to.getValue();
+    let to = this.to.getValue();
     const step = this.step.getValue();
 
     if (value > max) {
@@ -67,19 +67,26 @@ class Model {
     const isIntervalLessThanStep = min <= max && max - min < step;
 
     if (from < min) {
+      if (to <= min + step) {
+        this.to.setValue(min + step);
+      }
       this.from.setValue(min);
     }
     from = this.from.getValue();
+    to = this.to.getValue();
 
     if (to < from) {
       this.to.setValue(from);
     }
-
     if (isIntervalLessThanStep) {
       this.step.setValue(max - min);
     }
     if (value > max) {
       this.min.setValue(max);
+    }
+    if (this.max.getValue() - this.min.getValue() === step) {
+      this.from.setValue(this.min.getValue());
+      this.to.setValue(this.max.getValue());
     }
   }
 
