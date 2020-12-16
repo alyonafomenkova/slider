@@ -45,11 +45,11 @@ class SettingsPanel {
   }
 
   public init(config?: Configuration): void {
-    this.inputMin = this.panel.querySelector('.settings-panel__values-input_kind_min') as Element;
-    this.inputMax = this.panel.querySelector('.settings-panel__values-input_kind_max') as Element;
-    this.inputStep = this.panel.querySelector('.settings-panel__values-input_kind_step') as Element;
-    this.inputFrom = this.panel.querySelector('.settings-panel__values-input_kind_from') as Element;
-    this.inputTo = this.panel.querySelector('.settings-panel__values-input_kind_to') as Element;
+    this.inputMin = this.panel.querySelector('.js-settings-panel__values-input_kind_min') as Element;
+    this.inputMax = this.panel.querySelector('.js-settings-panel__values-input_kind_max') as Element;
+    this.inputStep = this.panel.querySelector('.js-settings-panel__values-input_kind_step') as Element;
+    this.inputFrom = this.panel.querySelector('.js-settings-panel__values-input_kind_from') as Element;
+    this.inputTo = this.panel.querySelector('.js-settings-panel__values-input_kind_to') as Element;
     this.inputScale = this.panel.querySelector('input[name=scale]') as Element;
     this.inputPointerValue = this.panel.querySelector('input[name=value]') as Element;
     this.inputsType = this.panel.querySelectorAll('input[name=type]');
@@ -157,19 +157,19 @@ class SettingsPanel {
   }
 
   private showValueTo() {
-    const valueToContainer = this.panel.querySelector('.settings-panel__values-label_kind_to') as HTMLElement;
+    const valueToContainer = this.panel.querySelector('.js-settings-panel__values-label_kind_to') as HTMLElement;
     valueToContainer.classList.add('settings-panel__values-label_visible');
     valueToContainer.classList.remove('settings-panel__values-label_hidden');
   }
 
   private hideValueTo() {
-    const valueToContainer = this.panel.querySelector('.settings-panel__values-label_kind_to') as HTMLElement;
+    const valueToContainer = this.panel.querySelector('.js-settings-panel__values-label_kind_to') as HTMLElement;
     valueToContainer.classList.add('settings-panel__values-label_hidden');
     valueToContainer.classList.remove('settings-panel__values-label_visible');
   }
 
   private isValueTo(value: boolean) {
-    const inputTo = this.panel.querySelector('.settings-panel__values-label_kind_to') as HTMLInputElement;
+    const inputTo = this.panel.querySelector('.js-settings-panel__values-label_kind_to') as HTMLInputElement;
     if (inputTo) {
       if (value) {
         this.showValueTo();

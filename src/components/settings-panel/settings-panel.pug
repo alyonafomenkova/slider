@@ -36,13 +36,18 @@ mixin settings-panel({ index, orientation, type } = settings)
           label.settings-panel__label(for=`value_${index}`) Value
     div.settings-panel__values
       label.settings-panel__values-label MIN
-        input.settings-panel__values-input.settings-panel__values-input_kind_min(type="number" name="min" autocomplete="off")
+        input.settings-panel__values-input.settings-panel__values-input_kind_min.js-settings-panel__values-input_kind_min(
+          type="number" name="min" autocomplete="off")
       label.settings-panel__values-label MAX
-        input.settings-panel__values-input.settings-panel__values-input_kind_max(type="number" name="max" autocomplete="off")
+        input.settings-panel__values-input.settings-panel__values-input_kind_max.js-settings-panel__values-input_kind_max(
+          type="number" name="max" autocomplete="off")
       label.settings-panel__values-label Step
-        input.settings-panel__values-input.settings-panel__values-input_kind_step(type="number" name="step" autocomplete="off")
+        input.settings-panel__values-input.settings-panel__values-input_kind_step.js-settings-panel__values-input_kind_step(
+          type="number" name="step" autocomplete="off")
       div.settings-panel__current-values-wrapper
         label.settings-panel__values-label Value From
-          input.settings-panel__values-input.settings-panel__values-input_kind_from(type="number" name="value1" autocomplete="off")
-        label.settings-panel__values-label.settings-panel__values-label_kind_to Value To
-          input.settings-panel__values-input.settings-panel__values-input_kind_to(type="number" name="value2" autocomplete="off")
+          input.settings-panel__values-input.settings-panel__values-input_kind_from.js-settings-panel__values-input_kind_from(
+            type="number" name="value1" autocomplete="off")
+        label.settings-panel__values-label.settings-panel__values-label_kind_to.js-settings-panel__values-label_kind_to Value To
+          input.settings-panel__values-input.settings-panel__values-input_kind_to.js-settings-panel__values-input_kind_to(
+            type="number" name="value2" autocomplete="off")
