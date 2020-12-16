@@ -3,16 +3,16 @@ import ScaleItem from './ScaleItem';
 import ScaleView from './ScaleView';
 
 class ScaleViewImpl implements ScaleView {
-  private readonly container: Element;
+  private readonly container: HTMLElement;
 
   private clickEventListener?: (view: ScaleView, value: number) => void = undefined;
 
-  constructor(container: Element) {
+  constructor(container: HTMLElement) {
     this.container = container;
   }
 
   public show(): void {
-    const scaleContainer = this.container.querySelector('.slider__scale') as HTMLElement;
+    const scaleContainer = this.container.querySelector('.slider__scale');
     if (scaleContainer) {
       scaleContainer.classList.remove('slider__scale_hidden');
       scaleContainer.classList.add('slider__scale_visible');
@@ -20,7 +20,7 @@ class ScaleViewImpl implements ScaleView {
   }
 
   public hide(): void {
-    const scaleContainer = this.container.querySelector('.slider__scale') as HTMLElement;
+    const scaleContainer = this.container.querySelector('.slider__scale');
     if (scaleContainer) {
       scaleContainer.classList.remove('slider__scale_visible');
       scaleContainer.classList.add('slider__scale_hidden');

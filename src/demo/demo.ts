@@ -40,7 +40,7 @@ const configuration2 = {
 };
 
 const createPanelWithSlider = (panelId: string, sliderId: string, config?: Configuration) => {
-  const container = document.querySelector(panelId);
+  const container = document.querySelector(panelId) as HTMLElement;
   if (!container) {
     throw new Error(`Container not found for panel ID = ${panelId}`);
   }

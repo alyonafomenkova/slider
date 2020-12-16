@@ -3,7 +3,7 @@ import ScaleItem from '../../view/ScaleView/ScaleItem';
 import ScaleView from '../../view/ScaleView/ScaleView';
 
 const containerClass = 'container';
-const setupContainer = (): Element => {
+const setupContainer = (): HTMLElement => {
   const body = document.querySelector('body');
   const container = document.createElement('div');
   container.className = containerClass;

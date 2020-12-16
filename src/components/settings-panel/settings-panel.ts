@@ -2,21 +2,21 @@ import Configuration from '../../plugin/model/Configuration';
 import './settings-panel.scss';
 
 class SettingsPanel {
-  private panel: Element;
+  private panel: HTMLElement;
 
-  private inputMin?: Element;
+  private inputMin?: HTMLInputElement;
 
-  private inputMax?: Element;
+  private inputMax?: HTMLInputElement;
 
-  private inputStep?: Element;
+  private inputStep?: HTMLInputElement;
 
-  private inputFrom?: Element;
+  private inputFrom?: HTMLInputElement;
 
-  private inputTo?: Element;
+  private inputTo?: HTMLInputElement;
 
-  private inputScale?: Element;
+  private inputScale?: HTMLInputElement;
 
-  private inputPointerValue?: Element;
+  private inputPointerValue?: HTMLInputElement;
 
   private inputsType?: NodeList;
 
@@ -40,18 +40,18 @@ class SettingsPanel {
 
   private orientationListener?: (value: boolean) => void;
 
-  constructor(panel: Element) {
+  constructor(panel: HTMLElement) {
     this.panel = panel;
   }
 
   public init(config?: Configuration): void {
-    this.inputMin = this.panel.querySelector('.js-settings-panel__values-input_kind_min') as Element;
-    this.inputMax = this.panel.querySelector('.js-settings-panel__values-input_kind_max') as Element;
-    this.inputStep = this.panel.querySelector('.js-settings-panel__values-input_kind_step') as Element;
-    this.inputFrom = this.panel.querySelector('.js-settings-panel__values-input_kind_from') as Element;
-    this.inputTo = this.panel.querySelector('.js-settings-panel__values-input_kind_to') as Element;
-    this.inputScale = this.panel.querySelector('input[name=scale]') as Element;
-    this.inputPointerValue = this.panel.querySelector('input[name=value]') as Element;
+    this.inputMin = this.panel.querySelector('.js-settings-panel__values-input_kind_min') as HTMLInputElement;
+    this.inputMax = this.panel.querySelector('.js-settings-panel__values-input_kind_max') as HTMLInputElement;
+    this.inputStep = this.panel.querySelector('.js-settings-panel__values-input_kind_step') as HTMLInputElement;
+    this.inputFrom = this.panel.querySelector('.js-settings-panel__values-input_kind_from') as HTMLInputElement;
+    this.inputTo = this.panel.querySelector('.js-settings-panel__values-input_kind_to') as HTMLInputElement;
+    this.inputScale = this.panel.querySelector('input[name=scale]') as HTMLInputElement;
+    this.inputPointerValue = this.panel.querySelector('input[name=value]') as HTMLInputElement;
     this.inputsType = this.panel.querySelectorAll('input[name=type]');
     this.inputMin.addEventListener('change', this.handleMinInput);
     this.inputMax.addEventListener('change', this.handleMaxInput);
@@ -79,33 +79,33 @@ class SettingsPanel {
       throw new Error('Input min is not defined');
     }
     if (this.inputFrom) {
-      (this.inputFrom as HTMLInputElement).min = value.toString();
+      this.inputFrom.min = value.toString();
     }
     if (this.inputTo) {
-      (this.inputTo as HTMLInputElement).min = value.toString();
+      this.inputTo.min = value.toString();
     }
-    (this.inputMin as HTMLInputElement).value = value.toString();
+    this.inputMin.value = value.toString();
   }
 
   public setMaxValue(value: number): void {
     if (!this.inputMax) {
       throw new Error('Input max is not defined');
     }
-    (this.inputMax as HTMLInputElement).value = value.toString();
+    this.inputMax.value = value.toString();
   }
 
   public setFromValue(value: number): void {
     if (!this.inputFrom) {
       throw new Error('Input from is not defined');
     }
-    (this.inputFrom as HTMLInputElement).value = value.toString();
+    this.inputFrom.value = value.toString();
   }
 
   public setToValue(value: number): void {
     if (!this.inputTo) {
       throw new Error('Input to is not defined');
     }
-    (this.inputTo as HTMLInputElement).value = value.toString();
+    this.inputTo.value = value.toString();
   }
 
   public setMinListener(listener: (value: number) => void): void {
@@ -130,13 +130,13 @@ class SettingsPanel {
 
   public setStep(value: number): void {
     if (this.inputStep) {
-      (this.inputStep as HTMLInputElement).value = value.toString();
+      this.inputStep.value = value.toString();
     }
     if (this.inputFrom) {
-      (this.inputFrom as HTMLInputElement).step = value.toString();
+      this.inputFrom.step = value.toString();
     }
     if (this.inputTo) {
-      (this.inputTo as HTMLInputElement).step = value.toString();
+      this.inputTo.step = value.toString();
     }
   }
 
@@ -157,13 +157,19 @@ class SettingsPanel {
   }
 
   private showValueTo() {
-    const valueToContainer = this.panel.querySelector('.js-settings-panel__values-label_kind_to') as HTMLElement;
+    const valueToContainer = this.panel.querySelector('.js-settings-panel__values-label_kind_to');
+    if (!valueToContainer) {
+      throw new Error('Container for value to not defined');
+    }
     valueToContainer.classList.add('settings-panel__values-label_visible');
     valueToContainer.classList.remove('settings-panel__values-label_hidden');
   }
 
   private hideValueTo() {
-    const valueToContainer = this.panel.querySelector('.js-settings-panel__values-label_kind_to') as HTMLElement;
+    const valueToContainer = this.panel.querySelector('.js-settings-panel__values-label_kind_to');
+    if (!valueToContainer) {
+      throw new Error('Container for value to not defined');
+    }
     valueToContainer.classList.add('settings-panel__values-label_hidden');
     valueToContainer.classList.remove('settings-panel__values-label_visible');
   }
