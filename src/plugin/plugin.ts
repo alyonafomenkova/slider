@@ -129,6 +129,12 @@ import './styles/slider.scss';
   };
 
   // eslint-disable-next-line no-param-reassign
+  $.fn.setType = function setType(value: boolean): JQuery {
+    methods.setType.call(this, value);
+    return this;
+  };
+
+  // eslint-disable-next-line no-param-reassign
   $.fn.runForSlider = function (method: string, ...args: any): JQuery {
     if (this.length === 0) {
       throw new Error('Cannot be initialized on a non-existent element!');
@@ -136,8 +142,6 @@ import './styles/slider.scss';
 
     if (method === 'init') {
       methods.init.apply(this, args);
-    } else if (method === 'setType') {
-      methods.setType.apply(this, args);
     } else if (method === 'setOrientation') {
       methods.setOrientation.apply(this, args);
     } else {

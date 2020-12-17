@@ -12,4 +12,5 @@ interface JQuery {
   setStep(value: number): JQuery;
   setScale(value: boolean): JQuery;
   setPointerValue(value: boolean): JQuery;
+  setType(value: boolean): JQuery;
 }
