@@ -9,4 +9,5 @@ interface JQuery {
   setFromListener(listener: (from: number) => void): JQuery;
   setToListener(listener: (to: number) => void): JQuery;
   setStepListener(listener: (step: number) => void): JQuery;
+  setStep(value: number): JQuery;
 }
