@@ -48,7 +48,7 @@ const createPanelWithSlider = (panelId: string, sliderId: string, config?: Confi
   const panel = new SettingsPanel(container);
 
   panel.init(config);
-  panel.setFromValueListener((value: number) => { slider.runForSlider('setFrom', value); });
+  panel.setFromValueListener((value: number) => { slider.setFrom(value); });
   panel.setToValueListener((value: number) => { slider.runForSlider('setTo', value); });
   panel.setMinListener((value: number) => { slider.setMin(value); });
   panel.setMaxListener((value: number) => { slider.setMax(value); });
