@@ -8,4 +8,5 @@ interface JQuery {
   setMaxListener(listener: (max: number) => void): JQuery;
   setFromListener(listener: (from: number) => void): JQuery;
   setToListener(listener: (to: number) => void): JQuery;
+  setStepListener(listener: (step: number) => void): JQuery;
 }
