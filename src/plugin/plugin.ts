@@ -57,6 +57,12 @@ import './styles/slider.scss';
   };
 
   // eslint-disable-next-line no-param-reassign
+  $.fn.setMin = function setMin(value: number): JQuery {
+    methods.setMin.call(this, value);
+    return this;
+  };
+
+  // eslint-disable-next-line no-param-reassign
   $.fn.runForSlider = function (method: string, ...args: any): JQuery {
     if (this.length === 0) {
       throw new Error('Cannot be initialized on a non-existent element!');
@@ -64,8 +70,6 @@ import './styles/slider.scss';
 
     if (method === 'init') {
       methods.init.apply(this, args);
-    } else if (method === 'setMin') {
-      methods.setMin.apply(this, args);
     } else if (method === 'setMax') {
       methods.setMax.apply(this, args);
     } else if (method === 'setFrom') {
