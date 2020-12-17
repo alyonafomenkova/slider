@@ -13,4 +13,5 @@ interface JQuery {
   setScale(value: boolean): JQuery;
   setPointerValue(value: boolean): JQuery;
   setType(value: boolean): JQuery;
+  setOrientation(value: boolean): JQuery;
 }

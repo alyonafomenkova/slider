@@ -56,7 +56,7 @@ const createPanelWithSlider = (panelId: string, sliderId: string, config?: Confi
   panel.setScaleListener((value: boolean) => { slider.setScale(value); });
   panel.setPointerValueListener((value: boolean) => { slider.setPointerValue(value); });
   panel.setTypeListener((value: boolean) => { slider.setType(value); });
-  panel.setOrientationListener((value: boolean) => { slider.runForSlider('setOrientation', value); });
+  panel.setOrientationListener((value: boolean) => { slider.setOrientation(value); });
 
   slider
     .setMinListener((min: number) => { panel.setMinValue(min); })
