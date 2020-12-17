@@ -123,6 +123,12 @@ import './styles/slider.scss';
   };
 
   // eslint-disable-next-line no-param-reassign
+  $.fn.setPointerValue = function setPointerValue(value: boolean): JQuery {
+    methods.setPointerValue.call(this, value);
+    return this;
+  };
+
+  // eslint-disable-next-line no-param-reassign
   $.fn.runForSlider = function (method: string, ...args: any): JQuery {
     if (this.length === 0) {
       throw new Error('Cannot be initialized on a non-existent element!');
@@ -130,8 +136,6 @@ import './styles/slider.scss';
 
     if (method === 'init') {
       methods.init.apply(this, args);
-    } else if (method === 'setPointerValue') {
-      methods.setPointerValue.apply(this, args);
     } else if (method === 'setType') {
       methods.setType.apply(this, args);
     } else if (method === 'setOrientation') {

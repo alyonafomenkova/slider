@@ -54,7 +54,7 @@ const createPanelWithSlider = (panelId: string, sliderId: string, config?: Confi
   panel.setMaxListener((value: number) => { slider.setMax(value); });
   panel.setStepListener((value: number) => { slider.setStep(value); });
   panel.setScaleListener((value: boolean) => { slider.setScale(value); });
-  panel.setPointerValueListener((value: boolean) => { slider.runForSlider('setPointerValue', value); });
+  panel.setPointerValueListener((value: boolean) => { slider.setPointerValue(value); });
   panel.setTypeListener((value: boolean) => { slider.runForSlider('setType', value); });
   panel.setOrientationListener((value: boolean) => { slider.runForSlider('setOrientation', value); });
 

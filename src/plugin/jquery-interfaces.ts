@@ -11,4 +11,5 @@ interface JQuery {
   setStepListener(listener: (step: number) => void): JQuery;
   setStep(value: number): JQuery;
   setScale(value: boolean): JQuery;
+  setPointerValue(value: boolean): JQuery;
 }
