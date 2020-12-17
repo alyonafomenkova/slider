@@ -49,7 +49,7 @@ const createPanelWithSlider = (panelId: string, sliderId: string, config?: Confi
 
   panel.init(config);
   panel.setFromValueListener((value: number) => { slider.setFrom(value); });
-  panel.setToValueListener((value: number) => { slider.runForSlider('setTo', value); });
+  panel.setToValueListener((value: number) => { slider.setTo(value); });
   panel.setMinListener((value: number) => { slider.setMin(value); });
   panel.setMaxListener((value: number) => { slider.setMax(value); });
   panel.setStepListener((value: number) => { slider.runForSlider('setStep', value); });
