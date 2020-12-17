@@ -93,6 +93,12 @@ import './styles/slider.scss';
   };
 
   // eslint-disable-next-line no-param-reassign
+  $.fn.setFromListener = function setFromListener(listener: (from: number) => void): JQuery {
+    methods.setFromListener.call(this, listener);
+    return this;
+  };
+
+  // eslint-disable-next-line no-param-reassign
   $.fn.runForSlider = function (method: string, ...args: any): JQuery {
     if (this.length === 0) {
       throw new Error('Cannot be initialized on a non-existent element!');
@@ -100,8 +106,6 @@ import './styles/slider.scss';
 
     if (method === 'init') {
       methods.init.apply(this, args);
-    } else if (method === 'setFromListener') {
-      methods.setFromListener.apply(this, args);
     } else if (method === 'setToListener') {
       methods.setToListener.apply(this, args);
     } else if (method === 'setStepListener') {

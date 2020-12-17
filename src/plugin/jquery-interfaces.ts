@@ -6,4 +6,5 @@ interface JQuery {
   setTo(value: number): JQuery;
   setMinListener(listener: (min: number) => void): JQuery;
   setMaxListener(listener: (max: number) => void): JQuery;
+  setFromListener(listener: (from: number) => void): JQuery;
 }
