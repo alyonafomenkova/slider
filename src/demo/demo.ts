@@ -59,7 +59,7 @@ const createPanelWithSlider = (panelId: string, sliderId: string, config?: Confi
   panel.setOrientationListener((value: boolean) => { slider.runForSlider('setOrientation', value); });
 
   slider
-    .runForSlider('setMinListener', (min: number) => { panel.setMinValue(min); })
+    .setMinListener((min: number) => { panel.setMinValue(min); })
     .runForSlider('setMaxListener', (max: number) => { panel.setMaxValue(max); })
     .runForSlider('setFromListener', (from: number) => { panel.setFromValue(from); })
     .runForSlider('setToListener', (to: number) => { panel.setToValue(to); })

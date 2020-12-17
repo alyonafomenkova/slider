@@ -4,4 +4,5 @@ interface JQuery {
   setMax(value: number): JQuery;
   setFrom(value: number): JQuery;
   setTo(value: number): JQuery;
+  setMinListener(listener: (min: number) => void): JQuery;
 }
