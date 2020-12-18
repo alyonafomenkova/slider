@@ -141,16 +141,12 @@ import './styles/slider.scss';
   };
 
   // eslint-disable-next-line no-param-reassign
-  $.fn.runForSlider = function (method: string, ...args: any): JQuery {
+  $.fn.initSlider = function initSlider(config: Configuration): JQuery {
     if (this.length === 0) {
       throw new Error('Cannot be initialized on a non-existent element!');
     }
 
-    if (method === 'init') {
-      methods.init.apply(this, args);
-    } else {
-      throw new Error(`Unknown method name: ${method}`);
-    }
+    methods.init.call(this, config);
     return this;
   };
 }(jQuery));

@@ -2,6 +2,7 @@ import SettingsPanel from '../components/settings-panel/settings-panel';
 import Configuration from '../plugin/model/Configuration';
 import '../plugin/plugin.ts';
 import './demo.scss';
+import defaultConfiguration from '../plugin/model/defaultConfiguration';
 
 const configuration0 = {
   min: -5,
@@ -44,7 +45,7 @@ const createPanelWithSlider = (panelId: string, sliderId: string, config?: Confi
   if (!container) {
     throw new Error(`Container not found for panel ID = ${panelId}`);
   }
-  const slider = $(sliderId).runForSlider('init', config);
+  const slider = $(sliderId).initSlider(config || defaultConfiguration);
   const panel = new SettingsPanel(container);
 
   panel.init(config);
