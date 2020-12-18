@@ -10,7 +10,7 @@ import Presenter from './presenter/Presenter';
 import './jquery-interfaces.ts';
 import './styles/slider.scss';
 
-(function ($) {
+(function IIFE($) {
   const presenters = new Map<string, Presenter>();
 
   const getElement = (element: any): JQuery<HTMLElement> => (element as JQuery<HTMLElement>);
