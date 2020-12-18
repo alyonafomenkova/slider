@@ -31,6 +31,13 @@ module.exports = {
         multiline: true,
       },
     }],
+    '@typescript-eslint/ban-types': ['error',
+      {
+        types: {
+          Object: false,
+        },
+      },
+    ],
   },
   settings: {
     'import/resolver': {

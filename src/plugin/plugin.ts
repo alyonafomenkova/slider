@@ -13,11 +13,11 @@ import './styles/slider.scss';
 (function IIFE($) {
   const presenters = new Map<string, Presenter>();
 
-  const getElement = (element: any): JQuery<HTMLElement> => (element as JQuery<HTMLElement>);
+  const getElement = (element: Object): JQuery<HTMLElement> => (element as JQuery<HTMLElement>);
 
-  const getId = (element: any): string => getElement(element)[0].id;
+  const getId = (element: Object): string => getElement(element)[0].id;
 
-  const getPresenter = (element: any): Presenter => {
+  const getPresenter = (element: Object): Presenter => {
     const id = getId(element);
     const presenter = presenters.get(id);
     if (!presenter) {
