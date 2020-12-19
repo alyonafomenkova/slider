@@ -21,6 +21,14 @@ const demo = {
         },
         exclude: [/fonts/],
       },
+      {
+        test: /\.(png|svg|jpe?g|gif)$/i,
+        loader: 'file-loader',
+        options: {
+          name: 'assets/images/[name].[ext]'
+        },
+        exclude: [/fonts/],
+      },
     ],
   },
   plugins: [
