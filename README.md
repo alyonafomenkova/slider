@@ -21,8 +21,8 @@
 
 ### Инициализация слайдера<br/>
 `<div id="slider"></div>;`
-- `$(sliderId).runForSlider('init')` - инициализация слайдера с настройками по умолчанию;<br/>
-- `$(sliderId).runForSlider('init', config)` - инициализация слайдера с настройками пользователя, где:<br/>
+- `$(sliderId).initSlider()` - инициализация слайдера с настройками по умолчанию;<br/>
+- `$(sliderId).initSlider(config)` - инициализация слайдера с настройками пользователя, где:<br/>
 ```javascript
 config = {
   min: number,
