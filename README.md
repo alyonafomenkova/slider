@@ -1,14 +1,16 @@
 # slider
 ### Установка:<br/>
-Для запуска проекта должны быть установлены [Node.js](https://nodejs.org/en/) (начиная с v12.14.0) и [Git](https://git-scm.com/download)<br/>
+Для запуска проекта должны быть установлены [Node.js](https://nodejs.org/en/) (начиная с v12.14.0), [Git](https://git-scm.com/download) и [jQuery](https://jquery.com/) (начиная с v3.5.1)<br/>
 1. Клонируйте репозиторий: `git clone git@github.com:alyonafomenkova/slider.git`<br/>
 2. Перейдите в папку проекта: `cd slider`<br/>
 3. Установите необходимые зависимости проекта: `npm install`<br/>
 ---
 ### Основные команды: <br/>
-`npm run clear` - удаление папки *dist*<br/>
-`npm run dev` - сборка в *development-режиме*, запуск локального сервера, открытие вкладки с адресом локального сервера в браузере<br/>
-`npm run prod` - очищение папки *dist*, сборка в *production-режиме*, сохранение результата в папке *dist*<br/>
+`npm run clear:dist` - удаление папки *dist*<br/>
+`npm run clear:plugin` - удаление папки *plugin-build*<br/>
+`npm run demo:dev` - сборка демо-страницы в *development-режиме*, запуск локального сервера, открытие вкладки с адресом локального сервера в браузере<br/>
+`npm run demo:prod` - очищение папки *dist*, сборка демо-страницы в *production-режиме*, сохранение результата в папке *dist*<br/>
+`npm run plugin` - очищение папки *plugin-build*, сборка плагина в *production-режиме*, сохранение результата в папке *plugin-build*<br/>
 `npm run lint` - проверка синтаксиса ts и js-файлов с помощью [Eslint](https://eslint.org/)<br/>
 `npm run test` - запуск тестов с помощью тест-раннера [Karma](https://karma-runner.github.io/latest/index.html)<br/>
 `npm run deploy` - загрузка результата сборки (папка *dist*) в ветку *gh-pages*<br/>
