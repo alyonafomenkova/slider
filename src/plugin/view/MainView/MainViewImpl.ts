@@ -9,6 +9,10 @@ import ViewModel from './ViewModel';
 class MainViewImpl implements MainView {
   private readonly MAX_SCALE_ITEMS_STEP = 26;
 
+  private readonly POINTER_TOP_Z_INDEX = 4;
+
+  private readonly POINTER_BOTTOM_Z_INDEX = 3;
+
   private readonly viewModel: ViewModel;
 
   private readonly sliderView: SliderView;
@@ -195,6 +199,16 @@ class MainViewImpl implements MainView {
       this.cursorOffset = viewX - x;
     }
     this.setPointerPosition(view, x, y);
+
+    if (this.viewModel.getIsInterval()) {
+      if (view === this.pointerFromView) {
+        this.pointerFromView.setZOrder(this.POINTER_TOP_Z_INDEX);
+        this.pointerToView.setZOrder(this.POINTER_BOTTOM_Z_INDEX);
+      } else {
+        this.pointerFromView.setZOrder(this.POINTER_BOTTOM_Z_INDEX);
+        this.pointerToView.setZOrder(this.POINTER_TOP_Z_INDEX);
+      }
+    }
   };
 
   private pointerMoveEventListener = (view: PointerView, x: number, y: number): void => {

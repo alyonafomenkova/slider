@@ -11,6 +11,7 @@ interface PointerView {
   getHeight(): number;
   getLeft(): number;
   getTop(): number;
+  setZOrder(value: number): void;
   setDownEventListener(listener: (view: PointerView, x: number, y: number) => void): void;
   setMoveEventListener(listener: (view: PointerView, x: number, y: number) => void): void;
   setUpEventListener(listener: (view: PointerView, x: number, y: number) => void): void;

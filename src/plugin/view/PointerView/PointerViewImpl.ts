@@ -115,6 +115,14 @@ class PointerViewImpl implements PointerView {
     return 0;
   }
 
+  public setZOrder(value: number): void {
+    if (this.pointerContainer) {
+      this.pointerContainer.style.zIndex = value.toString();
+    } else {
+      throw new Error('Pointer container is null');
+    }
+  }
+
   public setDownEventListener(listener: (view: PointerView, x: number, y: number) => void): void {
     this.downEventListener = listener;
   }
