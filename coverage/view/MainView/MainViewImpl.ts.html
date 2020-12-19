@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.41% </span>
+                <span class="strong">87.3% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>211/236</span>
+                <span class='fraction'>213/244</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">72.5% </span>
+                <span class="strong">69.05% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>58/80</span>
+                <span class='fraction'>58/84</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90.56% </span>
+                <span class="strong">88.38% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>211/233</span>
+                <span class='fraction'>213/241</span>
             </div>
         
             
@@ -520,7 +520,21 @@
 <a name='L461'></a><a href='#L461'>461</a>
 <a name='L462'></a><a href='#L462'>462</a>
 <a name='L463'></a><a href='#L463'>463</a>
-<a name='L464'></a><a href='#L464'>464</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L464'></a><a href='#L464'>464</a>
+<a name='L465'></a><a href='#L465'>465</a>
+<a name='L466'></a><a href='#L466'>466</a>
+<a name='L467'></a><a href='#L467'>467</a>
+<a name='L468'></a><a href='#L468'>468</a>
+<a name='L469'></a><a href='#L469'>469</a>
+<a name='L470'></a><a href='#L470'>470</a>
+<a name='L471'></a><a href='#L471'>471</a>
+<a name='L472'></a><a href='#L472'>472</a>
+<a name='L473'></a><a href='#L473'>473</a>
+<a name='L474'></a><a href='#L474'>474</a>
+<a name='L475'></a><a href='#L475'>475</a>
+<a name='L476'></a><a href='#L476'>476</a>
+<a name='L477'></a><a href='#L477'>477</a>
+<a name='L478'></a><a href='#L478'>478</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -528,6 +542,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -717,6 +735,16 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
@@ -994,6 +1022,10 @@ import ViewModel from './ViewModel';
 class MainViewImpl implements MainView {
   private readonly MAX_SCALE_ITEMS_STEP = 26;
 &nbsp;
+  private readonly POINTER_TOP_Z_INDEX = 4;
+&nbsp;
+  private readonly POINTER_BOTTOM_Z_INDEX = 3;
+&nbsp;
   private readonly viewModel: ViewModel;
 &nbsp;
   private readonly sliderView: SliderView;
@@ -1180,6 +1212,16 @@ class MainViewImpl implements MainView {
 <span class="cstat-no" title="statement not covered" >      this.cursorOffset = viewX - x;</span>
     }
 <span class="cstat-no" title="statement not covered" >    this.setPointerPosition(view, x, y);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    if (this.viewModel.getIsInterval()) {</span>
+<span class="cstat-no" title="statement not covered" >      if (view === this.pointerFromView) {</span>
+<span class="cstat-no" title="statement not covered" >        this.pointerFromView.setZOrder(this.POINTER_TOP_Z_INDEX);</span>
+<span class="cstat-no" title="statement not covered" >        this.pointerToView.setZOrder(this.POINTER_BOTTOM_Z_INDEX);</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        this.pointerFromView.setZOrder(this.POINTER_BOTTOM_Z_INDEX);</span>
+<span class="cstat-no" title="statement not covered" >        this.pointerToView.setZOrder(this.POINTER_TOP_Z_INDEX);</span>
+      }
+    }
   };
 &nbsp;
   private pointerMoveEventListener = <span class="fstat-no" title="function not covered" >(v</span>iew: PointerView, x: number, y: number): void =&gt; {
@@ -1453,7 +1495,7 @@ export default MainViewImpl;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Dec 12 2020 18:56:59 GMT+0300 (GMT+03:00)
+                at Sat Dec 19 2020 23:37:38 GMT+0300 (GMT+03:00)
             </div>
         </div>
         <script src="../../prettify.js"></script>
