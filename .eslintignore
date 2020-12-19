@@ -2,5 +2,5 @@
 /.idea
 /.vscode
 node_modules
-webpack.config.js
+webpack
 karma.conf.js
