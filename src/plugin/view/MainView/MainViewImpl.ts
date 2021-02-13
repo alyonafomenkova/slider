@@ -24,6 +24,8 @@ class MainViewImpl implements MainView {
 
   private valueToListener?: (value: number) => void = undefined;
 
+  // ------------------------------
+
   private min = 0;
 
   private max = 0;
@@ -35,6 +37,8 @@ class MainViewImpl implements MainView {
   private step = 0;
 
   private isInterval = false;
+
+  // ------------------------------
 
   private isVertical = false;
 
@@ -60,18 +64,18 @@ class MainViewImpl implements MainView {
     this.sliderView.clear();
   }
 
-  public setupScale(): void {
+  public setupScale(min: number, max: number, step: number): void {
     const items: Array<ScaleItem> = [];
     const sliderWidth = this.sliderView.getWidth();
     const sliderHeight = this.sliderView.getHeight();
-    const count = Math.floor((this.max - this.min) / this.step);
+    const count = Math.floor((max - min) / step);
     const stepWidth = this.isVertical ? (sliderHeight / count) : (sliderWidth / count);
     const itemStep = this.getItemsStep(stepWidth);
 
     for (let i = 0; i <= count; i += itemStep) {
-      const value = this.min + this.step * i;
+      const value = min + step * i;
       const rounded = Util.roundWithEpsilon(value);
-      const percent = ((value - this.min) * 100) / (this.max - this.min);
+      const percent = ((value - min) * 100) / (max - min);
       items.push(new ScaleItem(rounded, percent));
     }
     this.scaleView.addScaleItems(items, this.isVertical);
@@ -84,20 +88,20 @@ class MainViewImpl implements MainView {
     this.pointerFromView.setDownEventListener(this.pointerDownEventListener);
     this.pointerFromView.setMoveEventListener(this.pointerMoveEventListener);
     this.pointerFromView.setUpEventListener(this.pointerUpEventListener);
-    this.setupPositionFromByValue(this.valueFrom);
+    this.setupPositionFromByValue(value);
     this.calculateValueFrom();
   }
 
-  public initPointerTo(value: number): void {
+  public initPointerTo(value: number, isInterval: boolean): void {
     this.valueTo = value;
     this.pointerToView.draw(this.hasValue);
     this.pointerToView.setDownEventListener(this.pointerDownEventListener);
     this.pointerToView.setMoveEventListener(this.pointerMoveEventListener);
     this.pointerToView.setUpEventListener(this.pointerUpEventListener);
-    this.setupPositionToByValue(this.valueTo);
+    this.setupPositionToByValue(value);
     this.calculateValueTo();
 
-    if (!this.isInterval) {
+    if (!isInterval) {
       this.pointerToView.hide();
     }
     if (!this.hasValue) {

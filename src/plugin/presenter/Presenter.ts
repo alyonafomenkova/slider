@@ -31,15 +31,19 @@ class Presenter {
     } else {
       this.view.drawHorizontal();
     }
-    this.view.setupScale();
+    const min = this.model.getMin();
+    const max = this.model.getMax();
+    const step = this.model.getStep();
+    this.view.setupScale(min, max, step);
 
     if (!this.hasScale.getValue()) {
       this.view.hideScale();
     }
     const from = this.model.getFrom();
     const to = this.model.getTo();
+    const isInterval = this.model.isInterval();
     this.view.initPointerFrom(from);
-    this.view.initPointerTo(to);
+    this.view.initPointerTo(to, isInterval);
     this.view.updateProgress();
     this.view.handleSliderBarClick();
     this.observeValues();

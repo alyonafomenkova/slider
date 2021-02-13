@@ -9,9 +9,9 @@ interface MainView {
   setIsInterval(value: boolean): void;
 
   clear(): void;
-  setupScale(): void;
+  setupScale(min: number, max: number, step: number): void;
   initPointerFrom(value: number): void;
-  initPointerTo(value: number): void;
+  initPointerTo(value: number, isInterval: boolean): void;
   handleSliderBarClick(): void;
   updateProgress(): void;
   drawVertical(): void;
