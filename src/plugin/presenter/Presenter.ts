@@ -42,9 +42,9 @@ class Presenter {
     const from = this.model.getFrom();
     const to = this.model.getTo();
     const isInterval = this.model.isInterval();
-    this.view.initPointerFrom(from);
-    this.view.initPointerTo(to, isInterval);
-    this.view.updateProgress();
+    this.view.initPointerFrom(from, min, max, step);
+    this.view.initPointerTo(to, isInterval, min, max, step);
+    this.view.updateProgress(isInterval);
     this.view.handleSliderBarClick();
     this.observeValues();
   }
@@ -70,16 +70,26 @@ class Presenter {
   }
 
   public setValueFrom(value: number): void {
-    this.view.setupPositionFromByValue(value);
-    this.view.calculateValueFrom();
-    this.view.updateProgress();
+    const min = this.model.getMin();
+    const max = this.model.getMax();
+    const step = this.model.getStep();
+    const isInterval = this.model.isInterval();
+
+    this.view.setupPositionFromByValue(value, min, max);
+    this.view.calculateValueFrom(min, max, step);
+    this.view.updateProgress(isInterval);
   }
 
   public setValueTo(value: number): void {
-    if (this.model.isInterval()) {
-      this.view.setupPositionToByValue(value);
-      this.view.calculateValueTo();
-      this.view.updateProgress();
+    const min = this.model.getMin();
+    const max = this.model.getMax();
+    const step = this.model.getStep();
+    const isInterval = this.model.isInterval();
+
+    if (isInterval) {
+      this.view.setupPositionToByValue(value, min, max);
+      this.view.calculateValueTo(min, max, step);
+      this.view.updateProgress(true);
     }
   }
 
@@ -138,7 +148,8 @@ class Presenter {
       this.view.hidePointerTo();
       this.view.hidePointerToValue();
     }
-    this.view.updateProgress();
+    const isInterval = this.model.isInterval();
+    this.view.updateProgress(isInterval);
   }
 
   public setIsVerticalOrientation(value: boolean): void {

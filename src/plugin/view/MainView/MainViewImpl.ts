@@ -82,24 +82,24 @@ class MainViewImpl implements MainView {
     this.scaleView.setClickListener(this.scaleClickListener);
   }
 
-  public initPointerFrom(value: number): void {
+  public initPointerFrom(value: number, min: number, max: number, step: number): void {
     this.valueFrom = value;
     this.pointerFromView.draw(this.hasValue);
     this.pointerFromView.setDownEventListener(this.pointerDownEventListener);
     this.pointerFromView.setMoveEventListener(this.pointerMoveEventListener);
     this.pointerFromView.setUpEventListener(this.pointerUpEventListener);
-    this.setupPositionFromByValue(value);
-    this.calculateValueFrom();
+    this.setupPositionFromByValue(value, this.min, this.max);
+    this.calculateValueFrom(min, max, step);
   }
 
-  public initPointerTo(value: number, isInterval: boolean): void {
+  public initPointerTo(value: number, isInterval: boolean, min: number, max: number, step: number): void {
     this.valueTo = value;
     this.pointerToView.draw(this.hasValue);
     this.pointerToView.setDownEventListener(this.pointerDownEventListener);
     this.pointerToView.setMoveEventListener(this.pointerMoveEventListener);
     this.pointerToView.setUpEventListener(this.pointerUpEventListener);
-    this.setupPositionToByValue(value);
-    this.calculateValueTo();
+    this.setupPositionToByValue(value, this.min, this.max);
+    this.calculateValueTo(min, max, step);
 
     if (!isInterval) {
       this.pointerToView.hide();
@@ -113,11 +113,11 @@ class MainViewImpl implements MainView {
     this.sliderView.setClickSliderBarListener(this.sliderBarClickListener);
   }
 
-  public updateProgress(): void {
+  public updateProgress(isInterval: boolean): void {
     if (this.isVertical) {
-      this.updateVerticalProgress();
+      this.updateVerticalProgress(isInterval);
     } else {
-      this.updateHorizontalProgress();
+      this.updateHorizontalProgress(isInterval);
     }
   }
 
@@ -161,20 +161,20 @@ class MainViewImpl implements MainView {
     this.pointerToView.hide();
   }
 
-  public setupPositionFromByValue(value: number): void {
-    this.setupPositionByValue(this.pointerFromView, value);
+  public setupPositionFromByValue(value: number, min: number, max: number): void {
+    this.setupPositionByValue(this.pointerFromView, value, min, max);
   }
 
-  public setupPositionToByValue(value: number): void {
-    this.setupPositionByValue(this.pointerToView, value);
+  public setupPositionToByValue(value: number, min: number, max: number): void {
+    this.setupPositionByValue(this.pointerToView, value, min, max);
   }
 
-  public calculateValueFrom(): void {
-    this.calculateValue(this.pointerFromView);
+  public calculateValueFrom(min: number, max: number, step: number): void {
+    this.calculateValue(this.pointerFromView, min, max, step);
   }
 
-  public calculateValueTo(): void {
-    this.calculateValue(this.pointerToView);
+  public calculateValueTo(min: number, max: number, step: number): void {
+    this.calculateValue(this.pointerToView, min, max, step);
   }
 
   public setValueFrom(value: number): void {
@@ -270,11 +270,11 @@ class MainViewImpl implements MainView {
       this.setPointerX(view, x + this.cursorOffset);
     }
     if (view === this.pointerFromView) {
-      this.calculateValueFrom();
+      this.calculateValueFrom(this.min, this.max, this.step);
     } else {
-      this.calculateValueTo();
+      this.calculateValueTo(this.min, this.max, this.step);
     }
-    this.updateProgress();
+    this.updateProgress(this.isInterval);
   }
 
   private setPointerX(view: PointerView, x: number) {
@@ -344,13 +344,13 @@ class MainViewImpl implements MainView {
     view.setY(percent);
   }
 
-  private updateHorizontalProgress(): void {
+  private updateHorizontalProgress(isInterval: boolean): void {
     const positionMin = this.sliderView.getBoundLeft();
     const positionFrom = this.pointerFromView.getLeft() + this.pointerFromView.getWidth() / 2;
     let start;
     let end;
 
-    if (this.isInterval) {
+    if (isInterval) {
       const positionTo = this.pointerToView.getLeft() + this.pointerToView.getWidth() / 2;
       start = positionFrom - positionMin;
       end = positionTo;
@@ -364,13 +364,13 @@ class MainViewImpl implements MainView {
     this.sliderView.drawHorizontalProgress(startInPercent, widthInPercent);
   }
 
-  private updateVerticalProgress(): void {
+  private updateVerticalProgress(isInterval: boolean): void {
     const positionMax = this.sliderView.getBoundBottom();
     const positionFrom = positionMax - this.pointerFromView.getTop() - this.pointerFromView.getHeight() / 2;
     let start;
     let end;
 
-    if (this.isInterval) {
+    if (isInterval) {
       const positionTo = positionMax - this.pointerToView.getTop() - this.pointerToView.getHeight() / 2;
       start = positionFrom;
       end = positionTo;
@@ -400,13 +400,13 @@ class MainViewImpl implements MainView {
       pointerView = this.pointerFromView;
     }
     if (pointerView === this.pointerFromView) {
-      this.setupPositionFromByValue(value);
-      this.calculateValueFrom();
+      this.setupPositionFromByValue(value, this.min, this.max);
+      this.calculateValueFrom(this.min, this.max, this.step);
     } else {
-      this.setupPositionToByValue(value);
-      this.calculateValueTo();
+      this.setupPositionToByValue(value, this.min, this.max);
+      this.calculateValueTo(this.min, this.max, this.step);
     }
-    this.updateProgress();
+    this.updateProgress(this.isInterval);
   };
 
   private sliderBarClickListener = (view: SliderView, x: number, y: number): void => {
@@ -444,13 +444,13 @@ class MainViewImpl implements MainView {
     }
   };
 
-  private calculateValue(view: PointerView): void {
+  private calculateValue(view: PointerView, min: number, max: number, step: number): void {
     if (!this.valueFromListener) throw new Error('No listener assigned for value from');
     if (!this.valueToListener) throw new Error('No listener assigned for value to');
 
     const pointerHalfWidth = view.getWidth() / 2;
     const pointerHalfHeight = view.getHeight() / 2;
-    const stepsTotal = (this.max - this.min) / this.step;
+    const stepsTotal = (max - min) / step;
     let value;
 
     if (this.isVertical) {
@@ -458,18 +458,18 @@ class MainViewImpl implements MainView {
       const stepHeight = this.sliderView.getHeight() / stepsTotal;
 
       if (Math.floor(positionY) === 0) {
-        value = this.max;
+        value = max;
       } else {
-        value = Math.round((this.sliderView.getHeight() - positionY) / stepHeight) * this.step + this.min;
+        value = Math.round((this.sliderView.getHeight() - positionY) / stepHeight) * step + min;
       }
     } else {
       const positionX = view.getLeft() + pointerHalfWidth - this.sliderView.getBoundLeft();
       const stepWidth = this.sliderView.getWidth() / stepsTotal;
 
       if (Math.floor(positionX) < Math.floor(this.sliderView.getWidth())) {
-        value = Math.round(positionX / stepWidth) * this.step + this.min;
+        value = Math.round(positionX / stepWidth) * step + min;
       } else {
-        value = this.max;
+        value = max;
       }
     }
     const rounded = Util.roundWithEpsilon(value);
@@ -485,7 +485,7 @@ class MainViewImpl implements MainView {
     }
   }
 
-  private setupPositionByValue(view: PointerView, value: number): number | undefined {
+  private setupPositionByValue(view: PointerView, value: number, min: number, max: number): number | undefined {
     let positionMin;
     let positionMax;
     let centerOfPointer;
@@ -493,12 +493,12 @@ class MainViewImpl implements MainView {
     if (this.isVertical) {
       positionMin = this.sliderView.getBoundTop();
       positionMax = this.sliderView.getBoundBottom();
-      centerOfPointer = (((value - this.min) * (positionMin - positionMax)) / (this.max - this.min)) + positionMax;
+      centerOfPointer = (((value - min) * (positionMin - positionMax)) / (max - min)) + positionMax;
       this.setPointerY(view, centerOfPointer);
     } else {
       positionMin = this.sliderView.getBoundLeft();
       positionMax = this.sliderView.getBoundRight();
-      centerOfPointer = (((value - this.min) * (positionMax - positionMin)) / (this.max - this.min)) + positionMin;
+      centerOfPointer = (((value - min) * (positionMax - positionMin)) / (max - min)) + positionMin;
       this.setPointerX(view, centerOfPointer);
     }
     if (centerOfPointer) {
