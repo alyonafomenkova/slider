@@ -2,7 +2,6 @@ import SliderViewImpl from './view/SliderView/SliderViewImpl';
 import PointerViewImpl from './view/PointerView/PointerViewImpl';
 import ScaleViewImpl from './view/ScaleView/ScaleViewImpl';
 import MainViewImpl from './view/MainView/MainViewImpl';
-import ViewModel from './view/MainView/ViewModel';
 import Model from './model/Model';
 import Configuration from './model/Configuration';
 import defaultConfiguration from './model/defaultConfiguration';
@@ -30,13 +29,12 @@ import './styles/slider.scss';
     init(config: Configuration): void {
       const element = getElement(this)[0];
       const model = new Model(config || defaultConfiguration);
-      const viewModel = new ViewModel();
       const sliderView = new SliderViewImpl(element);
       const pointerFromView = new PointerViewImpl('from', element);
       const pointerToView = new PointerViewImpl('to', element);
       const scaleView = new ScaleViewImpl(element);
-      const mainView = new MainViewImpl(viewModel, sliderView, scaleView, pointerFromView, pointerToView);
-      const presenter = new Presenter(model, mainView, viewModel, config || defaultConfiguration);
+      const mainView = new MainViewImpl(sliderView, scaleView, pointerFromView, pointerToView);
+      const presenter = new Presenter(model, mainView, config || defaultConfiguration);
       presenter.init();
       presenters.set(element.id, presenter);
     },

@@ -1,4 +1,13 @@
 interface MainView {
+
+  setMin(value: number): void;
+  setMax(value: number): void;
+  setStep(value: number): void;
+  setIsVertical(value: boolean): void;
+  setHasScale(value: boolean): void;
+  setHasValue(value: boolean): void;
+  setIsInterval(value: boolean): void;
+
   clear(): void;
   setupScale(): void;
   initPointerFrom(value: number): void;
