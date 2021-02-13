@@ -34,6 +34,13 @@ class PointerViewImpl implements PointerView {
     }
   }
 
+  public isVisible(): boolean {
+    if (this.pointerContainer) {
+      return !this.pointerContainer.classList.contains('slider__pointer-container_hidden');
+    }
+    return false;
+  }
+
   public showValue(): void {
     if (this.pointerContainer) {
       const valueContainer = this.pointerContainer.querySelector('.slider__value') as HTMLElement;

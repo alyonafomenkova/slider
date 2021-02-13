@@ -6,7 +6,7 @@ interface MainView {
   setIsVertical(value: boolean): void;
   setHasScale(value: boolean): void;
   setHasValue(value: boolean): void;
-  setIsInterval(value: boolean): void;
+  // setIsInterval(value: boolean): void;
 
   clear(): void;
   setupScale(min: number, max: number, step: number): void;
