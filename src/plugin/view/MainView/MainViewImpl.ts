@@ -36,8 +36,6 @@ class MainViewImpl implements MainView {
 
   private step = 0;
 
-  // private isInterval = false;
-
   // ------------------------------
 
   private isVertical = false;
@@ -92,7 +90,7 @@ class MainViewImpl implements MainView {
     this.pointerFromView.setDownEventListener(this.pointerDownEventListener);
     this.pointerFromView.setMoveEventListener(this.pointerMoveEventListener);
     this.pointerFromView.setUpEventListener(this.pointerUpEventListener);
-    this.setupPositionFromByValue(value, min, max);
+    this.setupPositionFromByValue(value, min, max, step, to);
     this.calculateValueFrom(min, max, step, isInterval, value, to);
   }
 
@@ -107,7 +105,7 @@ class MainViewImpl implements MainView {
     this.pointerToView.setDownEventListener(this.pointerDownEventListener);
     this.pointerToView.setMoveEventListener(this.pointerMoveEventListener);
     this.pointerToView.setUpEventListener(this.pointerUpEventListener);
-    this.setupPositionToByValue(value, min, max);
+    this.setupPositionToByValue(value, min, max, step, from);
     this.calculateValueTo(min, max, step, isInterval, from, value);
 
     if (!isInterval) {
@@ -170,12 +168,12 @@ class MainViewImpl implements MainView {
     this.pointerToView.hide();
   }
 
-  public setupPositionFromByValue(value: number, min: number, max: number): void {
-    this.setupPositionByValue(this.pointerFromView, value, min, max);
+  public setupPositionFromByValue(value: number, min: number, max: number, step: number, to: number): void {
+    this.setupPositionByValue(this.pointerFromView, value, min, max, step, value, to);
   }
 
-  public setupPositionToByValue(value: number, min: number, max: number): void {
-    this.setupPositionByValue(this.pointerToView, value, min, max);
+  public setupPositionToByValue(value: number, min: number, max: number, step: number, from: number): void {
+    this.setupPositionByValue(this.pointerToView, value, min, max, step, from, value);
   }
 
   public calculateValueFrom(
@@ -215,10 +213,6 @@ class MainViewImpl implements MainView {
   public setStep(value: number): void {
     this.step = value;
   }
-
-  // public setIsInterval(isInterval: boolean): void {
-  //   this.isInterval = isInterval;
-  // }
 
   public setIsVertical(isVertical: boolean): void {
     this.isVertical = isVertical;
@@ -263,7 +257,7 @@ class MainViewImpl implements MainView {
       const viewX = view.getLeft() + view.getWidth() / 2;
       this.cursorOffset = viewX - x;
     }
-    this.setPointerPosition(view, x, y);
+    this.setPointerPosition(view, x, y, this.min, this.max, this.step, this.valueFrom, this.valueTo);
 
     if (this.isInterval()) {
       if (view === this.pointerFromView) {
@@ -277,46 +271,52 @@ class MainViewImpl implements MainView {
   };
 
   private pointerMoveEventListener = (view: PointerView, x: number, y: number): void => {
-    this.setPointerPosition(view, x, y);
+    this.setPointerPosition(view, x, y, this.min, this.max, this.step, this.valueFrom, this.valueTo);
   };
 
   private pointerUpEventListener = (view: PointerView, x: number, y: number): void => {
-    this.setPointerPosition(view, x, y);
+    this.setPointerPosition(view, x, y, this.min, this.max, this.step, this.valueFrom, this.valueTo);
   };
 
-  private setPointerPosition(view: PointerView, x: number, y: number) {
+  private setPointerPosition(
+    view: PointerView,
+    x: number, y: number,
+    min: number, max: number, step: number,
+    from: number, to: number,
+  ) {
+    const isInterval = this.isInterval();
     if (this.isVertical) {
-      this.setPointerY(view, y + this.cursorOffset);
+      this.setPointerY(view, y + this.cursorOffset, min, max, step, from, to);
     } else {
-      this.setPointerX(view, x + this.cursorOffset);
+      this.setPointerX(view, x + this.cursorOffset, min, max, step, from, to);
     }
     if (view === this.pointerFromView) {
-      this.calculateValueFrom(this.min, this.max, this.step, this.isInterval(), this.valueFrom, this.valueTo);
+      this.calculateValueFrom(min, max, step, isInterval, from, to);
     } else {
-      this.calculateValueTo(this.min, this.max, this.step, this.isInterval(), this.valueFrom, this.valueTo);
+      this.calculateValueTo(min, max, step, isInterval, from, to);
     }
     this.updateProgress(this.isInterval());
   }
 
-  private setPointerX(view: PointerView, x: number) {
+  private setPointerX(view: PointerView, x: number, min: number, max: number, step: number, from: number, to: number) {
     let positionX = x - this.sliderView.getBoundLeft();
     const xMin = 0;
     const xMax = this.sliderView.getWidth();
-    const stepCount = (this.max - this.min) / this.step;
+    const stepCount = (max - min) / step;
     const stepX = this.sliderView.getWidth() / stepCount;
-    const stepsTotal = (this.max - this.min) / this.step;
+    const stepsTotal = (max - min) / step;
     const stepWidth = this.sliderView.getWidth() / stepsTotal;
     positionX = Math.round(positionX / stepX) * stepX;
 
     if (this.isInterval()) {
       if (view === this.pointerFromView) {
-        const pointerToX = ((this.valueTo - this.min) / this.step) * stepWidth;
+        const pointerToX = ((to - min) / step) * stepWidth;
 
         if (positionX > pointerToX - stepWidth) {
           positionX = pointerToX - stepWidth;
         }
       } else {
-        const pointerFromX = ((this.valueFrom - this.min) / this.step) * stepWidth;
+        const pointerFromX = ((from - min) / step) * stepWidth;
 
         if (positionX < pointerFromX + stepWidth) {
           positionX = pointerFromX + stepWidth;
@@ -332,11 +332,11 @@ class MainViewImpl implements MainView {
     view.setX(percent);
   }
 
-  private setPointerY(view: PointerView, y: number) {
+  private setPointerY(view: PointerView, y: number, min: number, max: number, step: number, from: number, to: number) {
     let positionY = y - this.sliderView.getBoundTop();
     const yMin = 0;
     const yMax = this.sliderView.getHeight();
-    const stepCount = (this.max - this.min) / this.step;
+    const stepCount = (max - min) / step;
     const stepY = this.sliderView.getHeight() / stepCount;
     const stepHeight = this.sliderView.getHeight() / stepCount;
     const offset = this.sliderView.getHeight() - Math.floor(stepCount) * stepHeight;
@@ -344,12 +344,12 @@ class MainViewImpl implements MainView {
 
     if (this.isInterval()) {
       if (view === this.pointerFromView) {
-        const pointerToY = Math.abs(((this.valueTo - this.max) / this.step) * stepHeight);
+        const pointerToY = Math.abs(((to - max) / step) * stepHeight);
         if (positionY < pointerToY + stepHeight) {
           positionY = pointerToY + stepHeight;
         }
       } else {
-        const pointerFromY = Math.abs(((this.valueFrom - this.max) / this.step)) * stepHeight;
+        const pointerFromY = Math.abs(((from - max) / step)) * stepHeight;
 
         if (positionY > pointerFromY - stepHeight) {
           positionY = pointerFromY - stepHeight;
@@ -421,10 +421,10 @@ class MainViewImpl implements MainView {
       pointerView = this.pointerFromView;
     }
     if (pointerView === this.pointerFromView) {
-      this.setupPositionFromByValue(value, this.min, this.max);
+      this.setupPositionFromByValue(value, this.min, this.max, this.step, this.valueTo);
       this.calculateValueFrom(this.min, this.max, this.step, this.isInterval(), this.valueFrom, this.valueTo);
     } else {
-      this.setupPositionToByValue(value, this.min, this.max);
+      this.setupPositionToByValue(value, this.min, this.max, this.step, this.valueFrom);
       this.calculateValueTo(this.min, this.max, this.step, this.isInterval(), this.valueFrom, this.valueTo);
     }
     this.updateProgress(this.isInterval());
@@ -461,7 +461,7 @@ class MainViewImpl implements MainView {
       } else {
         pointerView = this.pointerFromView;
       }
-      this.setPointerPosition(pointerView, x, y);
+      this.setPointerPosition(pointerView, x, y, this.min, this.max, this.step, this.valueFrom, this.valueTo);
     }
   };
 
@@ -511,7 +511,12 @@ class MainViewImpl implements MainView {
     }
   }
 
-  private setupPositionByValue(view: PointerView, value: number, min: number, max: number): number | undefined {
+  private setupPositionByValue(
+    view: PointerView,
+    value: number,
+    min: number, max: number, step: number,
+    from: number, to: number,
+  ): number | undefined {
     let positionMin;
     let positionMax;
     let centerOfPointer;
@@ -520,12 +525,12 @@ class MainViewImpl implements MainView {
       positionMin = this.sliderView.getBoundTop();
       positionMax = this.sliderView.getBoundBottom();
       centerOfPointer = (((value - min) * (positionMin - positionMax)) / (max - min)) + positionMax;
-      this.setPointerY(view, centerOfPointer);
+      this.setPointerY(view, centerOfPointer, min, max, step, from, to);
     } else {
       positionMin = this.sliderView.getBoundLeft();
       positionMax = this.sliderView.getBoundRight();
       centerOfPointer = (((value - min) * (positionMax - positionMin)) / (max - min)) + positionMin;
-      this.setPointerX(view, centerOfPointer);
+      this.setPointerX(view, centerOfPointer, min, max, step, from, to);
     }
     if (centerOfPointer) {
       return centerOfPointer;

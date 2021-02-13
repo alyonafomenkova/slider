@@ -6,7 +6,6 @@ interface MainView {
   setIsVertical(value: boolean): void;
   setHasScale(value: boolean): void;
   setHasValue(value: boolean): void;
-  // setIsInterval(value: boolean): void;
 
   clear(): void;
   setupScale(min: number, max: number, step: number): void;
@@ -34,8 +33,8 @@ interface MainView {
   hidePointerToValue(): void;
   showPointerTo(): void;
   hidePointerTo(): void;
-  setupPositionFromByValue(value: number, min: number, max: number): void;
-  setupPositionToByValue(value: number, min: number, max: number): void;
+  setupPositionFromByValue(value: number, min: number, max: number, step: number, to: number): void;
+  setupPositionToByValue(value: number, min: number, max: number, step: number, from: number): void;
   calculateValueFrom(min: number, max: number, step: number, isInterval: boolean, from: number, to: number): void;
   calculateValueTo(min: number, max: number, step: number, isInterval: boolean, from: number, to: number): void;
   setValueFrom(value: number): void;

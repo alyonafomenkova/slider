@@ -78,7 +78,7 @@ class Presenter {
     const to = this.model.getTo();
     const isInterval = this.model.isInterval();
 
-    this.view.setupPositionFromByValue(value, min, max);
+    this.view.setupPositionFromByValue(value, min, max, step, to);
     this.view.calculateValueFrom(min, max, step, isInterval, from, to);
     this.view.updateProgress(isInterval);
   }
@@ -92,7 +92,7 @@ class Presenter {
     const to = this.model.getTo();
 
     if (isInterval) {
-      this.view.setupPositionToByValue(value, min, max);
+      this.view.setupPositionToByValue(value, min, max, step, from);
       this.view.calculateValueTo(min, max, step, isInterval, from, to);
       this.view.updateProgress(true);
     }
@@ -189,7 +189,6 @@ class Presenter {
     this.view.setIsVertical(this.isVertical.getValue());
     this.view.setHasScale(this.hasScale.getValue());
     this.view.setHasValue(this.hasValue.getValue());
-    // this.view.setIsInterval(this.model.isInterval());
     this.view.setValueFrom(this.model.getFrom());
     this.view.setValueTo(this.model.getTo());
     this.view.setValueFromListener((value: number) => { this.model.setFrom(value); });
@@ -202,7 +201,6 @@ class Presenter {
     this.model.attachStep((value: number): void => { this.view.setStep(value); });
     this.model.attachValueFrom((value: number): void => { this.view.setValueFrom(value); });
     this.model.attachValueTo((value: number): void => { this.view.setValueTo(value); });
-    // this.model.attachInterval((value: boolean): void => { this.view.setIsInterval(value); });
     this.isVertical.attach((value: boolean): void => { this.view.setIsVertical(value); });
     this.hasValue.attach((value: boolean): void => { this.view.setHasValue(value); });
     this.hasScale.attach((value: boolean): void => { this.view.setHasScale(value); });
