@@ -82,24 +82,33 @@ class MainViewImpl implements MainView {
     this.scaleView.setClickListener(this.scaleClickListener);
   }
 
-  public initPointerFrom(value: number, min: number, max: number, step: number): void {
+  public initPointerFrom(
+    value: number,
+    min: number, max: number, step: number,
+    isInterval: boolean, to: number,
+  ): void {
     this.valueFrom = value;
     this.pointerFromView.draw(this.hasValue);
     this.pointerFromView.setDownEventListener(this.pointerDownEventListener);
     this.pointerFromView.setMoveEventListener(this.pointerMoveEventListener);
     this.pointerFromView.setUpEventListener(this.pointerUpEventListener);
-    this.setupPositionFromByValue(value, this.min, this.max);
-    this.calculateValueFrom(min, max, step);
+    this.setupPositionFromByValue(value, min, max);
+    this.calculateValueFrom(min, max, step, isInterval, value, to);
   }
 
-  public initPointerTo(value: number, isInterval: boolean, min: number, max: number, step: number): void {
+  public initPointerTo(
+    value: number,
+    isInterval: boolean,
+    min: number, max: number, step: number,
+    from: number,
+  ): void {
     this.valueTo = value;
     this.pointerToView.draw(this.hasValue);
     this.pointerToView.setDownEventListener(this.pointerDownEventListener);
     this.pointerToView.setMoveEventListener(this.pointerMoveEventListener);
     this.pointerToView.setUpEventListener(this.pointerUpEventListener);
-    this.setupPositionToByValue(value, this.min, this.max);
-    this.calculateValueTo(min, max, step);
+    this.setupPositionToByValue(value, min, max);
+    this.calculateValueTo(min, max, step, isInterval, from, value);
 
     if (!isInterval) {
       this.pointerToView.hide();
@@ -169,12 +178,20 @@ class MainViewImpl implements MainView {
     this.setupPositionByValue(this.pointerToView, value, min, max);
   }
 
-  public calculateValueFrom(min: number, max: number, step: number): void {
-    this.calculateValue(this.pointerFromView, min, max, step);
+  public calculateValueFrom(
+    min: number, max: number, step: number,
+    isInterval: boolean,
+    from: number, to: number,
+  ): void {
+    this.calculateValue(this.pointerFromView, min, max, step, isInterval, from, to);
   }
 
-  public calculateValueTo(min: number, max: number, step: number): void {
-    this.calculateValue(this.pointerToView, min, max, step);
+  public calculateValueTo(
+    min: number, max: number, step: number,
+    isInterval: boolean,
+    from: number, to: number,
+  ): void {
+    this.calculateValue(this.pointerToView, min, max, step, isInterval, from, to);
   }
 
   public setValueFrom(value: number): void {
@@ -270,9 +287,9 @@ class MainViewImpl implements MainView {
       this.setPointerX(view, x + this.cursorOffset);
     }
     if (view === this.pointerFromView) {
-      this.calculateValueFrom(this.min, this.max, this.step);
+      this.calculateValueFrom(this.min, this.max, this.step, this.isInterval, this.valueFrom, this.valueTo);
     } else {
-      this.calculateValueTo(this.min, this.max, this.step);
+      this.calculateValueTo(this.min, this.max, this.step, this.isInterval, this.valueFrom, this.valueTo);
     }
     this.updateProgress(this.isInterval);
   }
@@ -401,10 +418,10 @@ class MainViewImpl implements MainView {
     }
     if (pointerView === this.pointerFromView) {
       this.setupPositionFromByValue(value, this.min, this.max);
-      this.calculateValueFrom(this.min, this.max, this.step);
+      this.calculateValueFrom(this.min, this.max, this.step, this.isInterval, this.valueFrom, this.valueTo);
     } else {
       this.setupPositionToByValue(value, this.min, this.max);
-      this.calculateValueTo(this.min, this.max, this.step);
+      this.calculateValueTo(this.min, this.max, this.step, this.isInterval, this.valueFrom, this.valueTo);
     }
     this.updateProgress(this.isInterval);
   };
@@ -444,7 +461,12 @@ class MainViewImpl implements MainView {
     }
   };
 
-  private calculateValue(view: PointerView, min: number, max: number, step: number): void {
+  private calculateValue(
+    view: PointerView,
+    min: number, max: number, step: number,
+    isInterval: boolean,
+    from: number, to: number,
+  ): void {
     if (!this.valueFromListener) throw new Error('No listener assigned for value from');
     if (!this.valueToListener) throw new Error('No listener assigned for value to');
 
@@ -475,13 +497,13 @@ class MainViewImpl implements MainView {
     const rounded = Util.roundWithEpsilon(value);
 
     if (view === this.pointerFromView) {
-      if (this.isInterval) {
-        this.valueFromListener(rounded > this.valueTo ? this.valueTo : rounded);
+      if (isInterval) {
+        this.valueFromListener(rounded > to ? to : rounded);
       } else {
         this.valueFromListener(rounded);
       }
     } else {
-      this.valueToListener(rounded < this.valueFrom ? this.valueFrom : rounded);
+      this.valueToListener(rounded < from ? from : rounded);
     }
   }
 

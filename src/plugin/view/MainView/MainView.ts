@@ -10,8 +10,18 @@ interface MainView {
 
   clear(): void;
   setupScale(min: number, max: number, step: number): void;
-  initPointerFrom(value: number, min: number, max: number, step: number): void;
-  initPointerTo(value: number, isInterval: boolean, min: number, max: number, step: number): void;
+  initPointerFrom(
+    value: number,
+    min: number, max: number, step: number,
+    isInterval: boolean,
+    to: number,
+  ): void;
+  initPointerTo(
+    value: number,
+    isInterval: boolean,
+    min: number, max: number, step: number,
+    from: number,
+  ): void;
   handleSliderBarClick(): void;
   updateProgress(isInterval: boolean): void;
   drawVertical(): void;
@@ -26,8 +36,8 @@ interface MainView {
   hidePointerTo(): void;
   setupPositionFromByValue(value: number, min: number, max: number): void;
   setupPositionToByValue(value: number, min: number, max: number): void;
-  calculateValueFrom(min: number, max: number, step: number): void;
-  calculateValueTo(min: number, max: number, step: number): void;
+  calculateValueFrom(min: number, max: number, step: number, isInterval: boolean, from: number, to: number): void;
+  calculateValueTo(min: number, max: number, step: number, isInterval: boolean, from: number, to: number): void;
   setValueFrom(value: number): void;
   setValueTo(value: number): void;
   setValueFromListener(listener: (value: number) => void): void;

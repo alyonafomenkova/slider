@@ -42,8 +42,9 @@ class Presenter {
     const from = this.model.getFrom();
     const to = this.model.getTo();
     const isInterval = this.model.isInterval();
-    this.view.initPointerFrom(from, min, max, step);
-    this.view.initPointerTo(to, isInterval, min, max, step);
+
+    this.view.initPointerFrom(from, min, max, step, isInterval, to);
+    this.view.initPointerTo(to, isInterval, min, max, step, from);
     this.view.updateProgress(isInterval);
     this.view.handleSliderBarClick();
     this.observeValues();
@@ -73,10 +74,12 @@ class Presenter {
     const min = this.model.getMin();
     const max = this.model.getMax();
     const step = this.model.getStep();
+    const from = this.model.getFrom();
+    const to = this.model.getTo();
     const isInterval = this.model.isInterval();
 
     this.view.setupPositionFromByValue(value, min, max);
-    this.view.calculateValueFrom(min, max, step);
+    this.view.calculateValueFrom(min, max, step, isInterval, from, to);
     this.view.updateProgress(isInterval);
   }
 
@@ -85,10 +88,12 @@ class Presenter {
     const max = this.model.getMax();
     const step = this.model.getStep();
     const isInterval = this.model.isInterval();
+    const from = this.model.getFrom();
+    const to = this.model.getTo();
 
     if (isInterval) {
       this.view.setupPositionToByValue(value, min, max);
-      this.view.calculateValueTo(min, max, step);
+      this.view.calculateValueTo(min, max, step, isInterval, from, to);
       this.view.updateProgress(true);
     }
   }
