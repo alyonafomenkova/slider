@@ -327,23 +327,11 @@ class MainViewImpl implements MainView {
   }
 
   private pointerDownEventListener = (view: PointerView, x: number, y: number): void => {
-    if (this.isVertical) {
-      const viewY = view.getTop() + view.getHeight() / 2;
-      this.cursorOffset = viewY - y;
-    } else {
-      const viewX = view.getLeft() + view.getWidth() / 2;
-      this.cursorOffset = viewX - x;
-    }
+    this.calculateCursorOffset(view, x, y);
     this.setPointerPosition(view, x, y, this.min, this.max, this.step, this.valueFrom, this.valueTo);
 
     if (this.isInterval()) {
-      if (view === this.pointerFromView) {
-        this.pointerFromView.setZOrder(this.POINTER_TOP_Z_INDEX);
-        this.pointerToView.setZOrder(this.POINTER_BOTTOM_Z_INDEX);
-      } else {
-        this.pointerFromView.setZOrder(this.POINTER_BOTTOM_Z_INDEX);
-        this.pointerToView.setZOrder(this.POINTER_TOP_Z_INDEX);
-      }
+      this.raisePointerZOrder(view);
     }
   };
 
@@ -354,6 +342,26 @@ class MainViewImpl implements MainView {
   private pointerUpEventListener = (view: PointerView, x: number, y: number): void => {
     this.setPointerPosition(view, x, y, this.min, this.max, this.step, this.valueFrom, this.valueTo);
   };
+
+  private calculateCursorOffset(view: PointerView, x: number, y: number) {
+    if (this.isVertical) {
+      const viewY = view.getTop() + view.getHeight() / 2;
+      this.cursorOffset = viewY - y;
+    } else {
+      const viewX = view.getLeft() + view.getWidth() / 2;
+      this.cursorOffset = viewX - x;
+    }
+  }
+
+  private raisePointerZOrder(view: PointerView) {
+    if (view === this.pointerFromView) {
+      this.pointerFromView.setZOrder(this.POINTER_TOP_Z_INDEX);
+      this.pointerToView.setZOrder(this.POINTER_BOTTOM_Z_INDEX);
+    } else {
+      this.pointerFromView.setZOrder(this.POINTER_BOTTOM_Z_INDEX);
+      this.pointerToView.setZOrder(this.POINTER_TOP_Z_INDEX);
+    }
+  }
 
   private setPointerPosition(
     view: PointerView,
