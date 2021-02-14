@@ -38,6 +38,12 @@ interface MainView {
   calculateValueTo(min: number, max: number, step: number, isInterval: boolean, from: number, to: number): void;
   setValueFrom(value: number): void;
   setValueTo(value: number): void;
+  setPointerPosition(
+    isFromPointer: boolean,
+    x: number, y: number,
+    min: number, max: number, step: number,
+    from: number, to: number,
+  ): void;
   setPositionByScaleClick(value: number, min: number, max: number, step: number, from: number, to: number): void;
   setPositionBySliderBarClick(
     x: number, y: number,
@@ -48,6 +54,7 @@ interface MainView {
   setValueToListener(listener: (value: number) => void): void;
   setScaleClickListener(listener: (value: number) => void): void;
   setSliderBarClickListener(listener: (x: number, y: number) => void): void;
+  setPointerPositionListener(listener: (isFromPointer: boolean, x: number, y: number) => void): void;
 }
 
 export default MainView;

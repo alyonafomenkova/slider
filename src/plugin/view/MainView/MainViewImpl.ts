@@ -28,6 +28,8 @@ class MainViewImpl implements MainView {
 
   private sliderBarClickListener?: (x: number, y: number) => void = undefined;
 
+  private pointerPositionListener?: (isFromPointer: boolean, x: number, y: number) => void = undefined;
+
   // ------------------------------
 
   private min = 0;
@@ -232,6 +234,28 @@ class MainViewImpl implements MainView {
     this.hasValue = hasValue;
   }
 
+  public setPointerPosition(
+    isFromPointer: boolean,
+    x: number, y: number,
+    min: number, max: number, step: number,
+    from: number, to: number,
+  ): void {
+    const isInterval = this.isInterval();
+    const view = isFromPointer ? this.pointerFromView : this.pointerToView;
+
+    if (this.isVertical) {
+      this.setPointerY(view, y + this.cursorOffset, min, max, step, from, to);
+    } else {
+      this.setPointerX(view, x + this.cursorOffset, min, max, step, from, to);
+    }
+    if (view === this.pointerFromView) {
+      this.calculateValueFrom(min, max, step, isInterval, from, to);
+    } else {
+      this.calculateValueTo(min, max, step, isInterval, from, to);
+    }
+    this.updateProgress(this.isInterval());
+  }
+
   public setValueFromListener(listener: (value: number) => void): void {
     this.valueFromListener = listener;
   }
@@ -247,6 +271,10 @@ class MainViewImpl implements MainView {
   public setSliderBarClickListener(listener: (x: number, y: number) => void): void {
     this.sliderBarClickListener = listener;
     this.sliderView.setClickSliderBarListener(this.sliderBarClickListener);
+  }
+
+  public setPointerPositionListener(listener: (isFromPointer: boolean, x: number, y: number) => void): void {
+    this.pointerPositionListener = listener;
   }
 
   public setPositionByScaleClick(
@@ -279,7 +307,7 @@ class MainViewImpl implements MainView {
   ): void {
     if (this.pointerFromView) {
       let positionFrom;
-      let pointerView;
+      let isFromPointer = true;
 
       if (this.isInterval()) {
         if (!this.pointerToView) throw new Error('Pointer to view is not defined.');
@@ -299,15 +327,9 @@ class MainViewImpl implements MainView {
           differenceBetweenValueAndFrom = Math.abs(x - positionFrom);
           differenceBetweenValueAndTo = Math.abs(x - positionTo);
         }
-        if (differenceBetweenValueAndFrom <= differenceBetweenValueAndTo) {
-          pointerView = this.pointerFromView;
-        } else {
-          pointerView = this.pointerToView;
-        }
-      } else {
-        pointerView = this.pointerFromView;
+        isFromPointer = differenceBetweenValueAndFrom <= differenceBetweenValueAndTo;
       }
-      this.setPointerPosition(pointerView, x, y, min, max, step, from, to);
+      this.setPointerPosition(isFromPointer, x, y, min, max, step, from, to);
     }
   }
 
@@ -327,8 +349,9 @@ class MainViewImpl implements MainView {
   }
 
   private pointerDownEventListener = (view: PointerView, x: number, y: number): void => {
+    const isFromPointer = view === this.pointerFromView;
     this.calculateCursorOffset(view, x, y);
-    this.setPointerPosition(view, x, y, this.min, this.max, this.step, this.valueFrom, this.valueTo);
+    this.updatePointerPosition(isFromPointer, x, y);
 
     if (this.isInterval()) {
       this.raisePointerZOrder(view);
@@ -336,12 +359,22 @@ class MainViewImpl implements MainView {
   };
 
   private pointerMoveEventListener = (view: PointerView, x: number, y: number): void => {
-    this.setPointerPosition(view, x, y, this.min, this.max, this.step, this.valueFrom, this.valueTo);
+    const isFromPointer = view === this.pointerFromView;
+    this.updatePointerPosition(isFromPointer, x, y);
   };
 
   private pointerUpEventListener = (view: PointerView, x: number, y: number): void => {
-    this.setPointerPosition(view, x, y, this.min, this.max, this.step, this.valueFrom, this.valueTo);
+    const isFromPointer = view === this.pointerFromView;
+    this.updatePointerPosition(isFromPointer, x, y);
   };
+
+  private updatePointerPosition(isFromPointer: boolean, x: number, y: number): void {
+    if (this.pointerPositionListener) {
+      this.pointerPositionListener(isFromPointer, x, y);
+    } else {
+      throw new Error('No pointer position listener provided');
+    }
+  }
 
   private calculateCursorOffset(view: PointerView, x: number, y: number) {
     if (this.isVertical) {
@@ -361,26 +394,6 @@ class MainViewImpl implements MainView {
       this.pointerFromView.setZOrder(this.POINTER_BOTTOM_Z_INDEX);
       this.pointerToView.setZOrder(this.POINTER_TOP_Z_INDEX);
     }
-  }
-
-  private setPointerPosition(
-    view: PointerView,
-    x: number, y: number,
-    min: number, max: number, step: number,
-    from: number, to: number,
-  ) {
-    const isInterval = this.isInterval();
-    if (this.isVertical) {
-      this.setPointerY(view, y + this.cursorOffset, min, max, step, from, to);
-    } else {
-      this.setPointerX(view, x + this.cursorOffset, min, max, step, from, to);
-    }
-    if (view === this.pointerFromView) {
-      this.calculateValueFrom(min, max, step, isInterval, from, to);
-    } else {
-      this.calculateValueTo(min, max, step, isInterval, from, to);
-    }
-    this.updateProgress(this.isInterval());
   }
 
   private setPointerX(view: PointerView, x: number, min: number, max: number, step: number, from: number, to: number) {

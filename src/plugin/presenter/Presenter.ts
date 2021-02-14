@@ -193,7 +193,8 @@ class Presenter {
     this.view.setValueFromListener((value) => this.model.setFrom(value));
     this.view.setValueToListener((value) => this.model.setTo(value));
     this.view.setScaleClickListener((value) => this.setupPositionByScaleClick(value));
-    this.view.setSliderBarClickListener((x, y) => this.setupPositionBySliderBarClck(x, y));
+    this.view.setSliderBarClickListener((x, y) => this.setupPositionBySliderBarClick(x, y));
+    this.view.setPointerPositionListener((isFromPointer, x, y) => this.setPointerPosition(isFromPointer, x, y));
   }
 
   private setupPositionByScaleClick(value: number): void {
@@ -205,13 +206,22 @@ class Presenter {
     this.view.setPositionByScaleClick(value, min, max, step, from, to);
   }
 
-  private setupPositionBySliderBarClck(x: number, y: number): void {
+  private setupPositionBySliderBarClick(x: number, y: number): void {
     const min = this.model.getMin();
     const max = this.model.getMax();
     const step = this.model.getStep();
     const from = this.model.getFrom();
     const to = this.model.getTo();
     this.view.setPositionBySliderBarClick(x, y, min, max, step, from, to);
+  }
+
+  private setPointerPosition(isFromPointer: boolean, x: number, y: number): void {
+    const min = this.model.getMin();
+    const max = this.model.getMax();
+    const step = this.model.getStep();
+    const from = this.model.getFrom();
+    const to = this.model.getTo();
+    this.view.setPointerPosition(isFromPointer, x, y, min, max, step, from, to);
   }
 
   private observeValues() {
