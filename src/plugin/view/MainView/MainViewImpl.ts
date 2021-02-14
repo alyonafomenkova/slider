@@ -30,11 +30,7 @@ class MainViewImpl implements MainView {
 
   private pointerPositionListener?: (isFromPointer: boolean, x: number, y: number) => void = undefined;
 
-  // -----------------------------
-
   private isVertical = false;
-
-  // -----------------------------
 
   private cursorOffset = 0;
 
@@ -195,6 +191,10 @@ class MainViewImpl implements MainView {
 
   public setIsVertical(isVertical: boolean): void {
     this.isVertical = isVertical;
+  }
+
+  public isVerticalOrientation(): boolean {
+    return this.isVertical;
   }
 
   public setPointerPosition(

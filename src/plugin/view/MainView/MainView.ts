@@ -1,6 +1,7 @@
 interface MainView {
   clear(): void;
   setIsVertical(value: boolean): void;
+  isVerticalOrientation(): boolean;
   setupScale(min: number, max: number, step: number): void;
   initPointerFrom(
     value: number,
