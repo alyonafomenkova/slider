@@ -1,13 +1,8 @@
 interface MainView {
-
-  setMin(value: number): void;
-  setMax(value: number): void;
-  setStep(value: number): void;
+  clear(): void;
   setIsVertical(value: boolean): void;
   setHasScale(value: boolean): void;
   setHasValue(value: boolean): void;
-
-  clear(): void;
   setupScale(min: number, max: number, step: number): void;
   initPointerFrom(
     value: number,
@@ -38,13 +33,13 @@ interface MainView {
   calculateValueTo(min: number, max: number, step: number, isInterval: boolean, from: number, to: number): void;
   setValueFrom(value: number): void;
   setValueTo(value: number): void;
+  setPositionByScaleClick(value: number, min: number, max: number, step: number, from: number, to: number): void;
   setPointerPosition(
     isFromPointer: boolean,
     x: number, y: number,
     min: number, max: number, step: number,
     from: number, to: number,
   ): void;
-  setPositionByScaleClick(value: number, min: number, max: number, step: number, from: number, to: number): void;
   setPositionBySliderBarClick(
     x: number, y: number,
     min: number, max: number, step: number,

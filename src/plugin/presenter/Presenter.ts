@@ -182,9 +182,6 @@ class Presenter {
   }
 
   private setupView() {
-    this.view.setMin(this.model.getMin());
-    this.view.setMax(this.model.getMax());
-    this.view.setStep(this.model.getStep());
     this.view.setIsVertical(this.isVertical.getValue());
     this.view.setHasScale(this.hasScale.getValue());
     this.view.setHasValue(this.hasValue.getValue());
@@ -225,9 +222,6 @@ class Presenter {
   }
 
   private observeValues() {
-    this.model.attachMin((value: number): void => { this.view.setMin(value); });
-    this.model.attachMax((value: number): void => { this.view.setMax(value); });
-    this.model.attachStep((value: number): void => { this.view.setStep(value); });
     this.model.attachValueFrom((value: number): void => { this.view.setValueFrom(value); });
     this.model.attachValueTo((value: number): void => { this.view.setValueTo(value); });
     this.isVertical.attach((value: boolean): void => { this.view.setIsVertical(value); });

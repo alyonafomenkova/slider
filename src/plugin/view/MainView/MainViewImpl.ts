@@ -30,20 +30,6 @@ class MainViewImpl implements MainView {
 
   private pointerPositionListener?: (isFromPointer: boolean, x: number, y: number) => void = undefined;
 
-  // ------------------------------
-
-  private min = 0;
-
-  private max = 0;
-
-  private valueFrom = 0;
-
-  private valueTo = 0;
-
-  private step = 0;
-
-  // ------------------------------
-
   private isVertical = false;
 
   private hasScale = false;
@@ -97,7 +83,6 @@ class MainViewImpl implements MainView {
     min: number, max: number, step: number,
     isInterval: boolean, to: number,
   ): void {
-    this.valueFrom = value;
     this.pointerFromView.draw(this.hasValue);
     this.pointerFromView.setDownEventListener(this.pointerDownEventListener);
     this.pointerFromView.setMoveEventListener(this.pointerMoveEventListener);
@@ -112,7 +97,6 @@ class MainViewImpl implements MainView {
     min: number, max: number, step: number,
     from: number,
   ): void {
-    this.valueTo = value;
     this.pointerToView.draw(this.hasValue);
     this.pointerToView.setDownEventListener(this.pointerDownEventListener);
     this.pointerToView.setMoveEventListener(this.pointerMoveEventListener);
@@ -201,25 +185,11 @@ class MainViewImpl implements MainView {
   }
 
   public setValueFrom(value: number): void {
-    this.valueFrom = value;
     this.pointerFromView.setValue(value);
   }
 
   public setValueTo(value: number): void {
-    this.valueTo = value;
     this.pointerToView.setValue(value);
-  }
-
-  public setMin(value: number): void {
-    this.min = value;
-  }
-
-  public setMax(value: number): void {
-    this.max = value;
-  }
-
-  public setStep(value: number): void {
-    this.step = value;
   }
 
   public setIsVertical(isVertical: boolean): void {
