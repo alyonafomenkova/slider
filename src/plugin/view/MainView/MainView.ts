@@ -1,20 +1,18 @@
 interface MainView {
   clear(): void;
   setIsVertical(value: boolean): void;
-  setHasScale(value: boolean): void;
-  setHasValue(value: boolean): void;
   setupScale(min: number, max: number, step: number): void;
   initPointerFrom(
     value: number,
     min: number, max: number, step: number,
     isInterval: boolean,
-    to: number,
+    to: number, hasValue: boolean,
   ): void;
   initPointerTo(
     value: number,
     isInterval: boolean,
     min: number, max: number, step: number,
-    from: number,
+    from: number, hasValue: boolean
   ): void;
   updateProgress(isInterval: boolean): void;
   drawVertical(): void;

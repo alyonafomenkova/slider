@@ -2,6 +2,7 @@ import MainView from '../view/MainView/MainView';
 import Configuration from '../model/Configuration';
 import Model from '../model/Model';
 import Observer from '../model/Observer';
+import has = Reflect.has;
 
 class Presenter {
   private readonly model: Model;
@@ -10,7 +11,7 @@ class Presenter {
 
   private isVertical: Observer<boolean>;
 
-  private hasValue: Observer<boolean>;
+  private hasValue: boolean;
 
   private hasScale: Observer<boolean>;
 
@@ -18,7 +19,7 @@ class Presenter {
     this.model = model;
     this.view = view;
     this.isVertical = new Observer(configuration.isVertical);
-    this.hasValue = new Observer(configuration.hasValue);
+    this.hasValue = configuration.hasValue;
     this.hasScale = new Observer(configuration.hasScale);
   }
 
@@ -43,8 +44,8 @@ class Presenter {
     const to = this.model.getTo();
     const isInterval = this.model.isInterval();
 
-    this.view.initPointerFrom(from, min, max, step, isInterval, to);
-    this.view.initPointerTo(to, isInterval, min, max, step, from);
+    this.view.initPointerFrom(from, min, max, step, isInterval, to, this.hasValue);
+    this.view.initPointerTo(to, isInterval, min, max, step, from, this.hasValue);
     this.view.updateProgress(isInterval);
     this.observeValues();
   }
@@ -107,7 +108,7 @@ class Presenter {
   }
 
   public setPointerValue(value: boolean): void {
-    this.hasValue.setValue(value);
+    this.hasValue = value;
 
     if (value) {
       this.view.showPointerFromValue();
@@ -143,7 +144,7 @@ class Presenter {
       }
       this.view.showPointerTo();
 
-      if (this.hasValue.getValue()) {
+      if (this.hasValue) {
         this.view.showPointerToValue();
       } else {
         this.view.hidePointerToValue();
@@ -183,8 +184,6 @@ class Presenter {
 
   private setupView() {
     this.view.setIsVertical(this.isVertical.getValue());
-    this.view.setHasScale(this.hasScale.getValue());
-    this.view.setHasValue(this.hasValue.getValue());
     this.view.setValueFrom(this.model.getFrom());
     this.view.setValueTo(this.model.getTo());
     this.view.setValueFromListener((value) => this.model.setFrom(value));
@@ -225,8 +224,6 @@ class Presenter {
     this.model.attachValueFrom((value: number): void => { this.view.setValueFrom(value); });
     this.model.attachValueTo((value: number): void => { this.view.setValueTo(value); });
     this.isVertical.attach((value: boolean): void => { this.view.setIsVertical(value); });
-    this.hasValue.attach((value: boolean): void => { this.view.setHasValue(value); });
-    this.hasScale.attach((value: boolean): void => { this.view.setHasScale(value); });
   }
 }
 

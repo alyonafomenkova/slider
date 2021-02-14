@@ -30,11 +30,11 @@ class MainViewImpl implements MainView {
 
   private pointerPositionListener?: (isFromPointer: boolean, x: number, y: number) => void = undefined;
 
+  // -----------------------------
+
   private isVertical = false;
 
-  private hasScale = false;
-
-  private hasValue = false;
+  // -----------------------------
 
   private cursorOffset = 0;
 
@@ -81,9 +81,10 @@ class MainViewImpl implements MainView {
   public initPointerFrom(
     value: number,
     min: number, max: number, step: number,
-    isInterval: boolean, to: number,
+    isInterval: boolean,
+    to: number, hasValue: boolean,
   ): void {
-    this.pointerFromView.draw(this.hasValue);
+    this.pointerFromView.draw(hasValue);
     this.pointerFromView.setDownEventListener(this.pointerDownEventListener);
     this.pointerFromView.setMoveEventListener(this.pointerMoveEventListener);
     this.pointerFromView.setUpEventListener(this.pointerUpEventListener);
@@ -95,9 +96,9 @@ class MainViewImpl implements MainView {
     value: number,
     isInterval: boolean,
     min: number, max: number, step: number,
-    from: number,
+    from: number, hasValue: boolean,
   ): void {
-    this.pointerToView.draw(this.hasValue);
+    this.pointerToView.draw(hasValue);
     this.pointerToView.setDownEventListener(this.pointerDownEventListener);
     this.pointerToView.setMoveEventListener(this.pointerMoveEventListener);
     this.pointerToView.setUpEventListener(this.pointerUpEventListener);
@@ -107,7 +108,7 @@ class MainViewImpl implements MainView {
     if (!isInterval) {
       this.pointerToView.hide();
     }
-    if (!this.hasValue) {
+    if (!hasValue) {
       this.pointerToView.hideValue();
     }
   }
@@ -194,14 +195,6 @@ class MainViewImpl implements MainView {
 
   public setIsVertical(isVertical: boolean): void {
     this.isVertical = isVertical;
-  }
-
-  public setHasScale(hasScale: boolean): void {
-    this.hasScale = hasScale;
-  }
-
-  public setHasValue(hasValue: boolean): void {
-    this.hasValue = hasValue;
   }
 
   public setPointerPosition(
