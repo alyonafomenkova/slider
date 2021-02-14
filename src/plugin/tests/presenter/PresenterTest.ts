@@ -1,9 +1,9 @@
 import {
-  instance, mock, resetCalls, verify,
+  capture,
+  instance, mock, resetCalls, verify, anyNumber,
 } from 'ts-mockito';
 
 import MainView from '../../view/MainView/MainView';
-import ViewModel from '../../view/MainView/ViewModel';
 import Presenter from '../../presenter/Presenter';
 import Model from '../../model/Model';
 
@@ -28,78 +28,85 @@ const createConfiguration = (isVertical: boolean, hasInterval: boolean, hasValue
 
 describe('Init presenter', () => {
   let view: MainView;
-  let viewModel: ViewModel;
 
   beforeEach(() => {
     resetAllMockCalls();
     view = instance(mockMainView);
-    viewModel = new ViewModel();
   });
 
   it('Horizontal slider with scale.', () => {
     // Arrange
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const config = createConfiguration(false, false, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, viewModel, config);
-    viewModel.setValueFrom(20);
-    viewModel.setValueTo(70);
+    const presenter = new Presenter(model, view, config);
 
     // Act
     presenter.init();
 
     // Assert
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const setValueFromListener = capture(mockMainView.setValueFromListener).last()[0];
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const setValueToListener = capture(mockMainView.setValueToListener).last()[0];
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const setScaleClickListener = capture(mockMainView.setScaleClickListener).last()[0];
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const setSliderBarClickListener = capture(mockMainView.setSliderBarClickListener).last()[0];
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const setPointerPositionListener = capture(mockMainView.setPointerPositionListener).last()[0];
+    setValueFromListener(10);
+    setValueToListener(20);
+    setScaleClickListener(15);
+    setSliderBarClickListener(20, 40);
+    setPointerPositionListener(true, 25, 45);
     verify(mockMainView.clear()).once();
-    expect(viewModel.getMin()).toEqual(0);
-    expect(viewModel.getMax()).toEqual(110);
-    expect(viewModel.getStep()).toEqual(5);
-    expect(viewModel.getIsVertical()).toEqual(false);
-    expect(viewModel.getHasScale()).toEqual(true);
-    expect(viewModel.getHasValue()).toEqual(true);
-    expect(viewModel.getIsInterval()).toEqual(false);
-    expect(viewModel.getValueFrom()).toEqual(20);
-    expect(viewModel.getValueTo()).toEqual(70);
+    expect(model.getMax()).toEqual(110);
+    expect(model.getStep()).toEqual(5);
+    expect(model.getFrom()).toEqual(10);
+    expect(model.getTo()).toEqual(20);
+    verify(mockMainView.setPositionByScaleClick(
+      anyNumber(), anyNumber(), anyNumber(), anyNumber(), anyNumber(), anyNumber(),
+    )).once();
+    verify(mockMainView.setPositionBySliderBarClick(
+      anyNumber(), anyNumber(), anyNumber(), anyNumber(), anyNumber(), anyNumber(), anyNumber(),
+    )).once();
+    verify(mockMainView.setPointerPosition(
+      true, anyNumber(), anyNumber(), anyNumber(), anyNumber(), anyNumber(), anyNumber(), anyNumber(),
+    )).once();
   });
 
   it('Vertical slider without scale.', () => {
     // Arrange
     const config = createConfiguration(true, false, true, false);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, viewModel, config);
-    viewModel.setValueFrom(20);
-    viewModel.setValueTo(70);
+    const presenter = new Presenter(model, view, config);
 
     // Act
     presenter.init();
 
     // Assert
     verify(mockMainView.clear()).once();
-    expect(viewModel.getMin()).toEqual(0);
-    expect(viewModel.getMax()).toEqual(110);
-    expect(viewModel.getStep()).toEqual(5);
-    expect(viewModel.getIsVertical()).toEqual(true);
-    expect(viewModel.getHasScale()).toEqual(false);
-    expect(viewModel.getHasValue()).toEqual(true);
-    expect(viewModel.getIsInterval()).toEqual(false);
-    expect(viewModel.getValueFrom()).toEqual(20);
-    expect(viewModel.getValueTo()).toEqual(70);
+    expect(model.getMin()).toEqual(0);
+    expect(model.getMax()).toEqual(110);
+    expect(model.getStep()).toEqual(5);
+    verify(mockMainView.setupScale(0, 110, 5)).once();
   });
 });
 
 describe('Subscribe to inner model.', () => {
   let view: MainView;
-  let viewModel: ViewModel;
 
   beforeEach(() => {
     resetAllMockCalls();
     view = instance(mockMainView);
-    viewModel = new ViewModel();
   });
 
   it('Subscribe to inner model', () => {
     // Arrange
     const config = createConfiguration(true, true, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, viewModel, config);
+    const presenter = new Presenter(model, view, config);
 
     let actualMin = -1;
     let actualMax = -1;
@@ -125,19 +132,17 @@ describe('Subscribe to inner model.', () => {
 
 describe('Set values', () => {
   let view: MainView;
-  let viewModel: ViewModel;
 
   beforeEach(() => {
     resetAllMockCalls();
     view = instance(mockMainView);
-    viewModel = new ViewModel();
   });
 
   it('Set min value', () => {
     // Arrange
     const config = createConfiguration(true, true, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, viewModel, config);
+    const presenter = new Presenter(model, view, config);
 
     // Act
     presenter.init();
@@ -147,20 +152,16 @@ describe('Set values', () => {
     // Assert
     expect(model.getMin()).toEqual(15);
     verify(mockMainView.clear()).once();
-    expect(viewModel.getMin()).toEqual(15);
-    expect(viewModel.getMax()).toEqual(110);
-    expect(viewModel.getStep()).toEqual(5);
-    expect(viewModel.getIsVertical()).toEqual(true);
-    expect(viewModel.getHasScale()).toEqual(true);
-    expect(viewModel.getHasValue()).toEqual(true);
-    expect(viewModel.getIsInterval()).toEqual(true);
+    expect(model.getMin()).toEqual(15);
+    expect(model.getMax()).toEqual(110);
+    expect(model.getStep()).toEqual(5);
   });
 
   it('Set min >= max - step', () => {
     // Arrange
     const config = createConfiguration(true, true, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, viewModel, config);
+    const presenter = new Presenter(model, view, config);
 
     // Act
     presenter.init();
@@ -170,20 +171,16 @@ describe('Set values', () => {
     // Assert
     expect(model.getMin()).toEqual(105);
     verify(mockMainView.clear()).once();
-    expect(viewModel.getMin()).toEqual(105);
-    expect(viewModel.getMax()).toEqual(110);
-    expect(viewModel.getStep()).toEqual(5);
-    expect(viewModel.getIsVertical()).toEqual(true);
-    expect(viewModel.getHasScale()).toEqual(true);
-    expect(viewModel.getHasValue()).toEqual(true);
-    expect(viewModel.getIsInterval()).toEqual(true);
+    expect(model.getMin()).toEqual(105);
+    expect(model.getMax()).toEqual(110);
+    expect(model.getStep()).toEqual(5);
   });
 
   it('Set max value', () => {
     // Arrange
     const config = createConfiguration(true, true, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, viewModel, config);
+    const presenter = new Presenter(model, view, config);
 
     // Act
     presenter.init();
@@ -193,20 +190,16 @@ describe('Set values', () => {
     // Assert
     expect(model.getMax()).toEqual(90);
     verify(mockMainView.clear()).once();
-    expect(viewModel.getMin()).toEqual(0);
-    expect(viewModel.getMax()).toEqual(90);
-    expect(viewModel.getStep()).toEqual(5);
-    expect(viewModel.getIsVertical()).toEqual(true);
-    expect(viewModel.getHasScale()).toEqual(true);
-    expect(viewModel.getHasValue()).toEqual(true);
-    expect(viewModel.getIsInterval()).toEqual(true);
+    expect(model.getMin()).toEqual(0);
+    expect(model.getMax()).toEqual(90);
+    expect(model.getStep()).toEqual(5);
   });
 
   it('Set max <= min + step', () => {
     // Arrange
     const config = createConfiguration(true, true, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, viewModel, config);
+    const presenter = new Presenter(model, view, config);
 
     // Act
     presenter.init();
@@ -216,20 +209,16 @@ describe('Set values', () => {
     // Assert
     expect(model.getMax()).toEqual(5);
     verify(mockMainView.clear()).once();
-    expect(viewModel.getMin()).toEqual(0);
-    expect(viewModel.getMax()).toEqual(5);
-    expect(viewModel.getStep()).toEqual(5);
-    expect(viewModel.getIsVertical()).toEqual(true);
-    expect(viewModel.getHasScale()).toEqual(true);
-    expect(viewModel.getHasValue()).toEqual(true);
-    expect(viewModel.getIsInterval()).toEqual(true);
+    expect(model.getMin()).toEqual(0);
+    expect(model.getMax()).toEqual(5);
+    expect(model.getStep()).toEqual(5);
   });
 
   it('Set step', () => {
     // Arrange
     const config = createConfiguration(true, true, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, viewModel, config);
+    const presenter = new Presenter(model, view, config);
 
     // Act
     presenter.init();
@@ -239,20 +228,16 @@ describe('Set values', () => {
     // Assert
     expect(model.getStep()).toEqual(3);
     verify(mockMainView.clear()).once();
-    expect(viewModel.getMin()).toEqual(0);
-    expect(viewModel.getMax()).toEqual(110);
-    expect(viewModel.getStep()).toEqual(3);
-    expect(viewModel.getIsVertical()).toEqual(true);
-    expect(viewModel.getHasScale()).toEqual(true);
-    expect(viewModel.getHasValue()).toEqual(true);
-    expect(viewModel.getIsInterval()).toEqual(true);
+    expect(model.getMin()).toEqual(0);
+    expect(model.getMax()).toEqual(110);
+    expect(model.getStep()).toEqual(3);
   });
 
   it('Set value from', () => {
     // Arrange
     const config = createConfiguration(true, true, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, viewModel, config);
+    const presenter = new Presenter(model, view, config);
 
     // Act
     presenter.init();
@@ -260,18 +245,17 @@ describe('Set values', () => {
     presenter.setValueFrom(5);
 
     // Assert
-    verify(mockMainView.setupPositionFromByValue(5)).once();
-    verify(mockMainView.calculateValueFrom()).once();
-    verify(mockMainView.updateProgress()).once();
-    verify(mockMainView.setupPositionToByValue(5)).never();
-    verify(mockMainView.calculateValueTo()).never();
+    verify(mockMainView.setupPositionFromByValue(5, 0, 110, 5, 70)).once();
+    verify(mockMainView.setupPositionToByValue(5, 0, 110, 5, 70)).never();
+    verify(mockMainView.calculateValueTo(0, 110, 5, true, 5, 70)).never();
+    verify(mockMainView.updateProgress(true)).once();
   });
 
   it('Set value to', () => {
     // Arrange
     const config = createConfiguration(true, true, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, viewModel, config);
+    const presenter = new Presenter(model, view, config);
 
     // Act
     presenter.init();
@@ -279,18 +263,18 @@ describe('Set values', () => {
     presenter.setValueTo(25);
 
     // Assert
-    verify(mockMainView.setupPositionToByValue(25)).once();
-    verify(mockMainView.calculateValueTo()).once();
-    verify(mockMainView.updateProgress()).once();
-    verify(mockMainView.setupPositionFromByValue(25)).never();
-    verify(mockMainView.calculateValueFrom()).never();
+    verify(mockMainView.setupPositionToByValue(25, 0, 110, 5, 20)).once();
+    verify(mockMainView.calculateValueTo(0, 110, 5, true, 20, 70)).once();
+    verify(mockMainView.updateProgress(true)).once();
+    verify(mockMainView.setupPositionFromByValue(anyNumber(), anyNumber(), anyNumber(), anyNumber(), anyNumber())).never();
+    verify(mockMainView.calculateValueFrom(anyNumber(), anyNumber(), anyNumber(), anyNumber(), anyNumber(), anyNumber())).never();
   });
 
   it('Set scale value = true', () => {
     // Arrange
     const config = createConfiguration(true, true, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, viewModel, config);
+    const presenter = new Presenter(model, view, config);
 
     // Act
     presenter.init();
@@ -298,7 +282,6 @@ describe('Set values', () => {
     presenter.setScale(true);
 
     // Assert
-    expect(viewModel.getHasScale()).toEqual(true);
     verify(mockMainView.showScale()).once();
   });
 
@@ -306,7 +289,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(true, true, true, false);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, viewModel, config);
+    const presenter = new Presenter(model, view, config);
 
     // Act
     presenter.init();
@@ -314,7 +297,6 @@ describe('Set values', () => {
     presenter.setScale(false);
 
     // Assert
-    expect(viewModel.getHasScale()).toEqual(false);
     verify(mockMainView.hideScale()).once();
   });
 
@@ -322,7 +304,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(true, true, true, false);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, viewModel, config);
+    const presenter = new Presenter(model, view, config);
 
     // Act
     presenter.init();
@@ -330,16 +312,15 @@ describe('Set values', () => {
     presenter.setPointerValue(true);
 
     // Assert
-    expect(viewModel.getHasValue()).toEqual(true);
-    expect(viewModel.getIsInterval()).toEqual(true);
     verify(mockMainView.showPointerFromValue()).once();
+    verify(mockMainView.showPointerToValue()).once();
   });
 
   it('Set pointer value = true, slider with one pointer', () => {
     // Arrange
     const config = createConfiguration(true, false, true, false);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, viewModel, config);
+    const presenter = new Presenter(model, view, config);
 
     // Act
     presenter.init();
@@ -347,8 +328,6 @@ describe('Set values', () => {
     presenter.setPointerValue(true);
 
     // Assert
-    expect(viewModel.getHasValue()).toEqual(true);
-    expect(viewModel.getIsInterval()).toEqual(false);
     verify(mockMainView.hidePointerToValue()).once();
     verify(mockMainView.showPointerFromValue()).once();
   });
@@ -357,7 +336,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(true, false, false, false);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, viewModel, config);
+    const presenter = new Presenter(model, view, config);
 
     // Act
     presenter.init();
@@ -365,8 +344,6 @@ describe('Set values', () => {
     presenter.setPointerValue(false);
 
     // Assert
-    expect(viewModel.getHasValue()).toEqual(false);
-    expect(viewModel.getIsInterval()).toEqual(false);
     verify(mockMainView.hidePointerToValue()).once();
     verify(mockMainView.showPointerFromValue()).never();
     verify(mockMainView.showPointerToValue()).never();
@@ -386,7 +363,7 @@ describe('Set values', () => {
       hasScale: true,
     };
     const model = new Model(config);
-    const presenter = new Presenter(model, view, viewModel, config);
+    const presenter = new Presenter(model, view, config);
 
     // Act
     presenter.init();
@@ -394,7 +371,6 @@ describe('Set values', () => {
     presenter.setHasInterval(true);
 
     // Assert
-    expect(viewModel.getIsInterval()).toEqual(true);
     expect(model.getFrom()).toEqual(65);
     expect(model.getTo()).toEqual(70);
   });
@@ -403,7 +379,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(false, true, false, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, viewModel, config);
+    const presenter = new Presenter(model, view, config);
 
     // Act
     presenter.init();
@@ -411,8 +387,6 @@ describe('Set values', () => {
     presenter.setHasInterval(true);
 
     // Assert
-    expect(viewModel.getIsInterval()).toEqual(true);
-    expect(viewModel.getHasValue()).toEqual(false);
     verify(mockMainView.hidePointerToValue()).once();
   });
 
@@ -420,7 +394,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(false, false, false, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, viewModel, config);
+    const presenter = new Presenter(model, view, config);
 
     // Act
     presenter.init();
@@ -428,8 +402,6 @@ describe('Set values', () => {
     presenter.setHasInterval(false);
 
     // Assert
-    expect(viewModel.getIsInterval()).toEqual(false);
-    expect(viewModel.getHasValue()).toEqual(false);
     verify(mockMainView.hidePointerTo()).once();
     verify(mockMainView.hidePointerToValue()).once();
   });
@@ -438,7 +410,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(true, true, true, false);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, viewModel, config);
+    const presenter = new Presenter(model, view, config);
 
     // Act
     presenter.init();
@@ -446,6 +418,6 @@ describe('Set values', () => {
     presenter.setIsVerticalOrientation(true);
 
     // Assert
-    expect(viewModel.getIsVertical()).toEqual(true);
+    verify(mockMainView.setIsVertical(true)).once();
   });
 });

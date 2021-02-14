@@ -6,7 +6,6 @@ import SliderView from '../../view/SliderView/SliderView';
 import PointerView from '../../view/PointerView/PointerView';
 import ScaleView from '../../view/ScaleView/ScaleView';
 import MainView from '../../view/MainView/MainView';
-import ViewModel from '../../view/MainView/ViewModel';
 import MainViewImpl from '../../view/MainView/MainViewImpl';
 
 // Mocks
@@ -68,7 +67,6 @@ const arrangeVerticalSlider = () => {
 
 describe('Test main view implementation', () => {
   let view: MainView;
-  let viewModel: ViewModel;
 
   beforeEach(() => {
     resetAllMockCalls();
@@ -77,59 +75,64 @@ describe('Test main view implementation', () => {
     const pointerToView = instance(mockPointerToView);
     const scaleView = instance(mockScaleView);
 
-    viewModel = new ViewModel();
-    view = new MainViewImpl(viewModel, sliderView, scaleView, pointerFromView, pointerToView);
+    view = new MainViewImpl(sliderView, scaleView, pointerFromView, pointerToView);
   });
 
-  it('Clear, draw horizontal slider, slider bar click.', () => {
+  it('Clear, draw horizontal slider, init pointerFrom view, slider bar click.', () => {
     // Arrange
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     const listener = () => {};
+    const isInterval = false;
     view.setValueFromListener(listener);
     view.setValueToListener(listener);
     arrangeHorizontalSlider();
 
     // Act
     view.clear();
+    view.setIsVertical(false);
+    view.isVerticalOrientation();
     view.drawHorizontal();
-    view.handleSliderBarClick();
-    view.updateProgress();
+    view.initPointerFrom(5, 0, 100, 1, false, 20, false);
+    view.setSliderBarClickListener(listener);
+    view.updateProgress(isInterval);
+    view.setPositionBySliderBarClick(123, 123, 0, 100, 1, 5, 20);
 
     // Assert
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    const sliderBarClickListener = capture(mockSliderView.setClickSliderBarListener).last()[0];
-    sliderBarClickListener(mockSliderView, 10, 100);
     verify(mockSliderView.clear()).once();
     verify(mockSliderView.drawHorizontal()).once();
-    verify(mockSliderView.getBoundLeft()).times(4);
-    verify(mockPointerFromView.getLeft()).times(3);
-    verify(mockPointerFromView.getWidth()).times(3);
+    verify(mockSliderView.getBoundLeft()).times(7);
+    verify(mockPointerFromView.getLeft()).times(4);
+    verify(mockPointerFromView.getWidth()).times(4);
   });
 
-  it('Slider bar click, has interval, vertical.', () => {
+  it('Slider bar click, has interval, init pointerTo view, vertical.', () => {
     // Arrange
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     const listener = () => {};
+    const isInterval = true;
     view.setValueFromListener(listener);
     view.setValueToListener(listener);
-    viewModel.setIsInterval(true);
-    viewModel.setIsVertical(true);
     arrangeVerticalSlider();
 
     // Act
     view.clear();
+    view.setIsVertical(true);
     view.drawVertical();
-    view.handleSliderBarClick();
-    view.updateProgress();
+    view.initPointerTo(5, true, 0, 100, 1, 20, true);
+    view.setSliderBarClickListener(listener);
+    view.updateProgress(isInterval);
+    view.setPositionBySliderBarClick(123, 123, 0, 100, 1, 5, 20);
 
     // Assert
     // eslint-disable-next-line @typescript-eslint/unbound-method
     const sliderBarClickListener = capture(mockSliderView.setClickSliderBarListener).last()[0];
-    sliderBarClickListener(mockSliderView, 10, 100);
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    sliderBarClickListener(10, 100);
+    verify(mockSliderView.clear()).once();
+    verify(mockSliderView.drawVertical()).once();
+    verify(mockSliderView.getBoundTop()).times(5);
     verify(mockPointerFromView.getTop()).times(3);
     verify(mockPointerFromView.getHeight()).times(3);
-    verify(mockPointerToView.getTop()).times(4);
-    verify(mockPointerToView.getHeight()).times(4);
   });
 
   it('Slider bar click, has interval, horizontal.', () => {
@@ -138,24 +141,26 @@ describe('Test main view implementation', () => {
     const listener = () => {};
     view.setValueFromListener(listener);
     view.setValueToListener(listener);
-    viewModel.setIsInterval(true);
-    viewModel.setIsVertical(false);
     arrangeVerticalSlider();
 
     // Act
     view.clear();
     view.drawHorizontal();
-    view.handleSliderBarClick();
-    view.updateProgress();
+    view.initPointerFrom(5, 0, 100, 1, false, 20, false);
+    view.setSliderBarClickListener(listener);
+    view.setPointerPositionListener(listener);
+    view.setPointerPosition(true, 100, 100, 0, 110, 1, 10, 20);
+    view.setPointerPosition(false, 112, 112, 0, 110, 1, 10, 20);
+    view.updateProgress(true);
 
     // Assert
     // eslint-disable-next-line @typescript-eslint/unbound-method
     const sliderBarClickListener = capture(mockSliderView.setClickSliderBarListener).last()[0];
-    sliderBarClickListener(mockSliderView, 10, 100);
-    verify(mockPointerFromView.getLeft()).times(4);
-    verify(mockPointerFromView.getWidth()).times(4);
-    verify(mockPointerToView.getLeft()).times(3);
-    verify(mockPointerToView.getWidth()).times(3);
+    sliderBarClickListener(10, 100);
+    verify(mockPointerFromView.getLeft()).times(5);
+    verify(mockPointerFromView.getWidth()).times(5);
+    verify(mockPointerToView.getLeft()).times(2);
+    verify(mockPointerToView.getWidth()).times(2);
   });
 
   it('Draw vertical slider with scale, click scale, no interval.', () => {
@@ -165,14 +170,14 @@ describe('Test main view implementation', () => {
     view.setValueFromListener(listener);
     view.setValueToListener(listener);
     arrangeVerticalSlider();
-    viewModel.setIsInterval(false);
-    viewModel.setMax(5);
-    viewModel.setMin(5);
-    viewModel.setStep(1);
 
     // Act
+    view.setScaleClickListener(listener);
+    view.setPositionByScaleClick(15, 0, 110, 1, 20, 70);
     view.drawVertical();
-    view.setupScale();
+    view.initPointerFrom(5, 0, 50, 1, false, 20, false);
+    view.initPointerTo(10, false, 0, 50, 1, 2, false);
+    view.setupScale(0, 50, 1);
     view.showScale();
     view.hideScale();
 
@@ -180,9 +185,6 @@ describe('Test main view implementation', () => {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     const scaleClickListener = capture(mockScaleView.setClickListener).last()[0];
     scaleClickListener(mockScaleView, 123);
-    expect(viewModel.getMax()).toEqual(5);
-    expect(viewModel.getMin()).toEqual(5);
-    expect(viewModel.getStep()).toEqual(1);
     verify(mockSliderView.drawVertical()).once();
     verify(mockSliderView.getWidth()).called();
     verify(mockSliderView.getHeight()).called();
@@ -199,15 +201,15 @@ describe('Test main view implementation', () => {
     view.setValueFromListener(listener);
     view.setValueToListener(listener);
     arrangeVerticalSlider();
-    viewModel.setIsInterval(true);
-    viewModel.setIsVertical(true);
-    viewModel.setMax(100);
-    viewModel.setMin(0);
-    viewModel.setStep(1);
+    view.setScaleClickListener(listener);
 
     // Act
     view.drawVertical();
-    view.setupScale();
+    view.setScaleClickListener(listener);
+    view.setPositionByScaleClick(15, 0, 110, 1, 20, 70);
+    view.initPointerFrom(5, 0, 50, 1, false, 20, false);
+    view.initPointerTo(10, false, 0, 50, 1, 2, false);
+    view.setupScale(0, 50, 1);
     view.showScale();
     view.hideScale();
 
@@ -215,13 +217,8 @@ describe('Test main view implementation', () => {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     const scaleClickListener = capture(mockScaleView.setClickListener).last()[0];
     scaleClickListener(mockScaleView, 123);
-    expect(viewModel.getMax()).toEqual(100);
-    expect(viewModel.getMin()).toEqual(0);
-    expect(viewModel.getStep()).toEqual(1);
     verify(mockSliderView.drawVertical()).once();
-    verify(mockSliderView.getWidth()).called();
-    verify(mockSliderView.getHeight()).called();
-    verify(mockScaleView.addScaleItems(anything(), false)).never();
+    verify(mockScaleView.addScaleItems(anything(), false)).once();
     verify(mockScaleView.setClickListener(anything())).called();
     verify(mockScaleView.show()).once();
     verify(mockScaleView.hide()).once();
@@ -236,16 +233,12 @@ describe('Test main view implementation', () => {
     arrangeHorizontalSlider();
 
     // Act
-    viewModel.setIsVertical(false);
     view.drawHorizontal();
-    view.initPointerFrom(5);
     view.setValueFrom(5);
     view.showPointerFromValue();
-    view.updateProgress();
+    view.updateProgress(true);
 
     // Assert
-    expect(viewModel.getValueFrom()).toEqual(5);
-    expect(viewModel.getIsVertical()).toEqual(false);
     verify(mockSliderView.drawHorizontal()).once();
     verify(mockPointerFromView.setDownEventListener(anything)).never();
     verify(mockPointerFromView.setMoveEventListener(anything)).never();
@@ -254,8 +247,8 @@ describe('Test main view implementation', () => {
     verify(mockPointerFromView.showValue()).once();
     verify(mockSliderView.getBoundTop()).never();
     verify(mockSliderView.getBoundBottom()).never();
-    verify(mockSliderView.getBoundLeft()).times(4);
-    verify(mockSliderView.getWidth()).times(8);
+    verify(mockSliderView.getBoundLeft()).times(1);
+    verify(mockSliderView.getWidth()).times(2);
   });
 
   it('Draw horizontal range slider.', () => {
@@ -267,18 +260,11 @@ describe('Test main view implementation', () => {
     arrangeHorizontalSlider();
 
     // Act
-    viewModel.setIsVertical(false);
-    viewModel.setIsInterval(true);
     view.drawHorizontal();
-    view.initPointerFrom(5);
     view.setValueFrom(5);
     view.showPointerFromValue();
-    view.updateProgress();
 
     // Assert
-    expect(viewModel.getValueFrom()).toEqual(5);
-    expect(viewModel.getIsVertical()).toEqual(false);
-    expect(viewModel.getIsInterval()).toEqual(true);
     verify(mockSliderView.drawHorizontal()).once();
     verify(mockPointerFromView.setDownEventListener(anything)).never();
     verify(mockPointerFromView.setMoveEventListener(anything)).never();
@@ -287,8 +273,6 @@ describe('Test main view implementation', () => {
     verify(mockPointerFromView.showValue()).once();
     verify(mockSliderView.getBoundTop()).never();
     verify(mockSliderView.getBoundBottom()).never();
-    verify(mockSliderView.getBoundLeft()).times(4);
-    verify(mockSliderView.getWidth()).times(8);
   });
 
   it('Draw horizontal slider without value, without pointer to.', () => {
@@ -300,27 +284,19 @@ describe('Test main view implementation', () => {
     arrangeHorizontalSlider();
 
     // Act
-    viewModel.setIsVertical(false);
-    viewModel.setIsInterval(false);
-    viewModel.setHasValue(false);
     view.drawHorizontal();
-    view.initPointerTo(50);
     view.hidePointerFromValue();
     view.hidePointerTo();
     view.hidePointerToValue();
 
     // Assert
-    expect(viewModel.getIsVertical()).toEqual(false);
-    expect(viewModel.getIsInterval()).toEqual(false);
-    expect(viewModel.getHasValue()).toEqual(false);
-    expect(viewModel.getValueTo()).toEqual(50);
     verify(mockSliderView.drawHorizontal()).once();
     verify(mockPointerFromView.setDownEventListener(anything)).never();
     verify(mockPointerFromView.setMoveEventListener(anything)).never();
     verify(mockPointerFromView.setUpEventListener(anything)).never();
-    verify(mockPointerToView.hide()).twice();
+    verify(mockPointerToView.hide()).once();
     verify(mockPointerFromView.hideValue()).once();
-    verify(mockPointerToView.hideValue()).twice();
+    verify(mockPointerToView.hideValue()).once();
   });
 
   it('Draw vertical slider and init pointer to view with value.', () => {
@@ -332,30 +308,19 @@ describe('Test main view implementation', () => {
     arrangeVerticalSlider();
 
     // Act
-    viewModel.setIsVertical(true);
-    viewModel.setIsInterval(true);
-    viewModel.setHasValue(true);
     view.drawVertical();
-    view.initPointerTo(50);
     view.setValueTo(50);
     view.showPointerTo();
     view.showPointerToValue();
-    view.updateProgress();
+    view.updateProgress(true);
 
     // Assert
-    expect(viewModel.getIsVertical()).toEqual(true);
-    expect(viewModel.getIsInterval()).toEqual(true);
-    expect(viewModel.getHasValue()).toEqual(true);
-    expect(viewModel.getValueTo()).toEqual(50);
     verify(mockSliderView.drawVertical()).once();
     verify(mockPointerFromView.setDownEventListener(anything)).never();
     verify(mockPointerFromView.setMoveEventListener(anything)).never();
     verify(mockPointerFromView.setUpEventListener(anything)).never();
     verify(mockPointerToView.show()).once();
     verify(mockPointerToView.showValue()).once();
-    verify(mockSliderView.getBoundBottom()).times(2);
-    verify(mockPointerToView.getTop()).times(2);
-    verify(mockPointerFromView.getHeight()).once();
   });
 
   it('Draw vertical slider without pointer to.', () => {
@@ -367,20 +332,15 @@ describe('Test main view implementation', () => {
     arrangeVerticalSlider();
 
     // Act
-    viewModel.setIsVertical(true);
-    viewModel.setIsInterval(false);
     view.drawVertical();
-    view.updateProgress();
 
     // Assert
-    expect(viewModel.getIsVertical()).toEqual(true);
-    expect(viewModel.getIsInterval()).toEqual(false);
     verify(mockSliderView.drawVertical()).once();
     verify(mockPointerFromView.setDownEventListener(anything)).never();
     verify(mockPointerFromView.setMoveEventListener(anything)).never();
     verify(mockPointerFromView.setUpEventListener(anything)).never();
-    verify(mockSliderView.getBoundBottom()).once();
+    // verify(mockSliderView.getBoundBottom()).once();
     verify(mockPointerToView.getTop()).never();
-    verify(mockPointerFromView.getHeight()).once();
+    // verify(mockPointerFromView.getHeight()).once();
   });
 });

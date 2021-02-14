@@ -85,7 +85,7 @@ describe('Test slider view implementation', () => {
 
     let valueX = -1;
     let valueY = -1;
-    view.setClickSliderBarListener((v: SliderView, x: number, y: number) => {
+    view.setClickSliderBarListener((x: number, y: number) => {
       valueX = x;
       valueY = y;
     });
