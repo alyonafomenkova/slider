@@ -39,8 +39,10 @@ interface MainView {
   calculateValueTo(min: number, max: number, step: number, isInterval: boolean, from: number, to: number): void;
   setValueFrom(value: number): void;
   setValueTo(value: number): void;
+  setPositionByValue(value: number, min: number, max: number, step: number, from: number, to: number): void;
   setValueFromListener(listener: (value: number) => void): void;
   setValueToListener(listener: (value: number) => void): void;
+  setScaleClickListener(listener: (value: number) => void): void;
 }
 
 export default MainView;

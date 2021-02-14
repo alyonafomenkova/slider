@@ -24,6 +24,8 @@ class MainViewImpl implements MainView {
 
   private valueToListener?: (value: number) => void = undefined;
 
+  private scaleClickListener?: (value: number) => void = undefined;
+
   // ------------------------------
 
   private min = 0;
@@ -77,7 +79,13 @@ class MainViewImpl implements MainView {
       items.push(new ScaleItem(rounded, percent));
     }
     this.scaleView.addScaleItems(items, this.isVertical);
-    this.scaleView.setClickListener(this.scaleClickListener);
+    this.scaleView.setClickListener((view: ScaleView, value: number): void => {
+      if (this.scaleClickListener) {
+        this.scaleClickListener(value);
+      } else {
+        throw new Error('No scale click listener provided');
+      }
+    });
   }
 
   public initPointerFrom(
@@ -232,6 +240,28 @@ class MainViewImpl implements MainView {
 
   public setValueToListener(listener: (value: number) => void): void {
     this.valueToListener = listener;
+  }
+
+  public setScaleClickListener(listener: (value: number) => void): void {
+    this.scaleClickListener = listener;
+  }
+
+  public setPositionByValue(value: number, min: number, max: number, step: number, from: number, to: number): void {
+    let isFromCloser = true;
+
+    if (this.isInterval()) {
+      const differenceBetweenValueAndFrom = Math.abs(value - from);
+      const differenceBetweenValueAndTo = Math.abs(value - to);
+      isFromCloser = differenceBetweenValueAndFrom <= differenceBetweenValueAndTo;
+    }
+    if (isFromCloser) {
+      this.setupPositionFromByValue(value, min, max, step, to);
+      this.calculateValueFrom(min, max, step, this.isInterval(), from, to);
+    } else {
+      this.setupPositionToByValue(value, min, max, step, from);
+      this.calculateValueTo(min, max, step, this.isInterval(), from, to);
+    }
+    this.updateProgress(this.isInterval());
   }
 
   private getItemsStep(stepWidth: number): number {
@@ -404,31 +434,6 @@ class MainViewImpl implements MainView {
     const heightInPercent = (height / this.sliderView.getHeight()) * 100;
     this.sliderView.drawVerticalProgress(startInPercent, heightInPercent);
   }
-
-  private scaleClickListener = (view: ScaleView, value: number): void => {
-    let pointerView;
-
-    if (this.isInterval()) {
-      const differenceBetweenValueAndFrom = Math.abs(value - this.valueFrom);
-      const differenceBetweenValueAndTo = Math.abs(value - this.valueTo);
-
-      if (differenceBetweenValueAndFrom <= differenceBetweenValueAndTo) {
-        pointerView = this.pointerFromView;
-      } else {
-        pointerView = this.pointerToView;
-      }
-    } else {
-      pointerView = this.pointerFromView;
-    }
-    if (pointerView === this.pointerFromView) {
-      this.setupPositionFromByValue(value, this.min, this.max, this.step, this.valueTo);
-      this.calculateValueFrom(this.min, this.max, this.step, this.isInterval(), this.valueFrom, this.valueTo);
-    } else {
-      this.setupPositionToByValue(value, this.min, this.max, this.step, this.valueFrom);
-      this.calculateValueTo(this.min, this.max, this.step, this.isInterval(), this.valueFrom, this.valueTo);
-    }
-    this.updateProgress(this.isInterval());
-  };
 
   private sliderBarClickListener = (view: SliderView, x: number, y: number): void => {
     if (this.pointerFromView) {

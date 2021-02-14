@@ -191,8 +191,18 @@ class Presenter {
     this.view.setHasValue(this.hasValue.getValue());
     this.view.setValueFrom(this.model.getFrom());
     this.view.setValueTo(this.model.getTo());
-    this.view.setValueFromListener((value: number) => { this.model.setFrom(value); });
-    this.view.setValueToListener((value: number) => { this.model.setTo(value); });
+    this.view.setValueFromListener((value) => this.model.setFrom(value));
+    this.view.setValueToListener((value) => this.model.setTo(value));
+    this.view.setScaleClickListener((value) => this.setupPositionByValue(value));
+  }
+
+  private setupPositionByValue(value: number): void {
+    const min = this.model.getMin();
+    const max = this.model.getMax();
+    const step = this.model.getStep();
+    const from = this.model.getFrom();
+    const to = this.model.getTo();
+    this.view.setPositionByValue(value, min, max, step, from, to);
   }
 
   private observeValues() {
