@@ -46,7 +46,6 @@ class Presenter {
     this.view.initPointerFrom(from, min, max, step, isInterval, to);
     this.view.initPointerTo(to, isInterval, min, max, step, from);
     this.view.updateProgress(isInterval);
-    this.view.handleSliderBarClick();
     this.observeValues();
   }
 
@@ -193,16 +192,26 @@ class Presenter {
     this.view.setValueTo(this.model.getTo());
     this.view.setValueFromListener((value) => this.model.setFrom(value));
     this.view.setValueToListener((value) => this.model.setTo(value));
-    this.view.setScaleClickListener((value) => this.setupPositionByValue(value));
+    this.view.setScaleClickListener((value) => this.setupPositionByScaleClick(value));
+    this.view.setSliderBarClickListener((x, y) => this.setupPositionBySliderBarClck(x, y));
   }
 
-  private setupPositionByValue(value: number): void {
+  private setupPositionByScaleClick(value: number): void {
     const min = this.model.getMin();
     const max = this.model.getMax();
     const step = this.model.getStep();
     const from = this.model.getFrom();
     const to = this.model.getTo();
-    this.view.setPositionByValue(value, min, max, step, from, to);
+    this.view.setPositionByScaleClick(value, min, max, step, from, to);
+  }
+
+  private setupPositionBySliderBarClck(x: number, y: number): void {
+    const min = this.model.getMin();
+    const max = this.model.getMax();
+    const step = this.model.getStep();
+    const from = this.model.getFrom();
+    const to = this.model.getTo();
+    this.view.setPositionBySliderBarClick(x, y, min, max, step, from, to);
   }
 
   private observeValues() {

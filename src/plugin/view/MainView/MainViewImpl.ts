@@ -26,6 +26,8 @@ class MainViewImpl implements MainView {
 
   private scaleClickListener?: (value: number) => void = undefined;
 
+  private sliderBarClickListener?: (x: number, y: number) => void = undefined;
+
   // ------------------------------
 
   private min = 0;
@@ -122,10 +124,6 @@ class MainViewImpl implements MainView {
     if (!this.hasValue) {
       this.pointerToView.hideValue();
     }
-  }
-
-  public handleSliderBarClick(): void {
-    this.sliderView.setClickSliderBarListener(this.sliderBarClickListener);
   }
 
   public updateProgress(isInterval: boolean): void {
@@ -246,22 +244,71 @@ class MainViewImpl implements MainView {
     this.scaleClickListener = listener;
   }
 
-  public setPositionByValue(value: number, min: number, max: number, step: number, from: number, to: number): void {
+  public setSliderBarClickListener(listener: (x: number, y: number) => void): void {
+    this.sliderBarClickListener = listener;
+    this.sliderView.setClickSliderBarListener(this.sliderBarClickListener);
+  }
+
+  public setPositionByScaleClick(
+    value: number,
+    min: number, max: number, step: number,
+    from: number, to: number,
+  ): void {
+    const isInterval = this.isInterval();
     let isFromCloser = true;
 
-    if (this.isInterval()) {
+    if (isInterval) {
       const differenceBetweenValueAndFrom = Math.abs(value - from);
       const differenceBetweenValueAndTo = Math.abs(value - to);
       isFromCloser = differenceBetweenValueAndFrom <= differenceBetweenValueAndTo;
     }
     if (isFromCloser) {
       this.setupPositionFromByValue(value, min, max, step, to);
-      this.calculateValueFrom(min, max, step, this.isInterval(), from, to);
+      this.calculateValueFrom(min, max, step, isInterval, from, to);
     } else {
       this.setupPositionToByValue(value, min, max, step, from);
-      this.calculateValueTo(min, max, step, this.isInterval(), from, to);
+      this.calculateValueTo(min, max, step, isInterval, from, to);
     }
-    this.updateProgress(this.isInterval());
+    this.updateProgress(isInterval);
+  }
+
+  public setPositionBySliderBarClick(
+    x: number, y: number,
+    min: number, max: number, step: number,
+    from: number, to: number,
+  ): void {
+    if (this.pointerFromView) {
+      let positionFrom;
+      let pointerView;
+
+      if (this.isInterval()) {
+        if (!this.pointerToView) throw new Error('Pointer to view is not defined.');
+
+        let positionTo;
+        let differenceBetweenValueAndFrom;
+        let differenceBetweenValueAndTo;
+
+        if (this.isVertical) {
+          positionFrom = this.pointerFromView.getTop() - this.pointerFromView.getHeight() / 2;
+          positionTo = this.pointerToView.getTop() - this.pointerToView.getHeight() / 2;
+          differenceBetweenValueAndFrom = Math.abs(y - positionFrom);
+          differenceBetweenValueAndTo = Math.abs(y - positionTo);
+        } else {
+          positionFrom = this.pointerFromView.getLeft() + this.pointerFromView.getWidth() / 2;
+          positionTo = this.pointerToView.getLeft() + this.pointerToView.getWidth() / 2;
+          differenceBetweenValueAndFrom = Math.abs(x - positionFrom);
+          differenceBetweenValueAndTo = Math.abs(x - positionTo);
+        }
+        if (differenceBetweenValueAndFrom <= differenceBetweenValueAndTo) {
+          pointerView = this.pointerFromView;
+        } else {
+          pointerView = this.pointerToView;
+        }
+      } else {
+        pointerView = this.pointerFromView;
+      }
+      this.setPointerPosition(pointerView, x, y, min, max, step, from, to);
+    }
   }
 
   private getItemsStep(stepWidth: number): number {
@@ -434,41 +481,6 @@ class MainViewImpl implements MainView {
     const heightInPercent = (height / this.sliderView.getHeight()) * 100;
     this.sliderView.drawVerticalProgress(startInPercent, heightInPercent);
   }
-
-  private sliderBarClickListener = (view: SliderView, x: number, y: number): void => {
-    if (this.pointerFromView) {
-      let positionFrom;
-      let pointerView;
-
-      if (this.isInterval()) {
-        if (!this.pointerToView) throw new Error('Pointer to view is not defined.');
-
-        let positionTo;
-        let differenceBetweenValueAndFrom;
-        let differenceBetweenValueAndTo;
-
-        if (this.isVertical) {
-          positionFrom = this.pointerFromView.getTop() - this.pointerFromView.getHeight() / 2;
-          positionTo = this.pointerToView.getTop() - this.pointerToView.getHeight() / 2;
-          differenceBetweenValueAndFrom = Math.abs(y - positionFrom);
-          differenceBetweenValueAndTo = Math.abs(y - positionTo);
-        } else {
-          positionFrom = this.pointerFromView.getLeft() + this.pointerFromView.getWidth() / 2;
-          positionTo = this.pointerToView.getLeft() + this.pointerToView.getWidth() / 2;
-          differenceBetweenValueAndFrom = Math.abs(x - positionFrom);
-          differenceBetweenValueAndTo = Math.abs(x - positionTo);
-        }
-        if (differenceBetweenValueAndFrom <= differenceBetweenValueAndTo) {
-          pointerView = this.pointerFromView;
-        } else {
-          pointerView = this.pointerToView;
-        }
-      } else {
-        pointerView = this.pointerFromView;
-      }
-      this.setPointerPosition(pointerView, x, y, this.min, this.max, this.step, this.valueFrom, this.valueTo);
-    }
-  };
 
   private calculateValue(
     view: PointerView,

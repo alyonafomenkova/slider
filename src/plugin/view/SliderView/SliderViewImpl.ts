@@ -4,7 +4,7 @@ import SliderView from './SliderView';
 class SliderViewImpl implements SliderView {
   private readonly container: Element;
 
-  private sliderBarClickListener?: (view: SliderView, x: number, y: number) => void = undefined;
+  private sliderBarClickListener?: (x: number, y: number) => void = undefined;
 
   constructor(container: Element) {
     this.container = container;
@@ -70,7 +70,7 @@ class SliderViewImpl implements SliderView {
     return this.container.getBoundingClientRect().height;
   }
 
-  public setClickSliderBarListener(listener: (view: SliderView, x: number, y: number) => void): void {
+  public setClickSliderBarListener(listener: (x: number, y: number) => void): void {
     this.sliderBarClickListener = listener;
   }
 
@@ -83,7 +83,7 @@ class SliderViewImpl implements SliderView {
 
   private handleSliderBarClick = (evt: MouseEvent): void => {
     if (this.sliderBarClickListener) {
-      this.sliderBarClickListener(this, evt.clientX, evt.clientY);
+      this.sliderBarClickListener(evt.clientX, evt.clientY);
     }
   }
 }

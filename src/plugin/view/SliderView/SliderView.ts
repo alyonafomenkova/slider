@@ -10,7 +10,7 @@ interface SliderView {
   getBoundBottom(): number;
   getWidth(): number;
   getHeight(): number;
-  setClickSliderBarListener(listener: (view: SliderView, x: number, y: number) => void): void;
+  setClickSliderBarListener(listener: (x: number, y: number) => void): void;
 }
 
 export default SliderView;
