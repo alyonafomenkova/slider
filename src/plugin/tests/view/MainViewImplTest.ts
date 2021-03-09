@@ -65,6 +65,20 @@ const arrangeVerticalSlider = () => {
   when(mockPointerToView.getTop()).thenReturn(100);
 };
 
+const createConfiguration = (isVertical: boolean, hasInterval: boolean, hasValue: boolean, hasScale: boolean) => ({
+  min: 0,
+  max: 110,
+  step: 5,
+  from: 20,
+  to: 70,
+  isVertical,
+  hasInterval,
+  hasValue,
+  hasScale,
+});
+
+const config = createConfiguration(false, false, false, false);
+
 describe('Test main view implementation', () => {
   let view: MainView;
 
@@ -75,7 +89,7 @@ describe('Test main view implementation', () => {
     const pointerToView = instance(mockPointerToView);
     const scaleView = instance(mockScaleView);
 
-    view = new MainViewImpl(sliderView, scaleView, pointerFromView, pointerToView);
+    view = new MainViewImpl(config, sliderView, scaleView, pointerFromView, pointerToView);
   });
 
   it('Clear, draw horizontal slider, init pointerFrom view, slider bar click.', () => {

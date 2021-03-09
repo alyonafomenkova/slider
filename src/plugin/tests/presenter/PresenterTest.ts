@@ -39,7 +39,7 @@ describe('Init presenter', () => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     const config = createConfiguration(false, false, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, config);
+    const presenter = new Presenter(model, view);
 
     // Act
     presenter.init();
@@ -80,7 +80,7 @@ describe('Init presenter', () => {
     // Arrange
     const config = createConfiguration(true, false, true, false);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, config);
+    const presenter = new Presenter(model, view);
 
     // Act
     presenter.init();
@@ -106,7 +106,7 @@ describe('Subscribe to inner model.', () => {
     // Arrange
     const config = createConfiguration(true, true, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, config);
+    const presenter = new Presenter(model, view);
 
     let actualMin = -1;
     let actualMax = -1;
@@ -142,7 +142,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(true, true, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, config);
+    const presenter = new Presenter(model, view);
 
     // Act
     presenter.init();
@@ -161,7 +161,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(true, true, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, config);
+    const presenter = new Presenter(model, view);
 
     // Act
     presenter.init();
@@ -180,7 +180,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(true, true, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, config);
+    const presenter = new Presenter(model, view);
 
     // Act
     presenter.init();
@@ -199,7 +199,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(true, true, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, config);
+    const presenter = new Presenter(model, view);
 
     // Act
     presenter.init();
@@ -218,7 +218,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(true, true, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, config);
+    const presenter = new Presenter(model, view);
 
     // Act
     presenter.init();
@@ -237,7 +237,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(true, true, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, config);
+    const presenter = new Presenter(model, view);
 
     // Act
     presenter.init();
@@ -255,7 +255,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(true, true, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, config);
+    const presenter = new Presenter(model, view);
 
     // Act
     presenter.init();
@@ -274,7 +274,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(true, true, true, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, config);
+    const presenter = new Presenter(model, view);
 
     // Act
     presenter.init();
@@ -289,7 +289,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(true, true, true, false);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, config);
+    const presenter = new Presenter(model, view);
 
     // Act
     presenter.init();
@@ -304,7 +304,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(true, true, true, false);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, config);
+    const presenter = new Presenter(model, view);
 
     // Act
     presenter.init();
@@ -320,7 +320,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(true, false, true, false);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, config);
+    const presenter = new Presenter(model, view);
 
     // Act
     presenter.init();
@@ -336,7 +336,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(true, false, false, false);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, config);
+    const presenter = new Presenter(model, view);
 
     // Act
     presenter.init();
@@ -363,7 +363,7 @@ describe('Set values', () => {
       hasScale: true,
     };
     const model = new Model(config);
-    const presenter = new Presenter(model, view, config);
+    const presenter = new Presenter(model, view);
 
     // Act
     presenter.init();
@@ -379,7 +379,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(false, true, false, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, config);
+    const presenter = new Presenter(model, view);
 
     // Act
     presenter.init();
@@ -394,7 +394,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(false, false, false, true);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, config);
+    const presenter = new Presenter(model, view);
 
     // Act
     presenter.init();
@@ -410,7 +410,7 @@ describe('Set values', () => {
     // Arrange
     const config = createConfiguration(true, true, true, false);
     const model = new Model(config);
-    const presenter = new Presenter(model, view, config);
+    const presenter = new Presenter(model, view);
 
     // Act
     presenter.init();
