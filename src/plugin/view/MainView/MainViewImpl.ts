@@ -117,12 +117,9 @@ class MainViewImpl implements MainView {
     }
   }
 
-  public drawVertical(): void {
-    this.sliderView.drawVertical();
-  }
-
-  public drawHorizontal(): void {
-    this.sliderView.drawHorizontal();
+  public draw(): void {
+    // eslint-disable-next-line no-unused-expressions
+    this.isVertical ? this.sliderView.drawVertical() : this.sliderView.drawHorizontal();
   }
 
   public showScale(): void {

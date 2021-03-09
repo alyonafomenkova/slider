@@ -22,12 +22,7 @@ class Presenter {
   public init(): void {
     this.view.clear();
     this.setupView();
-
-    if (this.view.isVerticalOrientation()) {
-      this.view.drawVertical();
-    } else {
-      this.view.drawHorizontal();
-    }
+    this.view.draw();
     const min = this.model.getMin();
     const max = this.model.getMax();
     const step = this.model.getStep();

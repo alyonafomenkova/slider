@@ -16,8 +16,7 @@ interface MainView {
     from: number, hasValue: boolean
   ): void;
   updateProgress(isInterval: boolean): void;
-  drawVertical(): void;
-  drawHorizontal(): void;
+  draw(): void;
   showScale(): void;
   hideScale(): void;
   showPointerFromValue(): void;

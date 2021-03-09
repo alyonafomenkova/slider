@@ -91,7 +91,7 @@ describe('Test main view implementation', () => {
     view.clear();
     view.setIsVertical(false);
     view.isVerticalOrientation();
-    view.drawHorizontal();
+    view.draw();
     view.initPointerFrom(5, 0, 100, 1, false, 20, false);
     view.setSliderBarClickListener(listener);
     view.updateProgress(isInterval);
@@ -117,7 +117,7 @@ describe('Test main view implementation', () => {
     // Act
     view.clear();
     view.setIsVertical(true);
-    view.drawVertical();
+    view.draw();
     view.initPointerTo(5, true, 0, 100, 1, 20, true);
     view.setSliderBarClickListener(listener);
     view.updateProgress(isInterval);
@@ -145,7 +145,7 @@ describe('Test main view implementation', () => {
 
     // Act
     view.clear();
-    view.drawHorizontal();
+    view.draw();
     view.initPointerFrom(5, 0, 100, 1, false, 20, false);
     view.setSliderBarClickListener(listener);
     view.setPointerPositionListener(listener);
@@ -172,9 +172,10 @@ describe('Test main view implementation', () => {
     arrangeVerticalSlider();
 
     // Act
+    view.setIsVertical(true);
     view.setScaleClickListener(listener);
     view.setPositionByScaleClick(15, 0, 110, 1, 20, 70);
-    view.drawVertical();
+    view.draw();
     view.initPointerFrom(5, 0, 50, 1, false, 20, false);
     view.initPointerTo(10, false, 0, 50, 1, 2, false);
     view.setupScale(0, 50, 1);
@@ -185,10 +186,10 @@ describe('Test main view implementation', () => {
     // eslint-disable-next-line @typescript-eslint/unbound-method
     const scaleClickListener = capture(mockScaleView.setClickListener).last()[0];
     scaleClickListener(mockScaleView, 123);
-    verify(mockSliderView.drawVertical()).once();
+    // verify(mockSliderView.drawVertical()).once();
     verify(mockSliderView.getWidth()).called();
     verify(mockSliderView.getHeight()).called();
-    verify(mockScaleView.addScaleItems(anything(), false)).called();
+    verify(mockScaleView.addScaleItems(anything(), true)).called();
     verify(mockScaleView.setClickListener(anything())).called();
     verify(mockScaleView.show()).once();
     verify(mockScaleView.hide()).once();
@@ -200,11 +201,12 @@ describe('Test main view implementation', () => {
     const listener = () => {};
     view.setValueFromListener(listener);
     view.setValueToListener(listener);
+    view.setIsVertical(true);
     arrangeVerticalSlider();
     view.setScaleClickListener(listener);
 
     // Act
-    view.drawVertical();
+    view.draw();
     view.setScaleClickListener(listener);
     view.setPositionByScaleClick(15, 0, 110, 1, 20, 70);
     view.initPointerFrom(5, 0, 50, 1, false, 20, false);
@@ -218,7 +220,7 @@ describe('Test main view implementation', () => {
     const scaleClickListener = capture(mockScaleView.setClickListener).last()[0];
     scaleClickListener(mockScaleView, 123);
     verify(mockSliderView.drawVertical()).once();
-    verify(mockScaleView.addScaleItems(anything(), false)).once();
+    verify(mockScaleView.addScaleItems(anything(), true)).once();
     verify(mockScaleView.setClickListener(anything())).called();
     verify(mockScaleView.show()).once();
     verify(mockScaleView.hide()).once();
@@ -230,10 +232,11 @@ describe('Test main view implementation', () => {
     const listener = () => {};
     view.setValueFromListener(listener);
     view.setValueToListener(listener);
+    view.setIsVertical(false);
     arrangeHorizontalSlider();
 
     // Act
-    view.drawHorizontal();
+    view.draw();
     view.setValueFrom(5);
     view.showPointerFromValue();
     view.updateProgress(true);
@@ -260,7 +263,7 @@ describe('Test main view implementation', () => {
     arrangeHorizontalSlider();
 
     // Act
-    view.drawHorizontal();
+    view.draw();
     view.setValueFrom(5);
     view.showPointerFromValue();
 
@@ -284,7 +287,7 @@ describe('Test main view implementation', () => {
     arrangeHorizontalSlider();
 
     // Act
-    view.drawHorizontal();
+    view.draw();
     view.hidePointerFromValue();
     view.hidePointerTo();
     view.hidePointerToValue();
@@ -308,7 +311,8 @@ describe('Test main view implementation', () => {
     arrangeVerticalSlider();
 
     // Act
-    view.drawVertical();
+    view.setIsVertical(true);
+    view.draw();
     view.setValueTo(50);
     view.showPointerTo();
     view.showPointerToValue();
@@ -332,15 +336,14 @@ describe('Test main view implementation', () => {
     arrangeVerticalSlider();
 
     // Act
-    view.drawVertical();
+    view.setIsVertical(true);
+    view.draw();
 
     // Assert
     verify(mockSliderView.drawVertical()).once();
     verify(mockPointerFromView.setDownEventListener(anything)).never();
     verify(mockPointerFromView.setMoveEventListener(anything)).never();
     verify(mockPointerFromView.setUpEventListener(anything)).never();
-    // verify(mockSliderView.getBoundBottom()).once();
     verify(mockPointerToView.getTop()).never();
-    // verify(mockPointerFromView.getHeight()).once();
   });
 });
