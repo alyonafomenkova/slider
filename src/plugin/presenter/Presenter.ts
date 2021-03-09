@@ -7,14 +7,12 @@ class Presenter {
 
   private readonly view: MainView;
 
-  private hasScale: boolean;
-
   constructor(model: Model, view: MainView, configuration: Configuration) {
     this.model = model;
     this.view = view;
     this.view.setIsVertical(configuration.isVertical);
     this.view.setIsVisibleValue(configuration.hasValue);
-    this.hasScale = configuration.hasScale;
+    this.view.setIsVisibleScale(configuration.hasScale);
   }
 
   public init(): void {
@@ -26,7 +24,7 @@ class Presenter {
     const step = this.model.getStep();
     this.view.setupScale(min, max, step);
 
-    if (!this.hasScale) {
+    if (!this.view.isVisibleScale()) {
       this.view.hideScale();
     }
     const from = this.model.getFrom();
@@ -88,7 +86,7 @@ class Presenter {
   }
 
   public setScale(value: boolean): void {
-    this.hasScale = value;
+    this.view.setIsVisibleScale(value);
     if (value) {
       this.view.showScale();
     } else {

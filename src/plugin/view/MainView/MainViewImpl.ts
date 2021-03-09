@@ -34,6 +34,8 @@ class MainViewImpl implements MainView {
 
   private hasValue = false;
 
+  private hasScale = false;
+
   private cursorOffset = 0;
 
   constructor(sliderView: SliderView, scaleView: ScaleView, pointerFromView: PointerView, pointerToView: PointerView) {
@@ -202,6 +204,14 @@ class MainViewImpl implements MainView {
 
   public isVisibleValue(): boolean {
     return this.hasValue;
+  }
+
+  public setIsVisibleScale(hasScale: boolean): void {
+    this.hasScale = hasScale;
+  }
+
+  public isVisibleScale(): boolean {
+    return this.hasScale;
   }
 
   public setPointerPosition(

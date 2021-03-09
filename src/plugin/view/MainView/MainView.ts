@@ -4,6 +4,8 @@ interface MainView {
   isVerticalOrientation(): boolean;
   setIsVisibleValue(value: boolean): void;
   isVisibleValue(): boolean;
+  setIsVisibleScale(value: boolean): void;
+  isVisibleScale(): boolean;
   setupScale(min: number, max: number, step: number): void;
   initPointerFrom(
     value: number,
