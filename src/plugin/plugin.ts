@@ -33,8 +33,8 @@ import './styles/slider.scss';
       const pointerFromView = new PointerViewImpl('from', element);
       const pointerToView = new PointerViewImpl('to', element);
       const scaleView = new ScaleViewImpl(element);
-      const mainView = new MainViewImpl(sliderView, scaleView, pointerFromView, pointerToView);
-      const presenter = new Presenter(model, mainView, config || defaultConfiguration);
+      const mainView = new MainViewImpl(config || defaultConfiguration, sliderView, scaleView, pointerFromView, pointerToView);
+      const presenter = new Presenter(model, mainView);
       presenter.init();
       presenters.set(element.id, presenter);
     },

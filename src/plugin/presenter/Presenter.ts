@@ -1,5 +1,4 @@
 import MainView from '../view/MainView/MainView';
-import Configuration from '../model/Configuration';
 import Model from '../model/Model';
 
 class Presenter {
@@ -7,12 +6,9 @@ class Presenter {
 
   private readonly view: MainView;
 
-  constructor(model: Model, view: MainView, configuration: Configuration) {
+  constructor(model: Model, view: MainView) {
     this.model = model;
     this.view = view;
-    this.view.setIsVertical(configuration.isVertical);
-    this.view.setIsVisibleValue(configuration.hasValue);
-    this.view.setIsVisibleScale(configuration.hasScale);
   }
 
   public init(): void {

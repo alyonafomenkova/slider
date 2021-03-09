@@ -4,6 +4,7 @@ import ScaleView from '../ScaleView/ScaleView';
 import SliderView from '../SliderView/SliderView';
 import PointerView from '../PointerView/PointerView';
 import Util from '../../util/Util';
+import Configuration from '../../model/Configuration';
 
 class MainViewImpl implements MainView {
   private readonly MAX_SCALE_ITEMS_STEP = 26;
@@ -30,15 +31,21 @@ class MainViewImpl implements MainView {
 
   private pointerPositionListener?: (isFromPointer: boolean, x: number, y: number) => void = undefined;
 
-  private isVertical = false;
+  private isVertical: boolean;
 
-  private hasValue = false;
+  private hasValue: boolean;
 
-  private hasScale = false;
+  private hasScale: boolean;
 
   private cursorOffset = 0;
 
-  constructor(sliderView: SliderView, scaleView: ScaleView, pointerFromView: PointerView, pointerToView: PointerView) {
+  constructor(
+    configuration: Configuration,
+    sliderView: SliderView,
+    scaleView: ScaleView,
+    pointerFromView: PointerView,
+    pointerToView: PointerView,
+  ) {
     if (!sliderView) throw new Error('Slider view is not defined');
     if (!scaleView) throw new Error('Scale view is not defined');
     if (!pointerFromView) throw new Error('Pointer from view is not defined');
@@ -48,6 +55,9 @@ class MainViewImpl implements MainView {
     this.scaleView = scaleView;
     this.pointerFromView = pointerFromView;
     this.pointerToView = pointerToView;
+    this.isVertical = configuration.isVertical;
+    this.hasScale = configuration.hasScale;
+    this.hasValue = configuration.hasValue;
   }
 
   public clear(): void {
