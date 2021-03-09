@@ -32,6 +32,8 @@ class MainViewImpl implements MainView {
 
   private isVertical = false;
 
+  private hasValue = false;
+
   private cursorOffset = 0;
 
   constructor(sliderView: SliderView, scaleView: ScaleView, pointerFromView: PointerView, pointerToView: PointerView) {
@@ -78,9 +80,9 @@ class MainViewImpl implements MainView {
     value: number,
     min: number, max: number, step: number,
     isInterval: boolean,
-    to: number, hasValue: boolean,
+    to: number,
   ): void {
-    this.pointerFromView.draw(hasValue);
+    this.pointerFromView.draw(this.hasValue);
     this.pointerFromView.setDownEventListener(this.pointerDownEventListener);
     this.pointerFromView.setMoveEventListener(this.pointerMoveEventListener);
     this.pointerFromView.setUpEventListener(this.pointerUpEventListener);
@@ -92,9 +94,9 @@ class MainViewImpl implements MainView {
     value: number,
     isInterval: boolean,
     min: number, max: number, step: number,
-    from: number, hasValue: boolean,
+    from: number,
   ): void {
-    this.pointerToView.draw(hasValue);
+    this.pointerToView.draw(this.hasValue);
     this.pointerToView.setDownEventListener(this.pointerDownEventListener);
     this.pointerToView.setMoveEventListener(this.pointerMoveEventListener);
     this.pointerToView.setUpEventListener(this.pointerUpEventListener);
@@ -104,7 +106,7 @@ class MainViewImpl implements MainView {
     if (!isInterval) {
       this.pointerToView.hide();
     }
-    if (!hasValue) {
+    if (!this.hasValue) {
       this.pointerToView.hideValue();
     }
   }
@@ -192,6 +194,14 @@ class MainViewImpl implements MainView {
 
   public isVerticalOrientation(): boolean {
     return this.isVertical;
+  }
+
+  public setIsVisibleValue(hasValue: boolean): void {
+    this.hasValue = hasValue;
+  }
+
+  public isVisibleValue(): boolean {
+    return this.hasValue;
   }
 
   public setPointerPosition(

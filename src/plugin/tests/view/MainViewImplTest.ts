@@ -92,7 +92,7 @@ describe('Test main view implementation', () => {
     view.setIsVertical(false);
     view.isVerticalOrientation();
     view.draw();
-    view.initPointerFrom(5, 0, 100, 1, false, 20, false);
+    view.initPointerFrom(5, 0, 100, 1, false, 20);
     view.setSliderBarClickListener(listener);
     view.updateProgress(isInterval);
     view.setPositionBySliderBarClick(123, 123, 0, 100, 1, 5, 20);
@@ -117,8 +117,9 @@ describe('Test main view implementation', () => {
     // Act
     view.clear();
     view.setIsVertical(true);
+    view.setIsVisibleValue(true);
     view.draw();
-    view.initPointerTo(5, true, 0, 100, 1, 20, true);
+    view.initPointerTo(5, true, 0, 100, 1, 20);
     view.setSliderBarClickListener(listener);
     view.updateProgress(isInterval);
     view.setPositionBySliderBarClick(123, 123, 0, 100, 1, 5, 20);
@@ -145,8 +146,9 @@ describe('Test main view implementation', () => {
 
     // Act
     view.clear();
+    view.setIsVisibleValue(false);
     view.draw();
-    view.initPointerFrom(5, 0, 100, 1, false, 20, false);
+    view.initPointerFrom(5, 0, 100, 1, false, 20);
     view.setSliderBarClickListener(listener);
     view.setPointerPositionListener(listener);
     view.setPointerPosition(true, 100, 100, 0, 110, 1, 10, 20);
@@ -175,9 +177,10 @@ describe('Test main view implementation', () => {
     view.setIsVertical(true);
     view.setScaleClickListener(listener);
     view.setPositionByScaleClick(15, 0, 110, 1, 20, 70);
+    view.setIsVisibleValue(false);
     view.draw();
-    view.initPointerFrom(5, 0, 50, 1, false, 20, false);
-    view.initPointerTo(10, false, 0, 50, 1, 2, false);
+    view.initPointerFrom(5, 0, 50, 1, false, 20);
+    view.initPointerTo(10, false, 0, 50, 1, 2);
     view.setupScale(0, 50, 1);
     view.showScale();
     view.hideScale();
@@ -203,14 +206,15 @@ describe('Test main view implementation', () => {
     view.setValueToListener(listener);
     view.setIsVertical(true);
     arrangeVerticalSlider();
+    view.setIsVisibleValue(false);
     view.setScaleClickListener(listener);
 
     // Act
     view.draw();
     view.setScaleClickListener(listener);
     view.setPositionByScaleClick(15, 0, 110, 1, 20, 70);
-    view.initPointerFrom(5, 0, 50, 1, false, 20, false);
-    view.initPointerTo(10, false, 0, 50, 1, 2, false);
+    view.initPointerFrom(5, 0, 50, 1, false, 20);
+    view.initPointerTo(10, false, 0, 50, 1, 2);
     view.setupScale(0, 50, 1);
     view.showScale();
     view.hideScale();

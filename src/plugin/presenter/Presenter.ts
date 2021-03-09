@@ -7,15 +7,13 @@ class Presenter {
 
   private readonly view: MainView;
 
-  private hasValue: boolean;
-
   private hasScale: boolean;
 
   constructor(model: Model, view: MainView, configuration: Configuration) {
     this.model = model;
     this.view = view;
     this.view.setIsVertical(configuration.isVertical);
-    this.hasValue = configuration.hasValue;
+    this.view.setIsVisibleValue(configuration.hasValue);
     this.hasScale = configuration.hasScale;
   }
 
@@ -35,8 +33,8 @@ class Presenter {
     const to = this.model.getTo();
     const isInterval = this.model.isInterval();
 
-    this.view.initPointerFrom(from, min, max, step, isInterval, to, this.hasValue);
-    this.view.initPointerTo(to, isInterval, min, max, step, from, this.hasValue);
+    this.view.initPointerFrom(from, min, max, step, isInterval, to);
+    this.view.initPointerTo(to, isInterval, min, max, step, from);
     this.view.updateProgress(isInterval);
     this.observeValues();
   }
@@ -99,7 +97,7 @@ class Presenter {
   }
 
   public setPointerValue(value: boolean): void {
-    this.hasValue = value;
+    this.view.setIsVisibleValue(value);
 
     if (value) {
       this.view.showPointerFromValue();
@@ -135,7 +133,7 @@ class Presenter {
       }
       this.view.showPointerTo();
 
-      if (this.hasValue) {
+      if (this.view.isVisibleValue()) {
         this.view.showPointerToValue();
       } else {
         this.view.hidePointerToValue();
